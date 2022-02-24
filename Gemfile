@@ -33,3 +33,5 @@ gem "webrick", "~> 1.7"
 
 # minimalist theme
 gem "minimal-mistakes-jekyll"
+
+gem 'jekyll-include-cache'
