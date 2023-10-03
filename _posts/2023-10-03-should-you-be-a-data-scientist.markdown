@@ -77,3 +77,13 @@ Nothing (jk...unless...)
 
 ## Reasons for not being a data scientist
 
+## What should I do instead of data science?
+
+### Option 1: Web/app development
+
+### Option 2: Software engineering (more broadly)
+
+### Option 3: Data analysis
+
+
+### Option 4: Literally anything else
