@@ -1,7 +1,7 @@
 ---
 layout: single
-title:  "Hello World!" (properly this time)
-date:   2023-10-03
+title:  "'Hello World!' (properly this time)"
+date:   2023-10-03 15:00:00 +0800
 ---
 This is a proper `Hello World` if I've ever seen one.
 
