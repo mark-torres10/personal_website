@@ -104,8 +104,8 @@ analytics:
 author:
   name             : "Mark Torres"
   avatar           : "assets/images/self_photo_cropped.png"
-  bio              : "Data Scientist @SetSail | Always Learning Something New"
-  location         : "Somewhere (over the rainbow)"
+  bio              : "Digital nomad, writing code that does stuff."
+  location         : "Philippines"
   email            : "markptorres1@gmail.com"
   links:
     - label: "Email"

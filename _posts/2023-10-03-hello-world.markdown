@@ -1,12 +1,40 @@
 ---
 layout: single
-title:  "Hello World!"
+title:  "Hello World!" (properly this time)
 date:   2023-10-03
 ---
 This is a proper `Hello World` if I've ever seen one.
 
-Whenever I leave on trips I leave myself a little note for my future self to read. 
+Whenever I leave on trips I leave myself a little note for my future self to read. Before I left for the Philippines in January of this year, I left a note on my desk at home that said something along the lines of:
 
-## Things that I think are cool right now
-1. Spinach pizza is undefeated.
-2. 
+"Dear future Mark: when you read this, I hope you'll have plenty of stories to tell about the Philippines!"
+
+To that past Mark: good job. You'll be in for a surprise, don't you worry. See you soon.
+
+These days I'm spending more time learning how to center a div. As fun as being a data scientist has been, I would like to properly learn how to build an app. I don't think I ever appreciated how hard designing something visually appealing was until I stared at a blank CSS file and thought "OK, now what?"
+
+![Me looking at CSS](/assets/images/cmon_do_something.jpg "Me staring at the blank CSS file")
+
+Here's my [freeCodeCamp progress](https://www.freecodecamp.org/mt97262), which tracks my proficiency at centering various divs in various places with various JavaScript frameworks.
+
+I feel, in many ways, like a beginner once more. It's simultaneously a humbling and an exciting experience. On one hand, I think, "I've been a professional engineer for 3 years now, why can't I center a div?", but at the same time, when something works I think "oh look at me, I made that pretty button". I'm learning a lot more than I have in a while and I feel excited and energized again to code. There's something about building an app that satisfies a different itch than running a code block in a Jupyter notebook. At the same time, I feel much more competent in learning web development this time around because I know that I know how to code and don't feel the same imposter syndrome that I once did 3 years ago when opening an IDE for the first time.
+
+Besides that, being in a new country means adapting to a completely different culture. One of the quirks of being Filipino-American is that when you're in America, people tell you you're really Asian and they ask you "where are you from? No, really?", while in the Philippines, people tell you "oh you're so American" and "why don't you speak Tagalog?" and "oh you're from Florida? Are the rumors of people marrying their cousins true?" (yes, next question). I thought being in the Philippines would help with some of the imposter syndrome I felt in America as a Filipino person, but being here just makes me realize how American I am. I have to stop myself every time I think "oh, why can't I do X? I can do that in America". Some things that I miss about America:
+
+1. Food: Chicago deep-dish pizza, IHOP pancakes, carnival deep-fried ice cream
+2. Funny Florida man stories: I read about someone trying to [bring their support alligator to a baseball game](https://www.npr.org/2023/09/29/1202615294/wally-emotional-support-alligator-phillies-game) and even though this is in Pennsylvania, this is big Florida man energy. I want to know what the men (and women) of Florida are up to. Are they okay? Are they eating well? Are they fighting the good fight against George Soros, the vaccine mafia, and Disney's indoctrination of our children? Has anyone checked on them these days?
+3. Good old unadulterated American yee-haw freedom: part of me misses seeing tractors driving on the street. I also miss 4-lane highways and going 100mph on the highway (this is a hypothetical scenario haha... unless). I miss people asking me "where are you from? No, really?" and me playing country roulette to pick which country I would say I'm from. In the Philippines, people just assume I'm Filipino. How dare anyone in the Philippines assume that I, a Filipino person, can actually speak Tagalog?
+
+## Things I'm thinking about (tech edition)
+
+1. Is there a prediction market on how long it'll take ChatGPT to render junior developers obsolete? How about a prediction market on whether OpenAI has actually achieved AGI internally (or if Sam Altman was just trolling everyone on Reddit. Haha good joke Sam, unless...)?
+2. I think it shows a sign of growth in myself (or maybe jadedness) when now I look at different language debates (e.g., "Python vs. JavaScript", "React vs. Angular", etc.) and I think to myself, "that's dumb, why not use Wordpress or an Excel sheet?". Programmers solve problems at the end of the day. End users don't care about whether you're using the newest fancy JavaScript framework to build your app; they care more about whether or not the thing you made provides value for them. Coming up in data science, I feel like I read every "should you learn R or Python?" online article out there, and now, after having worked as a professional data scientist, I think that that's stupid and really the correct way of thinking about 90% of data science problems should be "can you solve this with an Excel sheet and if not, why not?".
+3. I should really start doing some LLM stuff soon. I have some back-burner projects and ideas in Notion, but I haven't gotten to them. It's ironic that I wanted to do grad school so I could learn more about ML, but that's all a moot point when 95% of new AI use cases are just a request to OpenAI and working with ML is just about learning prompt engineering, LangChain, and vector DBs, all things that didn't exist 2 years ago.
+4. Lukewarm take: I still am not convinced that ChatGPT will replace data analysis. If anything, I think data science and data analysis are going to be even more critical skills in the future. I believe this for the same reason why I don't think ChatGPT will replace senior+ engineers, which is that ChatGPT isn't a substitute for real, in-depth critical thinking and correctness. Coding might be much much easier now with ChatGPT, but coding was really just a means to an end for technical people and especially data scientists (if you can find valuable insights, it doesn't matter if you're using Excel charts, Tableau, or matplotlib). LLMs are, as a first pass, really large, complicated probability distributions, and they're no substitute for rigorous, critical thought, though people still get caught when they think otherwise (see [this New York Times article](https://www.nytimes.com/2023/06/08/nyregion/lawyer-chatgpt-sanctions.html) about a lawyer who used ChatGPT as his primary research and cited fake cases).
+
+## Things I'm thinking about (life edition)
+
+1. Spinach pizza is undefeated. I love Chicago deep-dish pizza (and New York and New Haven pizza are both must-haves as well), and I think thin-crust pizza might still be my favorite, but I think Filipino spinach pizza may have cracked my top 3. Will need to get a few more boxes of pizza this week to have a statistically robust sample. Big fan of Angel's Pizza in Makati (this is not a sponsored post... *yet*).
+2. Can you believe I've started doing skincare? It's weird what having a girlfriend makes you do. Can't even recognize myself in the mirror, my beautiful dashing radiant reflection oh you handsome little devil.
+3. AITA for haggling a $30 pair of fake Nike dunks down to $25? I think not, but my girlfriend seems to vehemently disagree and judges me accordingly. Little does she know that the $5 I saved is going towards her Christmas gift budget (from $5 to $10), so she should really be thanking me (for legal reasons this is a joke).
+4. Why is it that when we were kids, we found an excuse to laugh and smile at the stupidest things, but as we grow up, we think that "growing up" means being more bummed out about life. Do we attribute it to naivete? Sure, we're exposed to more struggles and hardship as we grow up. But I think it's good to also approach daily life with more of the rose-colored curiosity and openness and unfiltered gall of a 5-year old. After all, why do they get all the fun?
