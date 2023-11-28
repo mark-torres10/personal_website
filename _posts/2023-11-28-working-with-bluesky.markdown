@@ -9,7 +9,7 @@ However, true causal inference is difficult because people cannot dictate what i
 
 ## Bluesky: an alternative to traditional social media
 
-In the world of big-tech social media platforms, this is not possible. But, a relatively new social media platform, [Bluesky](https://bsky.app/) makes it possible. Bluesky, a distributed text-based microblogging platform (essentially Twitter with just text; the UI even looks eerily similar to Twitter), aims to provide a social media experience with user control and decentralization at its core.
+In the world of big-tech social media platforms, this is not possible. But, a relatively new social media platform, [Bluesky](https://bsky.app/) makes it possible. Bluesky, a distributed text-based microblogging platform (essentially Twitter with just text, which makes sense given that Bluesky is a Twitter pet project from the Jack Dorsey era), aims to provide a social media experience with user control and decentralization at its core.
 
 ### The AT Protocol
 
@@ -22,6 +22,17 @@ For my research purposes, the important feature that the AT Protocol provides is
 ### Getting started with feed generators
 
 The Bluesky team has provided an example [Github repo](https://github.com/bluesky-social/feed-generator) for working with their feed generators (my language of choice is Python, and there is a convenient Python version [here](https://github.com/MarshalX/bluesky-feed-generator)).
+
+From the Bluesky docs, here are the steps for how a user can get a custom feed:
+
+1. The PDS of the user (the user's "personal server") sends a request to the URI of the feed.
+2. The PDS resolves the URI and finds the DID ([decentralized identifiers](https://www.w3.org/TR/did-core/)) for the feed generator.
+3. The PDS sends a `getFeedSkeleton` request to an endpoint defined for that feed generator.
+4. The feed generator returns a skeleton of the feed to the user's PDS.
+5. The PDS hydrates the feed (user info, post contents, aggregates, etc.).
+6. The PDS returns the hydrated feed to the user.
+
+As per the docs, to the end user this should feel like visiting a page in the app, but programatically the steps above are how custom feeds are given to the user.
 
 ## Using feed generators to study algorithm influence on social media engagement online
 
