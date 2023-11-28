@@ -13,10 +13,16 @@ In the world of big-tech social media platforms, this is not possible. But, a re
 
 ### The AT Protocol
 
-Bluesky is the first app build under the [AT Protocol](https://atproto.com/guides/overview), which dictates a series of guidelines and procedures for creating distributed social applications. In this protocol, for example, users can take their data and their social networks from one app to another.
+Bluesky is the first app build under the [AT Protocol](https://atproto.com/guides/overview), which dictates a series of guidelines and procedures for creating distributed social applications. [Here](https://educatedguesswork.org/posts/atproto-firstlook/), [here](https://parkerhiggins.net/2023/05/bluesky-atproto-url-usernames/) and [here](https://fedimeister.onyxbits.de/blog/bluesky-at-protocol-vs-activity-pub/) provide great overviews of the AT Protocol.
 
-For my research purposes, the important feature here is that users can subscribe to [feed generators](https://github.com/bluesky-social/feed-generator), which are algorithms, created by other users, that can control what posts are returned to the users. Most social media apps have a default home feed created by their proprietary personalization algorithms, and at best they may also have a reverse chronological algorithm as well. However, Bluesky allows for any arbitrary feed algorithms; for example, in theory a user could subscribe to a "US sports" feed algorithm that only returns content relating to US sports.
+### Feed generators
 
-## Getting started with feed generators
+For my research purposes, the important feature that the AT Protocol provides is that users can subscribe to [feed generators](https://github.com/bluesky-social/feed-generator), which are algorithms, created by other users, that can control what posts are returned to the users. Most social media apps have a default home feed created by their proprietary personalization algorithms, and at best they may also have a reverse chronological algorithm as well. However, Bluesky allows for any arbitrary feed algorithms; for example, in theory a user could subscribe to a "US sports" feed algorithm that only returns content relating to US sports.
+
+### Getting started with feed generators
 
 The Bluesky team has provided an example [Github repo](https://github.com/bluesky-social/feed-generator) for working with their feed generators (my language of choice is Python, and there is a convenient Python version [here](https://github.com/MarshalX/bluesky-feed-generator)).
+
+## Using feed generators to study algorithm influence on social media engagement online
+
+TODO: after getting actual specs of the project.
