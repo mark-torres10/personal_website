@@ -47,14 +47,95 @@ This gives us two clear problems to figure out first:
 
 ### How do we get the posts in the first place?
 
-Firehose...
+We first need to get all the possible posts that we can use in the first place. The
+Bluesky documentation states the following:
+
+>For most use cases, we recommend subscribing to the firehose at com.atproto.sync.subscribeRepos. This websocket will send you every record that is published on the network. Since Feed Generators do not need to provide hydrated posts, you can index as much or as little of the firehose as necessary. Depending on your algorithm, you likely do not need to keep posts around for long. Unless your algorithm is intended to provide "posts you missed" or something similar, you can likely garbage collect any data that is older than 48 hours.
+
+We need to subscribe to a firehose. A [firehose](https://www.kinetica.com/blog/drinking-data-fire-hose/), or a data stream,
+is a continuous, high-volume stream of real-time data. For our use case, Bluesky provides each post as they are published in real time. Bluesky recommends that we subscribe to this firehose, have our server process the data stream, and then choose which ones to persist in our data store (notably, this implies that our feeds shouldn't have posts that are older than when we first subscribed to the firehose, but, as the documentation states, people don't really look at posts older than 48 hours anyways, so it's OK to just set TTLs for 48 hours for our posts).
+
+Bluesky provides a Typescript implementation for it:
+
+```typescript
+export class FirehoseSubscription extends FirehoseSubscriptionBase {
+  async handleEvent(evt: RepoEvent) {
+    if (!isCommit(evt)) return
+    const ops = await getOpsByType(evt)
+
+    // This logs the text of every post off the firehose.
+    // Just for fun :)
+    // Delete before actually using
+    for (const post of ops.posts.creates) {
+      console.log(post.record.text)
+    }
+    ...
+}
+```
+
+So, for us to get the data that we need, we need to:
+
+1. Subscribe to the firehose
+2. Process the continuous data stream and figure out which posts to persist in our database.
+3. Continuously TTL outdated posts.
+
+At the end of this, we will have the posts that can be made available to surface for our feed.
 
 ### How do we filter the posts and figure out which to include?
 
+After we have all the possible posts that we want to include, we now have to create our feed algorithm. Again, the Bluesky team provides a convenient example of this:
+
+```typescript
+import { InvalidRequestError } from '@atproto/xrpc-server'
+import { QueryParams } from '../lexicon/types/app/bsky/feed/getFeedSkeleton'
+import { AppContext } from '../config'
+
+// max 15 chars
+export const shortname = 'whats-alf'
+
+export const handler = async (ctx: AppContext, params: QueryParams) => {
+  let builder = ctx.db
+    .selectFrom('post')
+    .selectAll()
+    .orderBy('indexedAt', 'desc')
+    .orderBy('cid', 'desc')
+    .limit(params.limit)
+
+  if (params.cursor) {
+    const [indexedAt, cid] = params.cursor.split('::')
+    if (!indexedAt || !cid) {
+      throw new InvalidRequestError('malformed cursor')
+    }
+    const timeStr = new Date(parseInt(indexedAt, 10)).toISOString()
+    builder = builder
+      .where('post.indexedAt', '<', timeStr)
+      .orWhere((qb) => qb.where('post.indexedAt', '=', timeStr))
+      .where('post.cid', '<', cid)
+  }
+  const res = await builder.execute()
+
+  const feed = res.map((row) => ({
+    post: row.uri,
+  }))
+
+  let cursor: string | undefined
+  const last = res.at(-1)
+  if (last) {
+    cursor = `${new Date(last.indexedAt).getTime()}::${last.cid}`
+  }
+
+  return {
+    cursor,
+    feed,
+  }
+}
+```
+
+We can expect our feed algorithm to take a similar structure and return both a cursor and a skeleton feed to return to the Bluesky client.
+
 ## First attempt: building a server using Python and Flask
 
-The Bluesky team's original code was built in Typescript, but there was a Python version
-that was available as well.
+The Bluesky team's original code was built in Typescript, but there was a [Python](https://github.com/MarshalX/bluesky-feed-generator) version that was available as well. Because I've worked mostly with Python, I decided to go with the language that I knew best. I set up an initial [version](https://github.com/mark-torres10/research_bluesky) of the Python implementation, mostly a direct fork of the existing Python implementation, and tried to get it to work. I found that I could indeed publish a feed using the SDK. However, subscribing to the firehose was not working. No matter what I tried, and I tried this for many hours, I couldn't get the firehose to work. I was a bit hardheaded in switching over to Typescript, because I wanted to work in a language that I was strong in. But, I eventually had to accept that, if I'm going to work with a project as new and as scrappy as this, I should at least use the software used by the core devs, which I am sure will be actively maintained, as opposed to a fork that isn't guaranteed to be up-to-date.
 
 Lessons:
 
@@ -76,13 +157,13 @@ understanding, I just asked ChatGPT to translate it into Python).
 
 ## Second attempt: rebuilding the server using Typescript
 
+
+
 Success! It works (locally). This is the classic experience of "it works on
 my computer" that every programmer has.
-
-### Next steps
 
 ## Setting up a server on Digital Ocean
 
 ## Putting it all together
 
-foo bar
+TODO: Still write this. I'm not out of the woods yet.
