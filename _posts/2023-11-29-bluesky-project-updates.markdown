@@ -155,12 +155,25 @@ I can use the supported SDK instead, even if I don't know the language (to be fa
 Javascript, so Typescript wasn't a huge leap, plus for any code that I didn't want to spend over 2 minutes
 understanding, I just asked ChatGPT to translate it into Python).
 
-## Second attempt: rebuilding the server using Typescript
+## Second attempt: restarting the project in Typescript
 
+After accepting that I had to do this project in Typescript, I decided to google "How to code in Typescript" and set a 5 minute timer to myself to learn it. I already know Javascript so I figured that it should be straightforward, but I also know that I can fall in love with reading documentation and pretending that that is actually productive, so I made sure to get just enough information to work with the Bluesky team's source code.
 
+My approach here was to get a working implementation of both the (1) firehose and (2) feed publishing. The Python implementation let me publish feeds, but I was unable to subscribe to the firehose.
 
-Success! It works (locally). This is the classic experience of "it works on
-my computer" that every programmer has.
+Surprisingly (or not, since this is the core Bluesky team's code), it works (somewhat)!
+
+1. The firehose works! I can see the posts that are being streamed to my server:
+
+![Firehose stream of new Bluesky posts](/assets/images/typescript_firehose.png "Firehose stream of new Bluesky posts")
+
+This is the classic experience of "it works on my computer" that every programmer has. After this temporary high, I experienced yet another classic programmer experience:
+
+![New error message!](/assets/images/different_error_message.png "New error message!")
+
+My feed wasn't being updated with posts from my server, even though the firehose was supplying new posts. Now it was time for more investigations.
+
+### More debugging
 
 ## Setting up a server on Digital Ocean
 
