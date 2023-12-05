@@ -175,7 +175,21 @@ My feed wasn't being updated with posts from my server, even though the firehose
 
 ### More debugging
 
+This may be an obvious point, but I can't host my server with localhost and expect Bluesky to be able to read it. Good job past Mark. This meant that the next step was to set up a server.
+
 ## Setting up a server on Digital Ocean
+
+I found [this article](https://luten.dev/bluesky-ttrpg-feed/) that gave a really great walkthrough on how to create a new feed algorithm in Bluesky. Since the author of the article used Digital Ocean, I also chose to use it as well. I decided to use a subdomain of my existing markptorres.com domain, bluesky-research.markptorres.com, just for quick iteration. I also used [this walkthrough](https://www.oneworldcoders.com/apprentice-journals/4qmelzy08o0fn4jbcxipekxpd6sufk) of how to connect a Digital Ocean droplet to a domain. This was a crash course in setting up a server, which, as a data scientist, I would never have any reason for knowing. But, after enough hacking and head-scratching and asking ChatGPT to "explain this error", I finally got this output:
+
+!['Hello World', Nginx version](/assets/images/hello_world.png "'Hello World', Nginx version")
+
+Seems trivial, but it taught me something that I've never learned and always thought was mysterious - how do you connect a server to a domain? Great to finally know!
+
+Lessons:
+
+- Don't always trust ChatGPT. From past experience, I know that ChatGPT provides directionally correct coding advice, but you can't rely 100% on ChatGPT's output (trust but verify). I tried to hack my way through Linux server configuration and Nginx setup with ChatGPT, but just ended up butchering the configurations. I decided to go the old-fashioned route instead, where I just use Google for the right answer.
+- Knowing how to Google is still a great skill to have. Code walkthroughs written by real people still have more accuracy than ChatGPT. ChatGPT can directionally give correct things to look for, but I can use Google to get factually correct walkthroughs and tutorials. I wasted 2 hours trying to set up my Nginx server using ChatGPT only to finally just follow a tutorial; with the tutorial I was able to get it working in ~10 minutes. The more you know!
+- I still have a lot to learn about how the Internet works. What the heck is a CNAME record as opposed to an A record? What is a reverse proxy? All really great questions to ask your local sysadmin!
 
 ## Putting it all together
 
