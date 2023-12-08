@@ -1,6 +1,6 @@
 ---
 layout: single
-title:  "\"Algorithm-mediated social learning in online social networks\": A Review"
+title:  "Summary of \"Algorithm-mediated social learning in online social networks\""
 date:   2023-12-08 15:00:00 +0800
 ---
 
@@ -34,7 +34,7 @@ We tend to preferentially believe people in our in-group (people who are "like u
 
 ##### Moralized and emotional information (ME)
 
-If we were debating a topic such as media censorship, we closely identify with and believe claims such as "It's a human right to be able to have free speech" because such a statement resonates with our idea of moral righteousness. Haivng a bias towards moralized information helps us regulate social norms and also punish people who violate the social norms of our group. Moralized information is particularly effective when paired with negative emotions. An example of this is shame, which is a tool that we use in order to ostracize and punish people who break the moral and social norms of our groups.
+If we were debating a topic such as media censorship, we closely identify with and believe claims such as "It's a human right to be able to have free speech" because such a statement resonates with our idea of moral righteousness. Having a bias towards moralized information helps us regulate social norms and also punish people who violate the social norms of our group. Moralized information is particularly effective when paired with negative emotions. An example of this is shame, which is a tool that we use in order to ostracize and punish people who break the moral and social norms of our groups.
 
 #### The cues that we evolved to optimize for social learning can also work against us
 
@@ -66,10 +66,28 @@ Algorithms exploit our biases in order to maximize engagement. In doing so, the 
 
 ![Social media algorithms create a feedback loop of engagement](/assets/images/social-learning-algorithms-loop.drawio.png "Social media algorithms create a feedback loop of engagement")
 
-### The feedback loop between algorithms and social learning produces social misperceptions
+### The feedback loop between algorithms and social learning produces social misperceptions, misinformation, and disinformation
 
-### How the feedback loop can create harmful cultural changes
+The feedback loop caused by algorithms feeding us content that we're likely to engage with means that we are fed content that is likely to get us to react. However, since this is feed that is given to us, we implicitly assume that the information we receive is a representative sample of information and we shape our worldviews based on that information. This can lead to the propagation of social misperceptions as well as misinformation and disinformation. For example, online political content is often very negative, and users infer that this is how everyone feels about the world, more broadly, even though such content is produced by a very small minority of users ([paper](https://policycommons.net/artifacts/1528424/70-of-us/2218107/)). Past work has shown that this can lead to, for example, users misperceiving how politically divided their friends on social media are ([paper](https://www.nature.com/articles/s41562-023-01582-0)), misidentifying how different the "other side" is from them ([paper](https://royalsocietypublishing.org/doi/10.1098/rstb.2020.0143)), and increasing political polarizaton ([paper](https://www.aeaweb.org/articles?id=10.1257/aer.20191777)).
 
-### How to align algorithms with positive social learning
+In a more sinister twist, this algorithmic feedback loop can also feed the spread of misinformation (the accidental spread of false information) and disinformation (the intentional spread of false information in order to deceive). Misinformation is more likely to trigger an emotional response ([paper](https://www.tandfonline.com/doi/full/10.1080/21670811.2017.1345645)), and people are often more susceptible to sharing misinformation than real news because of their initial emotional responses to the misinformation ([paper](https://link.springer.com/article/10.1186/s41235-020-00252-3)). Bots and troll farms use this to their advantage - misinformation attributed to bots and troll farms normally has more moralized, emotional, and in-group related content than real news, which leads to misinformation being quickly and easily spread ([paper](https://academic.oup.com/pnasnexus/article/1/1/pgac019/6546199)).
 
-### What can we do about it?
+### These feedback loops can result in the normalization of fringe and extreme viewpoints
+
+In the short-term, these algorithmic feedback loops can lead to social misperceptions as well as the spread of misinformation and disinformation. In the long-term, they can also lead to the spread and normalization of fringe and extreme viewpoints. If believers in these viewpoints strongly believe their perspective, then they will be active evangelists of their beliefs. If this small group of individuals consistently pushes their extreme views, this can be picked up by the social media algorithms, which then feed this content to users who will in turn assume that these extreme views are actually more common and normative than they actually are ([paper](https://www.nature.com/articles/s41562-023-01582-0)). For example, Trump voters were much more likely to be presented with extremist views about fraud in the 2020 US election by content algorithms ([paper](https://tsjournal.org/index.php/jots/article/view/60)). Seeing this promoted content might lead to users believing that these beliefs are widespread and widely accepted, leading to the adoption of these beliefs. The right combination of extreme perspective, outspoken and passionate advocates, and timing can lead to fringe ideas being propagated by social media algorithms more widely, thus bringing the fringe into the mainstream.
+
+### So, what can we do about it? How to align algorithms with positive social learning
+
+The paper proposes two key ways that algorithms can be adapted to fix these problems.
+
+#### Change what the algorithms prioritize
+
+(description of intervention).
+
+It's clear that, without outside intervention, this sort of approach is unlikely, as the current algorithm is profit-maximizing, and more engagement leads to more revenue. (something something something, external intervention)
+
+#### Make algorithmic influence much more transparent
+
+(something something)
+
+For example, Facebook could provide an option where a user can learn about why the algorithm provided a certain post to a user's feed.
