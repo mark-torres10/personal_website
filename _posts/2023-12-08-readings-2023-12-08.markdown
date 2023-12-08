@@ -80,14 +80,14 @@ In the short-term, these algorithmic feedback loops can lead to social mispercep
 
 The paper proposes two key ways that algorithms can be adapted to fix these problems.
 
-#### Change what the algorithms prioritize
+#### Change the diversity of information presented by the algorithms
 
-(description of intervention).
+One possibility to combat the narrow perspective of posts that algorithms provide is to provide a more diverse set of posts. However, just showing more diverse posts, in and of itself, has actually been shown to backfire. Past research shows that partisan conflict can arise not from people being in echo chambers, but rather from people with diverse political views in the same space discussing highly divisive topics and being pushed into their own camps ([paper](94)).
 
-It's clear that, without outside intervention, this sort of approach is unlikely, as the current algorithm is profit-maximizing, and more engagement leads to more revenue. (something something something, external intervention)
+The paper suggests an alternative approach, one they call "bounded informational diversification". Specifically, as the paper argues, social media companies should explicitly penalize PRIME content (as opposed to amplifying it, as they do right now). The idea behind this is that by de-emphasizing this content, social media algorithms no longer are rewarded for triggering human biases. Ideally, this would provide users with a more "realistic" diverse set of perspectives (however, as the authors point out, this approach doesn't necessarily eliminate the issue of echo chambers since people will still be showed content from their direct social network, which may not necessarily be diverse).
 
-#### Make algorithmic influence much more transparent
+It's clear that, without outside intervention, asking social media companies to make any changes is unlikely, as the current algorithm is profit-maximizing, and more engagement leads to more revenue. But, with sufficient pressure placed on them by regulatory entities, Facebook and other social media groups can and have made adjustments (see, for example, their [removal of COVID-related posts after pressure from the White House](https://www.wsj.com/articles/facebook-bowed-to-white-house-pressure-removed-covid-posts-2df436b7)).
 
-(something something)
+#### Make algorithmic influence more transparent
 
-For example, Facebook could provide an option where a user can learn about why the algorithm provided a certain post to a user's feed.
+Users may be informed about why, for example, a post appears in their feed. Even if this change doesn't explicitly change the posts that are presented, it at least will allow people to have more information and thus be more mindful about what they see.  
