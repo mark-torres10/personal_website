@@ -22,23 +22,23 @@ Social learning is a critical way for us to learn what is and isn't accepted and
 
 #### We've evolved to closely pay attention to certain cues during social learning
 
-Past social science research has shown that there are particular biases that we use during our social learning to point us to what we think is important information to pay attention to.
+Past social science research has shown that there are particular biases that we use during our social learning to point us to what we think is important information to pay attention to. This content is referred to as "PRIME" content in the paper:
 
-##### Prestigious Individuals
+##### Prestigious Individuals (PR)
 
 We tend to preferentially believe people with prestige or authority. We're more likely to believe something if, for example, a respected professor says it, as compared to a random stranger on the Internet. Signs of prestige (e.g., wealth, title, status), indirectly signal that the person is someone worth copying.
 
-##### Ingroup
+##### Ingroup (I)
 
 We tend to preferentially believe people in our in-group (people who are "like us"). We do this since, generally speaking, listening to people who are like us probably gives us the best information for addressing problems in our specific situation.
 
-##### Moralized and emotional information
+##### Moralized and emotional information (ME)
 
 If we were debating a topic such as media censorship, we closely identify with and believe claims such as "It's a human right to be able to have free speech" because such a statement resonates with our idea of moral righteousness. Haivng a bias towards moralized information helps us regulate social norms and also punish people who violate the social norms of our group. Moralized information is particularly effective when paired with negative emotions. An example of this is shame, which is a tool that we use in order to ostracize and punish people who break the moral and social norms of our groups.
 
 #### The cues that we evolved to optimize for social learning can also work against us
 
-The same cues and biases that often help expedite our social learning can and often is used against us.
+The same cues and biases that often help expedite our social learning can and often is used against us. Each of the PRIME biases also has its flaws:
 
 ##### Flaws with prestigious individuals
 
@@ -50,13 +50,21 @@ Ingroup bias doesn't work well in diverse populations. If we form our groups bas
 
 ##### Flaws with moralized and emotional information
 
-Moralized and emotional information ceases to be effective when it's overused or used incorrectly. You can have, for example, a "boy who cried wolf" scenario, where people accuse each other of moral transgressions so often that it ceases to become a useful indicator. If a society feels that "cancel culture" is too prevalent, then people will stop acknowledging "cancelling" as a valid mechanism for determining who to ostracize in society.
+Moralized and emotional information stops being effective when it's overused or used incorrectly. You can have, for example, a "boy who cried wolf" scenario, where people accuse each other of moral transgressions so often that it ceases to become a useful indicator. If a society feels that "cancel culture" is too prevalent, then people will stop acknowledging "cancelling" as a valid mechanism for determining who to ostracize in society.
 
 ### "Functional misalignment": Content algorithms exploit social-learning biases
 
-Some placeholder text
+The information provided on social media feeds is curated through individualized algorithms. These algorithms are designed to maximize engagement with the platform. The type of content that people engage with most often are PRIME content.
+
+Therefore, it is in the best interest of social media algorithms to maximize a user's exposure to PRIME content, and this is what a growing body of literature finds. For example, [one study](https://journals.sagepub.com/doi/10.1177/1354856517736979) found that 3% of YouTube channels captured 85% of the total viewership of the site, and [another](https://arxiv.org/abs/1601.07200) found that the top 20% of all Twitter users own 96% of all followers, 93% of all retweets, and 93% of all mentions. Other work found that users are more selectively driven by their algorithm towards ingroup content -  for example, YouTube users who were most skeptical of the 2020 US election results were three times more likely to be recommended videos that questioned the legitimacy of the 2020 US election compared with users who did not express skepticism ([paper](https://tsjournal.org/index.php/jots/article/view/60)).
+
+The objective of social media platforms to maximize engagement mean that the algorithms exploit our ingrained social learning biases. What is in the best interest when it comes to designing these algorithms is not in the best interest of the user (assuming that the user's best interest is to get factual information).
 
 ### Algorithms and social learning reinforce each other in a feedback loop
+
+Algorithms exploit our biases in order to maximize engagement. In doing so, the algorithms curate our feeds to increase engagement, which means providing more content that feeds into our pre-existing biases. This fine-tunes the algorithm even more, leading into a feedback loop of our social media algorithms selectively providing content to reinforce our biases which in turn hones these algorithms even more.
+
+![Social media algorithms create a feedback loop of engagement](/assets/images/social-learning-algorithms-loop.drawio.png "Social media algorithms create a feedback loop of engagement")
 
 ### The feedback loop between algorithms and social learning produces social misperceptions
 
@@ -64,4 +72,4 @@ Some placeholder text
 
 ### How to align algorithms with positive social learning
 
-### What can we do about it? 
+### What can we do about it?
