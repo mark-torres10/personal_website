@@ -1,0 +1,33 @@
+---
+layout: single
+title:  "\"Algorithm-mediated social learning in online social networks\": A Review"
+date:   2023-12-08 15:00:00 +0800
+---
+
+## Paper overview
+
+Whenever someone spends too much time online, we often tell them to "touch grass" and to "experience the real world". This implies that we generally understand that the real world isn't like the world that we see online, especially on social media. But, what does this actually mean? Our online social presence is so intertwined with our daily reality that a large part of how we perceive the world is driven by the content that we see online. For example, we all know how it feels to open Facebook or Instagram and see posts that make it seem like everyone is happier, healthier, more in shape, ahead in their lives, finding the perfect partner, and in general just living a better life than we are. Rationally we know that this isn't true and people selectively only post their highlights online. However, our online social media feeds give us an impression of the world that isn't actually true.
+
+Another avenue where our online social media presence curates our view of the world is in politics. We often get our news online through social media platforms such as Facebook and Twitter. In addition to just looking at the news websites for actual articles, we also often look through the comments, like and share content, and provide comments ourselves (and get in really heated debates with Internet trolls and strangers), and doomscrolling.
+
+Becauase social media is such an important source of information, we use social media in order to shape the way that we learn about society. Social media informs us, for example, what others around us are believing these days, what social norms are acceptable and what the latest hot-button debated issue is. However, our feeds are not objective snapshots of all reality; they're curated by social media algorithms that are designed to give us content that will get us hooked on spending more time on the apps. The platform that we use to learn about the world and to shape our worldviews feeds us content that is designed to mximize how long we're on the app instead of maximizing giving neutral and unbiased information about how the world is. We are fed information by these social media algorithms, a small biased snapshot of reality designed to get us to react and engage on the app, and we react in ways that shape the algorithm to feed us more addictive content in the future. This feedback loop is the topic discussed in today's [paper](https://osf.io/yw5ah/) is "Algorithm-mediated social learning in online social networks". We get our information on what's socially accepted and acceptable based on what we see from online social networks and our engagement with that material curates our algorithm to selectively give us content that will further our own engagement.
+
+### Our environment dictates our social learning
+
+#### We've evolved to closely pay attention to certain cues during social learning
+
+#### The cues that we evolved to optimize for social learning can also work against us
+
+### "Functional misalignment": Content algorithms exploit social-learning biases
+
+Some placeholder text
+
+### Algorithms and social learning reinforce each other in a feedback loop
+
+### The feedback loop between algorithms and social learning produces social misperceptions
+
+### How the feedback loop can create harmful cultural changes
+
+### How to align algorithms with positive social learning
+
+### What can we do about it? 
