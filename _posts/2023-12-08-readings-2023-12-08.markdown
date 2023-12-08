@@ -6,17 +6,51 @@ date:   2023-12-08 15:00:00 +0800
 
 ## Paper overview
 
-Whenever someone spends too much time online, we often tell them to "touch grass" and to "experience the real world". This implies that we generally understand that the real world isn't like the world that we see online, especially on social media. But, what does this actually mean? Our online social presence is so intertwined with our daily reality that a large part of how we perceive the world is driven by the content that we see online. For example, we all know how it feels to open Facebook or Instagram and see posts that make it seem like everyone is happier, healthier, more in shape, ahead in their lives, finding the perfect partner, and in general just living a better life than we are. Rationally we know that this isn't true and people selectively only post their highlights online. However, our online social media feeds give us an impression of the world that isn't actually true.
+Whenever someone spends too much time online, we often tell them to "touch grass" and to "experience the real world". We generally understand that the real world isn't like the world that we see online. Our online social presence is so intertwined with our daily lives that a large part of how we perceive the world is driven by the content that we see online. We all know how it feels to open Facebook or Instagram and see posts that make it seem like everyone is happier, healthier, more in shape, ahead in their lives, and in general just living a better life than we are, even if we rationally know that it isn't true. Our online social media feeds give us an impression of the world that isn't actually true.
 
-Another avenue where our online social media presence curates our view of the world is in politics. We often get our news online through social media platforms such as Facebook and Twitter. In addition to just looking at the news websites for actual articles, we also often look through the comments, like and share content, and provide comments ourselves (and get in really heated debates with Internet trolls and strangers), and doomscrolling.
+Political news is also another place where our online social media presence curates our view of the world. We often get our news online through social media platforms such as Facebook and Twitter. In addition to just looking at the news websites for actual articles, we also often look through the comments, like and share content, and provide comments ourselves (and get in really heated debates with Internet trolls and strangers), and doomscrolling.
 
-Becauase social media is such an important source of information, we use social media in order to shape the way that we learn about society. Social media informs us, for example, what others around us are believing these days, what social norms are acceptable and what the latest hot-button debated issue is. However, our feeds are not objective snapshots of all reality; they're curated by social media algorithms that are designed to give us content that will get us hooked on spending more time on the apps. The platform that we use to learn about the world and to shape our worldviews feeds us content that is designed to mximize how long we're on the app instead of maximizing giving neutral and unbiased information about how the world is. We are fed information by these social media algorithms, a small biased snapshot of reality designed to get us to react and engage on the app, and we react in ways that shape the algorithm to feed us more addictive content in the future. This feedback loop is the topic discussed in today's [paper](https://osf.io/yw5ah/) is "Algorithm-mediated social learning in online social networks". We get our information on what's socially accepted and acceptable based on what we see from online social networks and our engagement with that material curates our algorithm to selectively give us content that will further our own engagement.
+Social media informs us what others around us are believing these days, what social norms are acceptable and what the latest hot-button debated issue is. However, our feeds are not objective snapshots of all reality; they're curated by social media algorithms that are designed to give us content that will get us hooked on spending more time on the apps. The platform that we use to learn about the world and to shape our worldviews feeds us content that is designed to mximize how long we're on the app instead of maximizing giving neutral and unbiased information about how the world is. We are fed information by these social media algorithms, a small biased snapshot of reality designed to get us to react and engage on the app, and we react in ways that shape the algorithm to feed us more addictive content in the future. This feedback loop is the topic discussed in today's [paper](https://osf.io/yw5ah/) is "Algorithm-mediated social learning in online social networks". We get our information on what's socially accepted and acceptable based on what we see from online social networks and our engagement with that material curates our algorithm to selectively give us content that will further our own engagement.
 
 ### Our environment dictates our social learning
 
+#### What is social learning?
+
+We use "social learning" to learn about the norms and beliefs of the world around us. "Social learning" is the process of us learning what is and isn't socially acceptable and believed. We do this by observing others around us, copying their behaviors, inferring their goals and intentions, and then noticing if our behaviors and beliefs are accepted or punished. For example, we learn the norms of watching a movie because we observe that everyone is quiet during the movie and if we talk, we are quickly hushed. Another example is we learn the conversational norms of the people around us by learning about what news topics we can and cannot talk (for example, there are certain "taboo" topics that we can't discuss in public settings, but these "taboo" topics change depending on location, culture, and environment).
+
+Social learning is a critical way for us to learn what is and isn't accepted and believed in our social circles.
+
 #### We've evolved to closely pay attention to certain cues during social learning
 
+Past social science research has shown that there are particular biases that we use during our social learning to point us to what we think is important information to pay attention to.
+
+##### Prestigious Individuals
+
+We tend to preferentially believe people with prestige or authority. We're more likely to believe something if, for example, a respected professor says it, as compared to a random stranger on the Internet. Signs of prestige (e.g., wealth, title, status), indirectly signal that the person is someone worth copying.
+
+##### Ingroup
+
+We tend to preferentially believe people in our in-group (people who are "like us"). We do this since, generally speaking, listening to people who are like us probably gives us the best information for addressing problems in our specific situation.
+
+##### Moralized and emotional information
+
+If we were debating a topic such as media censorship, we closely identify with and believe claims such as "It's a human right to be able to have free speech" because such a statement resonates with our idea of moral righteousness. Haivng a bias towards moralized information helps us regulate social norms and also punish people who violate the social norms of our group. Moralized information is particularly effective when paired with negative emotions. An example of this is shame, which is a tool that we use in order to ostracize and punish people who break the moral and social norms of our groups.
+
 #### The cues that we evolved to optimize for social learning can also work against us
+
+The same cues and biases that often help expedite our social learning can and often is used against us.
+
+##### Flaws with prestigious individuals
+
+Prestige doesn't necessarily signal success. Someone can have a large house but have gotten that through borrowed (or worse, illegally gotten) money. Titles also don't necessarily signal success - there are plenty of people in positions of power who can commonly be seen as incompetent.
+
+##### Flaws with ingroup bias
+
+Ingroup bias doesn't work well in diverse populations. If we form our groups based on arbitrary social constructs, such as race, then we can begin to favor our group (e.g., our racial groups) over others, leading to a downhill slope of discrimination.
+
+##### Flaws with moralized and emotional information
+
+Moralized and emotional information ceases to be effective when it's overused or used incorrectly. You can have, for example, a "boy who cried wolf" scenario, where people accuse each other of moral transgressions so often that it ceases to become a useful indicator. If a society feels that "cancel culture" is too prevalent, then people will stop acknowledging "cancelling" as a valid mechanism for determining who to ostracize in society.
 
 ### "Functional misalignment": Content algorithms exploit social-learning biases
 
