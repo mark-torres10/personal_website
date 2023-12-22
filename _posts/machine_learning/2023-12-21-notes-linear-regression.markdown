@@ -4,6 +4,9 @@ title:  "Notes on linear regression"
 date:   2023-12-21 15:00:00 +0800
 classes: wide
 toc: true
+categories:
+- machine_learning
+permalink: /machine_learning/notes-linear-regression
 ---
 ## Overview
 
@@ -54,6 +57,8 @@ When calculating $$X^{T}X$$, several problems can arise, even if theoretically t
 These are two cases where, even if technically $$X^{T}X$$ can be found (i.e., you can calculate it on pen and paper), a computer software might not be able to calculate it
 
 ### When can the matrix $$X^{T}X$$ be non-invertible?
+
+When the matrix $$X^{T}X$$ is non-invertible, it means that the coefficients derived from regression will be unstable (i.e., you run it two times and you might get vastly different coefficient values, or you perturb the input values slightly and the coefficient values change dramatically).
 
 There are some cases where we aren't going to be able to invert $$X^{T}X$$, which can be due to the underlying nature of the data itself.
 
@@ -120,9 +125,11 @@ An invertible matrix tells us that there is a simple, closed-form, exact solutio
 
 $$W = (X^{T}X)^{-1}X^{T}y$$
 
-#### Each parameter coefficient can be independently estimated
+#### Each parameter coefficient can be independently estimated and there is no linear dependence across features
 
-An invertible matrix...
+A consequence of there being a unique solution to the linear regression problem is that each parameter coefficient can be independently estimated.
+
+To better understand this, let's imagine a case where the parameter coefficients aren't independent. Let's take the example of predicting home prices. If we have two features, `num_rooms` and `num_bedrooms`, these are likely highly correlated and so will make the resulting input $$X$$ matrix more likely to be ill-conditioned or singular.
 
 #### No linear dependence across features
 
