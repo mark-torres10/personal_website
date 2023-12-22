@@ -1,7 +1,7 @@
 ---
 layout: archive
 title: Machine Learning Posts
-permalink: /machine_learning/
+permalink: /machine_learning
 ---
 
 # Machine Learning Posts

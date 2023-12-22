@@ -1,7 +1,7 @@
 ---
 layout: archive
 title: Linear Algebra Posts
-permalink: /linear_algebra/
+permalink: /linear_algebra
 ---
 
 # Linear Algebra Posts
