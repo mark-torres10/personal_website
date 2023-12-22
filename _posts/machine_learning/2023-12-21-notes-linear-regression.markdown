@@ -95,13 +95,13 @@ We can determine the propensity of a matrix to be ill-conditioned through calcul
 
 ##### Singular value decomposition (SVD)
 
-(see [here](https://markptorres.com/notes-singular-value-decomposition/) for an overview of SVD)
+(see [here](https://markptorres.com/machine_learning/notes-singular-value-decomposition/) for an overview of SVD)
 
 We can look at the singular values after performing SVD. If we look at the singular values and see any that are zero, then we cannot invert the matrix (since a zero for a singular value effectively tells us that we lose information if we pass an input through the matrix, i.e., we can't "invert" the operation (unlike how we, for example, can "invert" or "reverse" addition by doing subtraction)). Small singular values can tell us that a matrix is likely to be ill-conditioned, namely because operations that divide using the singular values, for values of $$s_i$$ close to zero, will lead to numerical instability.
 
 ##### Eigenvalues and eigenvectors
 
-(see [here](https://markptorres.com/notes-eigenvalues-eigenvectors/) for an overview of eigenvalues and eigenvectors).
+(see [here](https://markptorres.com/linear_algebra/notes-eigenvalues-eigenvectors/) for an overview of eigenvalues and eigenvectors).
 
 Eigenvalues that are close to zero can indicate ill-conditioning. This is because eigenvalues close to zero indicate a large gap between the largest and the smallest singular values. If there is a large gap between these two values, then this gives the matrix a high condition number, which is an indicator of numerical instability (see [here](https://math.stackexchange.com/questions/4371774/condition-number-and-singular-values) and [here](https://en.wikipedia.org/wiki/Condition_number#Matrices) for more explanation).
 
@@ -129,11 +129,9 @@ $$W = (X^{T}X)^{-1}X^{T}y$$
 
 A consequence of there being a unique solution to the linear regression problem is that each parameter coefficient can be independently estimated.
 
-To better understand this, let's imagine a case where the parameter coefficients aren't independent. Let's take the example of predicting home prices. If we have two features, `num_rooms` and `num_bedrooms`, these are likely highly correlated and so will make the resulting input $$X$$ matrix more likely to be ill-conditioned or singular.
+To better understand this, let's imagine a case where the parameter coefficients aren't independent Conceptually, if two features are highly correlated, then this means that it will be hard to determine a unique parameter coefficient for each feature.
 
-#### No linear dependence across features
-
-An invertible matrix...
+Let's take the example of predicting home prices. If we have two features, `num_rooms` and `num_bedrooms`, these are likely highly correlated and so will make the resulting input $$X$$ matrix more likely to be ill-conditioned or singular. Conceptually, if you know what `num_rooms` already is, then knowing `num_bedrooms` likely doesn't tell you any new information that would help you predict home price, because the value of `num_bedrooms` is already highly correlated to `num_rooms`, thereby rendering it redundant.
 
 ## Summary
 
