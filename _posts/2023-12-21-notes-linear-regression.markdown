@@ -90,11 +90,11 @@ We can determine the propensity of a matrix to be ill-conditioned through calcul
 
 ##### Singular value decomposition (SVD)
 
-placeholder
+placeholder (see [here](wikipedia.com) (TODO: add link) for an overview of SVD).
 
 ##### Eigenvalues and eigenvectors
 
-placeholder
+placeholder (see [here](wikipedia.com) (TODO: add link) for an overview of eigenvalues and eigenvectors).
 
 ##### Numerical instability
 
