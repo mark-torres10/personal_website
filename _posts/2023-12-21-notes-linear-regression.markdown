@@ -90,11 +90,15 @@ We can determine the propensity of a matrix to be ill-conditioned through calcul
 
 ##### Singular value decomposition (SVD)
 
-placeholder (see [here](wikipedia.com) (TODO: add link) for an overview of SVD).
+(see [here](https://markptorres.com/notes-singular-value-decomposition/) for an overview of SVD)
+
+We can look at the singular values after performing SVD. If we look at the singular values and see any that are zero, then we cannot invert the matrix (since a zero for a singular value effectively tells us that we lose information if we pass an input through the matrix, i.e., we can't "invert" the operation (unlike how we, for example, can "invert" or "reverse" addition by doing subtraction)). Small singular values can tell us that a matrix is likely to be ill-conditioned, namely because operations that divide using the singular values, for values of $$s_i$$ close to zero, will lead to numerical instability.
 
 ##### Eigenvalues and eigenvectors
 
-placeholder (see [here](wikipedia.com) (TODO: add link) for an overview of eigenvalues and eigenvectors).
+(see [here](https://markptorres.com/notes-eigenvalues-eigenvectors/) for an overview of eigenvalues and eigenvectors).
+
+Eigenvalues that are close to zero can indicate ill-conditioning. This is because eigenvalues close to zero indicate a large gap between the largest and the smallest singular values. If there is a large gap between these two values, then this gives the matrix a high condition number, which is an indicator of numerical instability (see [here](https://math.stackexchange.com/questions/4371774/condition-number-and-singular-values) and [here](https://en.wikipedia.org/wiki/Condition_number#Matrices) for more explanation).
 
 ##### Numerical instability
 
@@ -107,6 +111,22 @@ Indications of multicollinearity: indicators of multicollinearity (e.g., high pa
 ### What can we do if the matrix $$X^{T}X$$ is not invertible?
 
 When the matrix is not invertible, then we have to either (1) resort to an iterative regression algorithm or (2) use regularization.
+
+### Conceptually, what does the matrix $$X^{T}X$$ being invertible tell us?
+
+#### There exists a unique linear solution to the linear regression problem
+
+An invertible matrix tells us that there is a simple, closed-form, exact solution to the linear regression problem. Specifically, if $$X^{T}X$$ is invertible, then the weight matrix $$W$$ is simply:
+
+$$W = (X^{T}X)^{-1}X^{T}y$$
+
+#### Each parameter coefficient can be independently estimated
+
+An invertible matrix...
+
+#### No linear dependence across features
+
+An invertible matrix...
 
 ## Summary
 
