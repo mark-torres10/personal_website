@@ -10,9 +10,9 @@ permalink: /machine_learning/notes-linear-regression
 ---
 ## Overview
 
-I'm reviewing core statistics and machine learning concepts and this is a compilation of some notes that I've been taking:
+I'm reviewing core statistics and machine learning concepts and this is a compilation of some notes that I've been taking.
 
-## Linear Regression
+## Linear Regression Theory
 
 The linear regression model can be expressed as
 
@@ -113,10 +113,6 @@ If, while doing the calculations for linear regression, you see numerical instab
   
 Indications of multicollinearity: indicators of multicollinearity (e.g., high pairwise correlations between feature columns) can be indicators of possible numerical instability. High multicollinearity makes it difficult to converge to "true" and "stable" coefficient values since the slightest changes in input values can lead to wildly different coefficients. Part of the purpose of a regression is to find unique coefficients for each feature detailing the impact of that feature alone on the output variable. But, if two variables are highly correlated, then the model can assign largely arbitrary weights to either one since a decrease in one should be evened out by an increase in the other. For example, if both `num_bedrooms` and `num_rooms` (which are obviously correlated) are used in a model for predicting house price, then a model can assign either a high weight to `num_bedrooms` and a low weight to `num_rooms` or vice versa or some combination in between since any combination would have the same effect on predicting house price. For a more detailed overview of the multicollinearity problem, see [here](https://www.sciencedirect.com/topics/mathematics/multicollinearity-problem).
 
-### What can we do if the matrix $$X^{T}X$$ is not invertible?
-
-When the matrix is not invertible, then we have to either (1) resort to an iterative regression algorithm or (2) use regularization.
-
 ### Conceptually, what does the matrix $$X^{T}X$$ being invertible tell us?
 
 #### There exists a unique linear solution to the linear regression problem
@@ -131,7 +127,19 @@ A consequence of there being a unique solution to the linear regression problem 
 
 To better understand this, let's imagine a case where the parameter coefficients aren't independent Conceptually, if two features are highly correlated, then this means that it will be hard to determine a unique parameter coefficient for each feature.
 
-Let's take the example of predicting home prices. If we have two features, `num_rooms` and `num_bedrooms`, these are likely highly correlated and so will make the resulting input $$X$$ matrix more likely to be ill-conditioned or singular. Conceptually, if you know what `num_rooms` already is, then knowing `num_bedrooms` likely doesn't tell you any new information that would help you predict home price, because the value of `num_bedrooms` is already highly correlated to `num_rooms`, thereby rendering it redundant.
+Let's take the example of predicting home prices. If we have two features, `num_rooms` and `num_bedrooms`, these are likely highly correlated and so will make the resulting input $$X$$ matrix more likely to be ill-conditioned or singular. Conceptually, if you know what `num_rooms` already is, then knowing `num_bedrooms` likely doesn't tell you any new information that would help you predict home price, because the value of `num_bedrooms` is already highly correlated to `num_rooms`, so knowing one makes the other redundant.
+
+### What do we do next if the matrix $$X^{T}X$$ is not invertible?
+
+When the matrix is not invertible, then the first two things to consider are: (1) removing multicollinearity, (2) perform better feature selection, and (3) doing either regularization or dimensionality reduction (e.g., PCA).
+
+
+### How do I do linear regression in practice?
+
+
+
+
+then we have to either (1) resort to an iterative regression algorithm or (2) use regularization.
 
 ## Summary
 
