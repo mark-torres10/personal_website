@@ -48,28 +48,31 @@ We can use calculus in order to demonstrate that this solution does minimize the
 1. $$a^{T} \cdot b$$ = $$b^{T} \cdot a$$ (since it is just the sum of elementwise products, so order doesn't matter).
 2. If we have a function $$f(x)$$ that takes as input a scalar $$x$$, then $$\frac{d}{dx}$$ is the derivatve of the function with respect to $$x$$. If we instead have the same function $$f(x)$$ but it takes as input a vector $$\vec{x}$$, then the derivative of the function is now the **gradient**, and the gradient is just a vector of the derivatives with respect to each component of $$\vec{x}$$:
 
-$$\nabla{f} \triangleq \begin{bmatrix}
-\frac{\partial f}{\partial x_1} \\ \frac{\partial f}{\partial x_2} \\ ... \\ \frac{\partial f}{\partial x_n}
-\end{bmatrix}$$
+    $$\nabla{f} \triangleq \begin{bmatrix}
+    \frac{\partial f}{\partial x_1} \\ \frac{\partial f}{\partial x_2} \\ ... \\ \frac{\partial f}{\partial x_n}
+    \end{bmatrix}$$
+
 3. A derivative of a linear function:
 
-$$\frac{\partial }{\partial \vec{x}} \vec{a} \cdot \vec{x} = \vec{a} $$
+    $$\frac{\partial }{\partial \vec{x}} \vec{a} \cdot \vec{x} = \vec{a} $$
 
-To demonstrate this:
+    To demonstrate this:
 
-$$\frac{\partial }{\partial \vec{x}} \vec{a} \cdot \vec{x} = \frac{\partial}{\partial \vec{x}} \vec{a}^{T}\vec{x} =  \frac{\partial}{\partial \vec{x}} \vec{x}^{T}\vec{a} $$
+    $$\frac{\partial }{\partial \vec{x}} \vec{a} \cdot \vec{x} = \frac{\partial}{\partial \vec{x}} \vec{a}^{T}\vec{x} =  \frac{\partial}{\partial \vec{x}} \vec{x}^{T}\vec{a} $$
 
-If you actually evaluate this for each element, then you find that for each element $$i$$, the dot product operation is $$x_i * a_i$$, for which the answer is $$a_i$$. Evaluating this as a derivative, we see that the result then should be $$\vec{a}$$
+    If you actually evaluate this for each element, then you find that for each element $$i$$, the dot product operation is $$x_i * a_i$$, for which the answer is $$a_i$$. Evaluating this as a derivative, we see that the result then should be $$\vec{a}$$
 
-This is the same principle as in single-variable calculus, where $$\frac{\partial}{\partial x} ax = a$$.
+    This is the same principle as in single-variable calculus, where $$\frac{\partial}{\partial x} ax = a$$.
+
 4. A derivative of a quadratic function:
 
-$$\frac{\partial}{\partial \vec{x}} \vec{x}^{T}A\vec{x} = 2A\vec{x}$$
+    $$\frac{\partial}{\partial \vec{x}} \vec{x}^{T}A\vec{x} = 2A\vec{x}$$
 
-This is the same principle as in single-variable calculus, where $$\frac{\partial}{\partial x}ax^{2} = 2ax$$.
+    This is the same principle as in single-variable calculus, where $$\frac{\partial}{\partial x}ax^{2} = 2ax$$.
+
 5. Our error term can be rewritten:
 
-We can rewrite $$\sum_{i=1}^{n}(y_i - \vec{x_i}\vec{w_i})^{2}$$ in a vectorized form: $$(\vec{Y}-\vec{X}\vec{W})^{T}(\vec{Y}-\vec{X}\vec{W})$$
+    We can rewrite $$\sum_{i=1}^{n}(y_i - \vec{x_i}\vec{w_i})^{2}$$ in a vectorized form: $$(\vec{Y}-\vec{X}\vec{W})^{T}(\vec{Y}-\vec{X}\vec{W})$$
 
 ### Proof
 
