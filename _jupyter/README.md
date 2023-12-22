@@ -3,6 +3,7 @@
 This directory contains Jupyter notebooks. These notebooks will be used for working on code snippets for specific blog posts.
 
 Resources on how to convert Jupyter notebooks to pages: [here](https://www.kasimte.com/adding-and-including-jupyter-notebooks-as-jekyll-blog-posts), [here](https://www.linode.com/docs/guides/jupyter-notebook-on-jekyll/), and [here](https://cduvallet.github.io/posts/2018/03/ipython-notebooks-jekyll)
+and [here](https://michaelwornow.net/2022/09/13/jupyter-notebook-to-markdown).
 
 To set up the virtual environment using `conda`:
 
