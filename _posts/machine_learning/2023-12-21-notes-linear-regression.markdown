@@ -132,15 +132,3 @@ Let's take the example of predicting home prices. If we have two features, `num_
 ### What do we do next if the matrix $$X^{T}X$$ is not invertible?
 
 When the matrix is not invertible, then the first two things to consider are: (1) removing multicollinearity, (2) perform better feature selection, and (3) doing either regularization or dimensionality reduction (e.g., PCA).
-
-
-### How do I do linear regression in practice?
-
-
-
-
-then we have to either (1) resort to an iterative regression algorithm or (2) use regularization.
-
-## Summary
-
-This is a ...
