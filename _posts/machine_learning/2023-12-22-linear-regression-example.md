@@ -1,7 +1,7 @@
 ---
 layout: single
 title:  "Predicting house prices using linear regression: an example"
-date:   2023-12-22 15:00:00 +0800
+date:   2023-12-22 17:00:00 +0800
 classes: wide
 toc: true
 categories:

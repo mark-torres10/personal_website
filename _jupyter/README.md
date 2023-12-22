@@ -19,3 +19,26 @@ To compile the `requirements.in` file to generate the `requirements.txt` file:
 pip install pip-tools
 pip-compile requirements.in
 ```
+
+Export each as a markdown:
+
+```{bash}
+jupyter nbconvert 2023-12-22-linear-regression-example.ipynb --to markdown
+```
+
+Move the markdown file to the `_posts` folder.
+
+Add a header similar to the following to each markdown file:
+
+```{bash}
+---
+layout: single
+title:  "Predicting house prices using linear regression: an example"
+date:   2023-12-22 17:00:00 +0800
+classes: wide
+toc: true
+categories:
+- machine_learning
+permalink: /machine_learning/predicting-house-prices-linear-regression
+---
+```
