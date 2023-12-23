@@ -192,7 +192,7 @@ sns.histplot(df["median_house_value"], bins=50)
 
 
     
-![png](assets/images/2023-12-22-linear-regression-example_files/2023-12-22-linear-regression-example_9_1.png)
+![png](/assets/images/2023-12-22-linear-regression-example_files/2023-12-22-linear-regression-example_9_1.png)
     
 
 
@@ -266,7 +266,7 @@ sns.histplot(df["median_house_value"], bins=50)
 
 
     
-![png](assets/images/2023-12-22-linear-regression-example_files/2023-12-22-linear-regression-example_17_1.png)
+![png](/assets/images/2023-12-22-linear-regression-example_files/2023-12-22-linear-regression-example_17_1.png)
     
 
 
@@ -292,7 +292,7 @@ sns.histplot(y, bins=50)
 
 
     
-![png](assets/images/2023-12-22-linear-regression-example_files/2023-12-22-linear-regression-example_20_1.png)
+![png](/assets/images/2023-12-22-linear-regression-example_files/2023-12-22-linear-regression-example_20_1.png)
     
 
 
@@ -463,7 +463,7 @@ sns.heatmap(X.corr(), annot=True)
 
 
     
-![png](assets/images/2023-12-22-linear-regression-example_files/2023-12-22-linear-regression-example_33_1.png)
+![png](/assets/images/2023-12-22-linear-regression-example_files/2023-12-22-linear-regression-example_33_1.png)
     
 
 
@@ -502,7 +502,7 @@ sns.heatmap(data.corr(), annot=True)
 
 
     
-![png](assets/images/2023-12-22-linear-regression-example_files/2023-12-22-linear-regression-example_38_1.png)
+![png](/assets/images/2023-12-22-linear-regression-example_files/2023-12-22-linear-regression-example_38_1.png)
     
 
 
@@ -519,19 +519,19 @@ for col in X.columns:
 
 
     
-![png](assets/images/2023-12-22-linear-regression-example_files/2023-12-22-linear-regression-example_41_0.png)
+![png](/assets/images/2023-12-22-linear-regression-example_files/2023-12-22-linear-regression-example_41_0.png)
     
 
 
 
     
-![png](assets/images/2023-12-22-linear-regression-example_files/2023-12-22-linear-regression-example_41_1.png)
+![png](/assets/images/2023-12-22-linear-regression-example_files/2023-12-22-linear-regression-example_41_1.png)
     
 
 
 
     
-![png](assets/images/2023-12-22-linear-regression-example_files/2023-12-22-linear-regression-example_41_2.png)
+![png](/assets/images/2023-12-22-linear-regression-example_files/2023-12-22-linear-regression-example_41_2.png)
     
 
 
