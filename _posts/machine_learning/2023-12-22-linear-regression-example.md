@@ -190,7 +190,7 @@ sns.histplot(df["median_house_value"], bins=50)
 
 
     
-![png](2023-12-22-linear-regression-example_files/2023-12-22-linear-regression-example_9_1.png)
+![png](/assets/images/2023-12-22-linear-regression-example_files/2023-12-22-linear-regression-example_9_1.png)
     
 
 
@@ -264,7 +264,7 @@ sns.histplot(df["median_house_value"], bins=50)
 
 
     
-![png](2023-12-22-linear-regression-example_files/2023-12-22-linear-regression-example_17_1.png)
+![png](/assets/images/2023-12-22-linear-regression-example_files/2023-12-22-linear-regression-example_17_1.png)
     
 
 
@@ -290,7 +290,7 @@ sns.histplot(y, bins=50)
 
 
     
-![png](2023-12-22-linear-regression-example_files/2023-12-22-linear-regression-example_20_1.png)
+![png](/assets/images/2023-12-22-linear-regression-example_files/2023-12-22-linear-regression-example_20_1.png)
     
 
 
@@ -442,7 +442,7 @@ sns.heatmap(X.corr(), annot=True)
 
 
     
-![png](2023-12-22-linear-regression-example_files/2023-12-22-linear-regression-example_31_1.png)
+![png](/assets/images/2023-12-22-linear-regression-example_files/2023-12-22-linear-regression-example_31_1.png)
     
 
 
