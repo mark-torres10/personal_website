@@ -8,7 +8,6 @@ categories:
 - machine_learning
 permalink: /machine_learning/predicting-house-prices-linear-regression
 ---
-
 # Predicting housing prices using linear regression
 
 We are using linear regression in order to predict housing prices from an example Kaggle dataset.
@@ -170,7 +169,10 @@ df.head()
 
 ### Exploratory data
 
-Before we start doing any machine learning, we should take a look at the data that we have, so that we can get a general sense of what we're working with.
+Before we start doing any machine learning, we should take a look at the data that we have, so that we can get a general sense of what we're working with. The purpose of this exploration is twofold:
+
+1. Check the relationships that the features have with each other and with the output variable. Doing so will let us see if any of the features are correlated with each other as well as get an idea for how the features should correlate with the output variable.
+2. Determine which features to use in our model.
 
 
 We want to predict the `median_house_value` column, so let's pull that from our dataset and just see how it looks
@@ -190,7 +192,7 @@ sns.histplot(df["median_house_value"], bins=50)
 
 
     
-![png](/assets/images/2023-12-22-linear-regression-example_files/2023-12-22-linear-regression-example_9_1.png)
+![png](assets/images/2023-12-22-linear-regression-example_files/2023-12-22-linear-regression-example_9_1.png)
     
 
 
@@ -264,7 +266,7 @@ sns.histplot(df["median_house_value"], bins=50)
 
 
     
-![png](/assets/images/2023-12-22-linear-regression-example_files/2023-12-22-linear-regression-example_17_1.png)
+![png](assets/images/2023-12-22-linear-regression-example_files/2023-12-22-linear-regression-example_17_1.png)
     
 
 
@@ -290,7 +292,7 @@ sns.histplot(y, bins=50)
 
 
     
-![png](/assets/images/2023-12-22-linear-regression-example_files/2023-12-22-linear-regression-example_20_1.png)
+![png](assets/images/2023-12-22-linear-regression-example_files/2023-12-22-linear-regression-example_20_1.png)
     
 
 
@@ -307,6 +309,7 @@ For our problem, let's take a look at only the properties that are not right on 
 ```python
 property_types = ["<1H OCEAN", "INLAND"]
 X = df[df['ocean_proximity'].isin(property_types)]
+y = y[y.index.isin(X.index)]
 columns = [
     "housing_median_age",
     "total_rooms",
@@ -411,12 +414,30 @@ When doing exploratory data analysis, some of the things that we want to look fo
 
 1. Missing data: do we have any data that is missing? If so, can we impute the missing data?
 2. Correlations: are any of the features correlated to each other? If so, can we eliminate redundant features?
-3. Normality: 
-4: Scaling: 
 
 Let's do these in steps.
 
-#### Normality
+*Note: we do NOT need to scale data when it comes to linear regression. This is because each parameter estimate is scaled to each feature already. For regression, we would only scale if we want our intercepts to be centered at 0 for interpretability purposes, but that doesn't apply in this case. We need to scale if we're working with algorithms that use distance metrics of some sort, such as clustering algorithms or gradient descent in neural networks (see [here](https://www.atoti.io/articles/when-to-perform-a-feature-scaling/) for more information)*
+
+#### Missing data
+
+We want to check if there is any data that is missing in our dataset. We can look for the presence of NaN values and similar values such as null or None. We also have to be careful for the presence of other values that can signify missing data. For example, when working with survey data sometimes a field is coded as -999 if there is no valid answer. Sometimes we might even see empty strings, "", used to denote missing data. In this case, given our feature set, looking for NaN values should suffice, especially since the fields that we're looking at are already all converted to numerics (meaning that any non-numeric value is encoded as NaN).
+
+
+```python
+fields_with_missing_data = []
+
+for field in X.columns:
+    missing_data = X[field].isnull().sum()
+    if missing_data > 0:
+        fields_with_missing_data.append(field)
+        print(f"{field} has {missing_data} missing values")
+```
+
+    total_bedrooms has 154 missing values
+
+
+We see that `total_bedrooms` has some missing values whereas the rest of the data does not have any missing values. We may want to somehow impute values for the missing values in `total_bedrooms`, but let's first determine if this is a feature that we want to keep in the first place, which we can find out if we look at the feature correlations.
 
 #### Correlations
 
@@ -442,21 +463,112 @@ sns.heatmap(X.corr(), annot=True)
 
 
     
-![png](/assets/images/2023-12-22-linear-regression-example_files/2023-12-22-linear-regression-example_31_1.png)
+![png](assets/images/2023-12-22-linear-regression-example_files/2023-12-22-linear-regression-example_33_1.png)
     
 
 
 As we can see here, the `total_rooms`, `total_bedrooms`, `population`, and `households` are really highly correlated with each other. If we think about it, this makes sense - the larger the population, the more households there are. The more households there are, the more total bedrooms there are, and the more total bedrooms there are, the more total rooms there are.
 
-#### Missing data
+Because of this, we can choose to just keep one of the variables. Since our purpose is to predict house prices, it makes logical sense that the price of a house is likely highly related to how large the house is, which is a factor of the total rooms in the house (of which bedrooms is a part), which leaves us with `total_rooms` and `total_bedrooms`. Since these two are highly correlated (and logically so), we should pick only one. Since we found that `total_bedrooms` has some rows with missing values, let's use `total_rooms` instead.
 
-#### Scaling
+#### Picking a subset of features and mapping them against our output variable
 
-
+After exploring our features, we now have a sense of which features we should include in our model. We want to pick features that are not correlated with each other, so that each can help us predict the home price. Let's choose the `housing_median_age`, `median_income`, and `total_rooms` variables. Now let's check how these each relate to our log-transformed output variable, `housing_median_price`.
 
 
 ```python
-for col in columns:
-    sns.histplot(X[col], bins=50)
+cols = ["housing_median_age", "median_income", "total_rooms"]
+X = X[cols]
+```
+
+
+```python
+data = X.copy()
+data["median_house_value"] = y.values
+```
+
+
+```python
+# show the correlation matrix between each column in X and the values in y
+sns.heatmap(data.corr(), annot=True)
+```
+
+
+
+
+    <Axes: >
+
+
+
+
+    
+![png](assets/images/2023-12-22-linear-regression-example_files/2023-12-22-linear-regression-example_38_1.png)
+    
+
+
+From the looks of it, `median_income` is the most correlated to `median_house_price`. Logically this makes sense - the higher a community's income, the more expensive the homes in the community likely are. We also see that `housing_median_age` is not correlated with `median_housing_price`, which also makes sense - it's not the age of the homebuyer that matters but rather the features of the home itself (like the `total_rooms`, which has some slight correlation).
+
+Let's also create scatterplots of each feature against the output variable just to see how they look. We'll plot the features against their original prices, since this will look cleaner from a visualization perspective and there will be less cluttering as opposed to the log-transformed version of the prices:
+
+
+```python
+for col in X.columns:
+    sns.scatterplot(x=X[col], y=np.expm1(y))
     plt.show()
 ```
+
+
+    
+![png](assets/images/2023-12-22-linear-regression-example_files/2023-12-22-linear-regression-example_41_0.png)
+    
+
+
+
+    
+![png](assets/images/2023-12-22-linear-regression-example_files/2023-12-22-linear-regression-example_41_1.png)
+    
+
+
+
+    
+![png](assets/images/2023-12-22-linear-regression-example_files/2023-12-22-linear-regression-example_41_2.png)
+    
+
+
+The scatterplots reinforce what we already observed from the correlation matrix and give us some indication of how each feature variable relates to the median home price. We can later superimpose the coefficients created by our regression model against these scatterplots to see how well the coefficients for each parameter reflect the underlying data.
+
+Now that we've done these exercises, we now know (1) which features we want to use and (2) how these features relate to our output variable, `median_house_price`. This means that we are now ready to actually perform the regression.
+
+## Perform regression
+
+In this overview, we'll skip over [what is a linear regression](https://www.ibm.com/topics/linear-regression), [how to solve the linear regression equation](https://markptorres.com/machine_learning/notes-linear-regression) as well as [why linear regression minimizes squared error](https://markptorres.com/machine_learning/notes-least-squares-regression) and we'll instead focus on implementation. To perform our regression, we need to do the following:
+
+1. Split up our data into training, validation, and test sets.
+2. Create regression model.
+3. Evaluate our model's performance.
+
+*Note: we are sticking to a linear regression for this walkthrough. We will not explore techniques such as regularization or dimensionality reduction. We also will not be doing cross-validation, though [this Kaggle tutorial](https://www.kaggle.com/code/jnikhilsai/cross-validation-with-linear-regression) has a great walkthrough of doing cross validation with linear regression*
+
+### Splitting our data into training, validation, and test sets
+
+We want to split up our data into training, validation, and test sets.
+
+- Training: this is the data that our model receives and is trained on.
+- Validation: this is the data that we use to evaluate our model's performance and to tune our model. We use this to see how well our current iteration of the model is doing and compare that to other versions of our model. This comes in handy, for example, if we're tuning our hyperparameters, changing algorithm type, etc.
+- Test: this is a set of data that we use to evaluate our final model. This is never used during the model creation and iteration process and is only used at the end to actually see.
+
+### Creating a regression model
+
+### Evaluating our model's performance
+
+#### Spot-checking a few examples
+
+#### Evaluating error metrics
+
+#### Plotting the regressions coefficients against the scatterplots of each feature against the output variable
+
+## Checking the assumptions of linear regression
+
+Now that we have a working model, we need to check to see if our model does fit the assumptions of linear regression.
+
+
