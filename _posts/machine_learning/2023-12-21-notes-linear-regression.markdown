@@ -1,13 +1,14 @@
 ---
 layout: single
-title:  "Notes on linear regression"
-date:   2023-12-21 15:00:00 +0800
+title: "Notes on linear regression"
+date: 2023-12-21 15:00:00 +0800
 classes: wide
 toc: true
 categories:
-- machine_learning
+  - machine_learning
 permalink: /machine_learning/notes-linear-regression
 ---
+
 ## Overview
 
 I'm reviewing core statistics and machine learning concepts and this is a compilation of some notes that I've been taking.
@@ -69,7 +70,7 @@ We may have a **singular matrix**, which is a square matrix that does not have a
 To check if a square matrix is singular, you have to check if the **determinant** is 0 ([what is a determinant?](https://en.wikipedia.org/wiki/Determinant)). To calculate the determinant, you can either use [cofactor expansion](https://people.math.carleton.ca/~kcheung/math/notes/MATH1107/wk07/07_cofactor_expansion.html) or simply use `np.linalg.det(array)`.
 
 - What does a **determinant** tell you?
-A determinant tells you how much the matrix "stretches" space. Imagine, for example, having a square grid, and then multiplying a matrix onto that square grid. To what degree is that square grid *stretched*? [Here](https://www.youtube.com/watch?v=Ip3X9LOh2dk) is a really great 3Blue1Brown visualization of what this looks like.
+  A determinant tells you how much the matrix "stretches" space. Imagine, for example, having a square grid, and then multiplying a matrix onto that square grid. To what degree is that square grid _stretched_? [Here](https://www.youtube.com/watch?v=Ip3X9LOh2dk) is a really great 3Blue1Brown visualization of what this looks like.
 
 - With respect to inverse matrices, the inverse of $$X$$, $$X^{-1}$$, can be found by using: $$X^{-1} = \frac{adj(X)}{det(X)}$$, where $$adj(X)$$ is the adjoint/adjugate matrix ([what is the adjoint/adjugate matrix?](https://www.cuemath.com/algebra/adjoint-of-a-matrix/))
 
@@ -110,7 +111,7 @@ Eigenvalues that are close to zero can indicate ill-conditioning. This is becaus
 If, while doing the calculations for linear regression, you see numerical instability, this is a practical signal for a possibly ill-conditioned matrix.
 
 ##### Multicollinearity and numerical instability
-  
+
 Indications of multicollinearity: indicators of multicollinearity (e.g., high pairwise correlations between feature columns) can be indicators of possible numerical instability. High multicollinearity makes it difficult to converge to "true" and "stable" coefficient values since the slightest changes in input values can lead to wildly different coefficients. Part of the purpose of a regression is to find unique coefficients for each feature detailing the impact of that feature alone on the output variable. But, if two variables are highly correlated, then the model can assign largely arbitrary weights to either one since a decrease in one should be evened out by an increase in the other. For example, if both `num_bedrooms` and `num_rooms` (which are obviously correlated) are used in a model for predicting house price, then a model can assign either a high weight to `num_bedrooms` and a low weight to `num_rooms` or vice versa or some combination in between since any combination would have the same effect on predicting house price. For a more detailed overview of the multicollinearity problem, see [here](https://www.sciencedirect.com/topics/mathematics/multicollinearity-problem).
 
 ### Conceptually, what does the matrix $$X^{T}X$$ being invertible tell us?
