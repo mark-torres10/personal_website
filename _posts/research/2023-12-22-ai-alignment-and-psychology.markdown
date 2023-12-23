@@ -1,7 +1,7 @@
 ---
 layout: single
-title: "Notes on linear regression"
-date: 2023-12-21 15:00:00 +0800
+title: "Notes on AI alignment and psychology, Pt. I"
+date: 2023-12-22 22:00:00 +0800
 classes: wide
 toc: true
 categories:
