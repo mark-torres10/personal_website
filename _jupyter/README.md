@@ -42,3 +42,5 @@ categories:
 permalink: /machine_learning/predicting-house-prices-linear-regression
 ---
 ```
+
+Any images that are compiled should be moved over to be in the same path as the markdown file as well.
