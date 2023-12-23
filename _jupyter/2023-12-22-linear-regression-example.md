@@ -1,14 +1,3 @@
----
-layout: single
-title: "Predicting house prices using linear regression: an example"
-date: 2023-12-22 17:00:00 +0800
-classes: wide
-toc: true
-categories:
-  - machine_learning
-permalink: /machine_learning/predicting-house-prices-linear-regression
----
-
 # Predicting housing prices using linear regression
 
 We are using linear regression in order to predict housing prices from an example Kaggle dataset.
@@ -161,7 +150,7 @@ sns.histplot(df["median_house_value"], bins=50)
 
     <Axes: xlabel='median_house_value', ylabel='Count'>
 
-![png](/assets/images/2023-12-22-linear-regression-example_files/2023-12-22-linear-regression-example_9_1.png)
+![png](2023-12-22-linear-regression-example_files/2023-12-22-linear-regression-example_9_1.png)
 
 It looks like the distribution has a heavy right skew. The large number of values at 500,000 is likely a matter of coding, where anything >$500,000 was just coded as 500,000.
 
@@ -218,7 +207,7 @@ sns.histplot(df["median_house_value"], bins=50)
 
     <Axes: xlabel='median_house_value', ylabel='Count'>
 
-![png](/assets/images/2023-12-22-linear-regression-example_files/2023-12-22-linear-regression-example_17_1.png)
+![png](2023-12-22-linear-regression-example_files/2023-12-22-linear-regression-example_17_1.png)
 
 Now the spike in the values after 500,000 is gone, but there is still a right skew. Let's log-transform the y-values in order to fix this.
 
@@ -233,7 +222,7 @@ sns.histplot(y, bins=50)
 
     <Axes: xlabel='median_house_value', ylabel='Count'>
 
-![png](/assets/images/2023-12-22-linear-regression-example_files/2023-12-22-linear-regression-example_20_1.png)
+![png](2023-12-22-linear-regression-example_files/2023-12-22-linear-regression-example_20_1.png)
 
 This still has some skew, but it is a big improvement over our previous output variable. The lower the skewness of the underlying distribution, the more likely it is that the residuals will actually follow a normal distribution, which is a fundamental assumption of regression.
 
@@ -364,7 +353,7 @@ for i, col in enumerate(columns):
     sns.boxplot(x=col, data=X, ax=axes[i])
 ```
 
-![png](/assets/images/2023-12-22-linear-regression-example_files/2023-12-22-linear-regression-example_29_0.png)
+![png](2023-12-22-linear-regression-example_files/2023-12-22-linear-regression-example_29_0.png)
 
 For some of these features, there are clearly some outlier values. We may benefit from doing a log transform of the values since there are so many outliers that we can't filter them. Another approach that may be more robust is to separate the rows that do not have outlier values from those that do, and do a linear regression solely on the rows that do not have outlier values and then do a separate model for those that do have outlier values.
 
@@ -404,7 +393,7 @@ sns.heatmap(X.corr(), annot=True)
 
     <Axes: >
 
-![png](/assets/images/2023-12-22-linear-regression-example_files/2023-12-22-linear-regression-example_36_1.png)
+![png](2023-12-22-linear-regression-example_files/2023-12-22-linear-regression-example_36_1.png)
 
 As we can see here, the `total_rooms`, `total_bedrooms`, `population`, and `households` are really highly correlated with each other. If we think about it, this makes sense - the larger the population, the more households there are. The more households there are, the more total bedrooms there are, and the more total bedrooms there are, the more total rooms there are.
 
@@ -431,7 +420,7 @@ sns.heatmap(data.corr(), annot=True)
 
     <Axes: >
 
-![png](/assets/images/2023-12-22-linear-regression-example_files/2023-12-22-linear-regression-example_41_1.png)
+![png](2023-12-22-linear-regression-example_files/2023-12-22-linear-regression-example_41_1.png)
 
 From the looks of it, `median_income` is the most correlated to `median_house_price`. Logically this makes sense - the higher a community's income, the more expensive the homes in the community likely are. We also see that `housing_median_age` is not correlated with `median_housing_price`, which also makes sense - it's not the age of the homebuyer that matters but rather the features of the home itself (like the `total_rooms`, which has some slight correlation).
 
@@ -443,11 +432,11 @@ for col in X.columns:
     plt.show()
 ```
 
-![png](/assets/images/2023-12-22-linear-regression-example_files/2023-12-22-linear-regression-example_44_0.png)
+![png](2023-12-22-linear-regression-example_files/2023-12-22-linear-regression-example_44_0.png)
 
-![png](/assets/images/2023-12-22-linear-regression-example_files/2023-12-22-linear-regression-example_44_1.png)
+![png](2023-12-22-linear-regression-example_files/2023-12-22-linear-regression-example_44_1.png)
 
-![png](/assets/images/2023-12-22-linear-regression-example_files/2023-12-22-linear-regression-example_44_2.png)
+![png](2023-12-22-linear-regression-example_files/2023-12-22-linear-regression-example_44_2.png)
 
 The scatterplots reinforce what we already observed from the correlation matrix and give us some indication of how each feature variable relates to the median home price. We can later superimpose the coefficients created by our regression model against these scatterplots to see how well the coefficients for each parameter reflect the underlying data.
 
@@ -636,7 +625,7 @@ sns.histplot(y_validation_true_prices.values[:,0], bins=20)
 
     <Axes: ylabel='Count'>
 
-![png](/assets/images/2023-12-22-linear-regression-example_files/2023-12-22-linear-regression-example_73_1.png)
+![png](2023-12-22-linear-regression-example_files/2023-12-22-linear-regression-example_73_1.png)
 
 ```python
 # predicted prices
@@ -645,7 +634,7 @@ sns.histplot(y_pred_true_prices[:,0], bins=20)
 
     <Axes: ylabel='Count'>
 
-![png](/assets/images/2023-12-22-linear-regression-example_files/2023-12-22-linear-regression-example_74_1.png)
+![png](2023-12-22-linear-regression-example_files/2023-12-22-linear-regression-example_74_1.png)
 
 ```python
 # boxplot of predicted prices
@@ -654,7 +643,7 @@ sns.boxplot(x=y_pred_true_prices[:,0])
 
     <Axes: >
 
-![png](/assets/images/2023-12-22-linear-regression-example_files/2023-12-22-linear-regression-example_75_1.png)
+![png](2023-12-22-linear-regression-example_files/2023-12-22-linear-regression-example_75_1.png)
 
 ```python
 # plot against each other
@@ -663,7 +652,7 @@ sns.scatterplot(x=y_pred_true_prices[:,0], y=y_validation_true_prices.values[:,0
 
     <Axes: >
 
-![png](/assets/images/2023-12-22-linear-regression-example_files/2023-12-22-linear-regression-example_76_1.png)
+![png](2023-12-22-linear-regression-example_files/2023-12-22-linear-regression-example_76_1.png)
 
 As we can see, our model does OK at predicting prices that are lower in value, but it does a poor job overall at predicting our prices. Our model only really predicts prices for home <$100,000, and even then it is not the best at doing so. Our R-squared happens to be as high as it is likely because most of the homes fall within this range. Our model consistently underestimates the prices of homes once their price is greater than $100,000.
 
@@ -696,7 +685,7 @@ sns.histplot(residuals, bins=20)
 
     <Axes: ylabel='Count'>
 
-![png](/assets/images/2023-12-22-linear-regression-example_files/2023-12-22-linear-regression-example_82_1.png)
+![png](2023-12-22-linear-regression-example_files/2023-12-22-linear-regression-example_82_1.png)
 
 Though there is a large left skew, we know that the model is imperfect and the left skew is likely accounting for the cases where the model severely underestimates the actual home price (i.e., the model consistently returns prices in the ~$100,000 range even for homes that are $300,000+). We've discussed this limitation already and know how to address it, so this plot doesn't tell us information that we don't already know. Otherwise, it appears that the errors do have a normal distribution, so our result is OK.
 
@@ -735,7 +724,7 @@ plt.grid(True)
 plt.show()
 ```
 
-![png](/assets/images/2023-12-22-linear-regression-example_files/2023-12-22-linear-regression-example_88_0.png)
+![png](2023-12-22-linear-regression-example_files/2023-12-22-linear-regression-example_88_0.png)
 
 In this case, we see that for the majority of our dataset, the homoscedasticity assumption is met. We see errors greatly increasing for higher values of predicted values though, which violates the homoscedasticity requirement. However, this is likely due to the same limitations mentioned previously.
 
