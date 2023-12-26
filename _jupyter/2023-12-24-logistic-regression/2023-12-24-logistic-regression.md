@@ -1,17 +1,7 @@
----
-layout: single
-title: "Detecting credit card fraud using machine learning: Part I"
-date: 2023-12-24 14:00:00 +0800
-classes: wide
-toc: true
-categories:
-  - machine_learning
-permalink: /machine_learning/detecting-fraud-using-ml-pt1
----
-
 # Detecting credit card fraud using machine learning: Part I
 
 In this example, we'll create a model that will help us detect credit card fraud. This is a classic application of machine learning that is illustrative of the type of work that goes into creating a useful machine learning model. We will then host this as an API endpoint using Google Cloud (in Part II). We'll also create an end-to-end ML pipeline for model training, experimentation, deployment, and monitoring (using [this repo](https://github.com/DataTalksClub/mlops-zoomcamp) as a running resource) (in Part III).
+
 
 ## Motivation
 
@@ -22,11 +12,16 @@ Fraud detection is a classic example of a problem solved using classification al
 3. Imbalanced datasets: credit card fraud is (thankfully) a relatively rare occurrence, so detecting fraud requires managing imbalanced datasets.
 4. Interpretability: since this problem is within a non-technical domain (finance), working on this project in industry will likely require talking with non-ML people. These people will likely be very interested in not only a model that can predict fraud, but also what the model looks for when it detects fraud. Therefore, we want a model that is interpretable.
 
+
 ## Setup and loading data
+
 
 For our data, we'll be using [this](https://www.kaggle.com/datasets/mishra5001/credit-card/data) dataset from Kaggle, which is a sample dataset for credit card fraud detection.
 
+
 Let's get our data loaded as well as import any missing packages
+
+
 
 ```python
 import pandas as pd
@@ -38,13 +33,18 @@ pd.set_option('display.max_colwidth', None)
 pd.set_option('display.width', None)
 ```
 
+
 ```python
 df = pd.read_csv("application_data.csv")
 ```
 
+
 ```python
 df.head()
 ```
+
+
+
 
 <div>
 <style scoped>
@@ -59,7 +59,6 @@ df.head()
     .dataframe thead th {
         text-align: right;
     }
-
 </style>
 <table border="1" class="dataframe">
   <thead>
@@ -819,18 +818,27 @@ df.head()
 </table>
 </div>
 
+
+
 Notes:
 
 - Convert all `DAYS_X` fields to their year equivalents (as floats, rounded to nearest hundredth)
 - Figure out scheme for managing NaNs (e.g., for `OWN_CAR_AGE`, NaN means they don't have a car, so can possibly keep the NaNs and have a new indicator column).
 
+
 ## What type of data do we have?
 
+
 Let's now take a quick look at our data
+
+
 
 ```python
 df[df["TARGET"] == 1].head()
 ```
+
+
+
 
 <div>
 <style scoped>
@@ -845,7 +853,6 @@ df[df["TARGET"] == 1].head()
     .dataframe thead th {
         text-align: right;
     }
-
 </style>
 <table border="1" class="dataframe">
   <thead>
@@ -1605,13 +1612,19 @@ df[df["TARGET"] == 1].head()
 </table>
 </div>
 
+
+
 What features do we have available in our data? We can look at the `columns_description.csv` file in order to see what the features are.
+
+
 
 ```python
 column_descriptions = pd.read_csv("columns_description.csv")
 ```
 
 This describes the features in our dataset. For our use case, we'll only look at the data in `application_data.csv`.
+
+
 
 ```python
 column_descriptions = column_descriptions[column_descriptions['Table'] == "application_data"][["Row", "Description", "Special"]]
@@ -1635,11 +1648,16 @@ Broadly speaking, we can divide the data about these clients into the following 
 9. The type of people who are around the client
    How many people in the client's social circle (how this is defined isn't really specified)
 
+
 I've observed that data scientists just deep-dive into feature extraction, imputing missing data, doing correlations, etc., without really spending time to understand the features, and I think this is a crucial mistake. There are a variety of factors, such as algorithm choice (e.g., stepwise regression is a greedy algorithm), data collection details (e.g., errors in gathering data, quirks in how the data is represented, data quality issues upstream, etc.), and relationships between features, all of which can affect the result of your work.
 
 The hardest part of a data scientist's job is, in my experience, not the coding or the math or the machine learning, but in fact the critical thinking needed to use these tools correctly. Data science solves business problems, so it helps to step back and have some understanding of the problem being solved.
 
+
 Our output variable
+
+
+
 
 ## Exploratory data analysis through hypothesis generation
 
@@ -1647,7 +1665,9 @@ For data science projects, I believe that it's most helpful if, during your expl
 
 Put differently, it's a good idea to, before starting exploration, think about what things "make sense" and "should" correlate with our output variable, and start our explorations from there. For example, what factors would logically relate to the probability that a person defaults on their loans?
 
+
 ### A brief discussion on data assumptions in machine learning
+
 
 #### Is past behavior predictive of future behavior?
 
@@ -1679,6 +1699,7 @@ How this affects the data is dependent on the use for our current algorithm. Our
 
 This belief is at the root of why, for example, characteristics such as race, gender, and sexual orientation are considered protected classes - immutable characteristics shouldn't be used in cases [...], especially if it is used to negatively affect historically marginalized groups. In fact, many relationships in the data linking these protected classes to certain outcomes are often times due to problems such as lack of equity, diversity, and inclusion towards marginalized groups, such as Amazon's [hiring algorithm](https://www.ml.cmu.edu/news/news-archive/2016-2020/2018/october/amazon-scraps-secret-artificial-intelligence-recruiting-engine-that-showed-biases-against-women.html) that biased male names over female names, [facial recognition systems](https://news.mit.edu/2018/study-finds-gender-skin-type-bias-artificial-intelligence-systems-0212) performing poorly on black faces (and especially on black women), and [AI-powered lending practices compounding past and present biases](https://www.brookings.edu/articles/credit-denial-in-the-age-of-ai/) in credit lending against [marginalized groups](https://www.brookings.edu/articles/reducing-bias-in-ai-based-financial-services/).
 
+
 ### What factors correlate to loan default rates?
 
 A quick Google search says that the following factors can increase the odds of a person defaulting on their loans:
@@ -1686,9 +1707,11 @@ A quick Google search says that the following factors can increase the odds of a
 1. factor 1
 2. factor 2
 
+
 ### What are some things that people who default on their loans generally have in common?
 
 We can inspect our data...
+
 
 ### What kind of people default on their loan rates?
 
@@ -1696,9 +1719,15 @@ There are likely multiple different kinds of people who default on their loans, 
 
 - **Author's Note**: This has the added benefit of giving us the option of splitting up our problem into subproblems and, for example, creating different models for each subgroup, as well as condering interactions between different factors (e.g., factor X may not be predictive of loan defaults unless factor Y is present).
 
+
 #### Person 1:
 
+
 #### Person 2:
+
+
+
+
 
 ```python
 
@@ -1706,12 +1735,30 @@ There are likely multiple different kinds of people who default on their loans, 
 
 ## Data preprocessing
 
+
+
+
 ## Dealing with data imbalances
+
+
+
 
 ## Model development
 
+
+
+
 ## Model evaluation and iteration
+
+
+
 
 ## Model interpretation
 
+
+
+
 ## Summary and next steps
+
+
+
