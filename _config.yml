@@ -104,9 +104,9 @@ analytics:
 author:
   name             : "Mark Torres"
   avatar           : "assets/images/self_photo_cropped.png"
-  bio              : "Digital nomad, writing code that does stuff."
+  bio              : "ML engineering @Northwestern. Using ML to better understand human behavior on social media. Digital nomad, writing code that does stuff sometimes."
   location         : "Philippines | US | Remote"
-  email            : "markptorres1@duck.com"
+  email            : "markptorres1[at]gmail.com"
   links:
     - label: "Email"
       icon: "fas fa-fw fa-envelope-square"
@@ -116,7 +116,7 @@ author:
       url: "https://markptorres.com"
     - label: "Twitter"
       icon: "fab fa-fw fa-twitter-square"
-      url: "https://twitter.com/markptorres1"
+      url: "https://twitter.com/markptorres"
     - label: "Facebook"
       icon: "fab fa-fw fa-facebook-square"
       # url: "https://facebook.com/"
@@ -132,7 +132,7 @@ footer:
   links:
     - label: "Twitter"
       icon: "fab fa-fw fa-twitter-square"
-      url: "https://twitter.com/markptorres1"
+      url: "https://twitter.com/markptorres"
     - label: "Facebook"
       icon: "fab fa-fw fa-facebook-square"
       # url:
