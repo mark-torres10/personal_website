@@ -46,7 +46,7 @@ All of the fields in the JSON must be present for the response to be valid, and 
 ```
 
 For many political posts, like the following, this approach actually works decently well:
-![Political Bluesky post](assets/images/political_post_plain.png "Political Bluesky post") 
+![Political Bluesky post](/assets/images/political_post_plain.png "Political Bluesky post") 
 
 Here is the prompt to the LLM for that post:
 ```plaintext
@@ -89,7 +89,7 @@ Here's what the LLM said:
 ```
 
 It also is good for the majority of cases that don't discuss political content:
-![Non-political Bluesky post](assets/images/not_political_post.png "Non-political Bluesky post") 
+![Non-political Bluesky post](/assets/images/not_political_post.png "Non-political Bluesky post") 
 
 Here's what the LLM said:
 ```python
@@ -102,7 +102,7 @@ Here's what the LLM said:
 ```
 
 I've tried this approach, but it ends up failing on posts like this:
-![Example Bluesky post](assets/images/sample_post_no_context.png "Example Bluesky post")
+![Example Bluesky post](/assets/images/sample_post_no_context.png "Example Bluesky post")
 
 If we ask this to the LLM, we get the following response:
 ```python
@@ -115,14 +115,14 @@ If we ask this to the LLM, we get the following response:
 ```
 
 If, however, we look at the entire post, we can see that there's context that we're missing, specifically the wider thread that it is a part of:
-![Example Bluesky post (with thread context)](assets/images/sample_post_context.png "Example Bluesky post (with thread context)")
+![Example Bluesky post (with thread context)](/assets/images/sample_post_context.png "Example Bluesky post (with thread context)")
 
 However, looking at just the post text itself isn't enough. If we look at the thread that the post is a part of, we as humans can clearly tell this post is replying to another post and, if we know what post it's replying to, we can clearly tell that it's political and left-leaning.
 
 For these posts, the text in and of itself inherently is insufficient. Here's some more examples that the LLM would've classified incorrectly:
 
-![Example Bluesky post without context](assets/images/sample_post_no_context_2.png "Example Bluesky post without context")
-![Example Bluesky post without context](assets/images/sample_post_no_context_3.png "Example Bluesky post without context")
+![Example Bluesky post without context](/assets/images/sample_post_no_context_2.png "Example Bluesky post without context")
+![Example Bluesky post without context](/assets/images/sample_post_no_context_3.png "Example Bluesky post without context")
 
 Just by looking at the text of the post themselves, it would've been impossible for the LLM to classify these correctly. For the first image, the LLM doesn't have the appropriate knowledge cutoff to classify this correct:
 
@@ -155,7 +155,7 @@ This tells us that a way to improve our approach towards classification is to al
 
 
 If we take our previous example:
-![Example Bluesky post](assets/images/sample_post_no_context.png "Example Bluesky post")
+![Example Bluesky post](/assets/images/sample_post_no_context.png "Example Bluesky post")
 
 whose previous classification without context is
 ```python
@@ -184,7 +184,7 @@ My initial testing didn't include current events context, since that'll be a bit
 ### Example prompts using context
 
 We can look at some examples of prompts and see how it's changed with context. For example, we can look at one of our example posts:
-![Example Bluesky post](assets/images/sample_post_no_context.png "Example Bluesky post")
+![Example Bluesky post](/assets/images/sample_post_no_context.png "Example Bluesky post")
 
 Here's the prompt without context:
 
@@ -293,7 +293,7 @@ Here is the new classification:
 The LLM does identify the post as sociopolitical, but it can't classify the ideology. This is a case where additional current events context would help.
 
 Here is another example of a post:
-![Example Bluesky post without context](assets/images/sample_post_no_context_2.png "Example Bluesky post without context")
+![Example Bluesky post without context](/assets/images/sample_post_no_context_2.png "Example Bluesky post without context")
 
 This is the prompt for the post:
 ```
