@@ -308,7 +308,7 @@ This creates a JSON object that looks like this:
 
 If we take a post that we looked at last time:
 
-![Example Bluesky post](assets/images/sample_post_no_context_2.png "Example Bluesky post")
+![Example Bluesky post](/assets/images/sample_post_no_context_2.png "Example Bluesky post")
 
 We can see what the new prompt to the LLM will look like:
 
