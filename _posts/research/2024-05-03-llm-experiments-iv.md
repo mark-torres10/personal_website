@@ -14,7 +14,7 @@ I'm working on a project that involves gathering social media posts from [Bluesk
 
 Previously, I've tried using just naive text classification and then afterwards adding context to the classifications. Now that I've shown that individual prompts work, I've also worked on how to include batching and adding some (simple) scaling for the prompts. I then added a service for getting current news coverage from different news orgs across the political spectrum and created an interface for surfacing relevant articles given a query.
 
-Currently, I'm working on (1) getting the data for our annotations and (2) updating the LLM inference pipeline.
+Currently, I'm working on figuring out what data we want for annotation and inference as well as gathering said data.
 
 ### Defining our annotation task
 
@@ -103,14 +103,323 @@ In the immediate future, while figuring out the pros and cons of these approache
 ### Collecting the data to be annotated
 I'll collect posts from the most liked feeds as well as the list of conservative profiles in order to create a preliminary dataset. I'll address how to get other conservative data later on, but for now I'll just collect the data that needs to be annotated.
 
-#### Custom feeds in Bluesky
+I'll collect data from two Bluesky feeds, the [Daily Catch-Up Feed](https://bsky.app/profile/did:plc:tenurhgjptubkk5zf5qhi3og/feed/catch-up) and the [Week Peak Feed](https://bsky.app/profile/did:plc:tenurhgjptubkk5zf5qhi3og/feed/catch-up-weekly), consisting of the posts with the most likes in a given day/week respectively.
 
-### Updating the LLM inference pipeline
+Let's do some setup:
 
-### Putting it all together
+```python
+feed_to_info_map = {
+    "today": {
+        "description": "Most popular posts from the last 24 hours",
+        "url": "https://bsky.app/profile/did:plc:tenurhgjptubkk5zf5qhi3og/feed/catch-up"
+    },
+    "week": {
+        "description": "Most popular posts from the last 7 days",
+        "url": "https://bsky.app/profile/did:plc:tenurhgjptubkk5zf5qhi3og/feed/catch-up-weekly"
+    }
+}
+
+current_directory = os.path.dirname(os.path.abspath(__file__))
+current_datetime_str = current_datetime.strftime("%Y-%m-%d-%H:%M:%S")
+sync_dir = "syncs"
+sync_fp = os.path.join(current_directory, sync_dir, f"most_liked_posts_{current_datetime_str}.jsonl")
+```
+
+The endpoint that we care about is defined in the `client.app.bsky.feed.get_feed` function, whose expected params are defined [here](https://github.com/MarshalX/atproto/blob/main/packages/atproto_client/models/app/bsky/feed/get_feed.py#L18). 
+
+We want to wrap this in a function that lets us send requests with appropriate pagination:
+
+```python
+def send_request_with_pagination(
+    func: Callable,
+    kwargs: dict,
+    response_key: str,
+    args: Optional[tuple] = (),
+    limit: Optional[int] = None,
+    update_params_directly: bool = False,
+    silence_logs: bool = False
+) -> list:
+    """Implement a request with pagination.
+
+    Useful for endpoints that return a cursor and a list of results.
+
+    Based on https://github.com/MarshalX/atproto/blob/main/examples/advanced_usage/handle_cursor_pagination.py
+    """  # noqa
+    cursor = None
+    total_fetched: int = 0
+
+    total_results = []
+
+    if limit is None:
+        limit = DEFAULT_MAX_TOTAL_RESULTS_LIMIT
+
+    total_to_fetch: int = limit
+
+    if (
+        limit > MAX_POSTS_PER_REQUEST
+        and limit != DEFAULT_MAX_TOTAL_RESULTS_LIMIT
+        and not silence_logs
+    ):
+        print(
+            f"Limit of {limit} exceeds the maximum of {MAX_POSTS_PER_REQUEST}."
+        )
+        print(f"Will batch requests in chunks of {MAX_POSTS_PER_REQUEST}.")
+
+    request_limit = min(limit, MAX_POSTS_PER_REQUEST)
+
+    while True:
+        if not silence_logs:
+            print(f"Fetching {request_limit} results, out of total max of {limit}...") # noqa
+        if update_params_directly:
+            kwargs["params"].update({"cursor": cursor, "limit": request_limit})
+        else:
+            kwargs.update({"cursor": cursor, "limit": request_limit})
+        res = func(*args, **kwargs)
+        results: list = getattr(res, response_key)
+        assert isinstance(results, list)
+        num_fetched = len(results)
+        total_fetched += num_fetched
+        total_results.extend(results[:total_to_fetch])
+        total_to_fetch -= num_fetched
+        if not res.cursor:
+            break
+        if total_fetched >= limit:
+            print(f"Total fetched results: {total_fetched}")
+            break
+        cursor = res.cursor
+
+    return total_results
+```
+
+Using this, our function becomes straightforward. We set our "limit" to None so we get all the posts from the feeds.
+```python
+def get_posts_from_custom_feed(
+    feed_uri: str,
+    limit: Optional[int] = None,
+    cursor: Optional[str] = None
+) -> list[FeedViewPost]:
+    """Given the URI of a post, get the posts from the feed."""
+    kwargs = {"feed": feed_uri}
+    res: list[FeedViewPost] = send_request_with_pagination(
+        func=client.app.bsky.feed.get_feed,
+        kwargs={"params": kwargs},
+        response_key="feed",
+        limit=limit,
+        update_params_directly=True
+    )
+    return res
+```
+
+When we grab the post, we also want to add a few other fields that will help us know when we synced the posts as well as at what URL the post can be found:
+```python
+def create_new_feedview_post_fields(
+    post: FeedViewPost, source_feed: Literal["today", "week"]
+) -> dict:
+    res = {}
+    handle = post.post.author.handle
+    uri = post.post.uri.split("/")[-1]
+    res["url"] = f"https://bsky.app/profile/{handle}/post/{uri}"
+    metadata: dict = {
+        "source_feed": source_feed, "synctimestamp": current_datetime_str
+    }
+    res["metadata"] = metadata
+    return res
+
+
+def process_feedview_posts(
+    posts: list[FeedViewPost], source_feed: Literal["today", "week"]
+) -> list[dict]:
+    return [
+        {
+            **post.dict(),
+            **create_new_feedview_post_fields(
+                post=post, source_feed=source_feed
+            )
+        }
+        for post in posts
+    ]
+```
+
+Now we can put it all together:
+```python
+def get_latest_most_liked_posts() -> list[dict]:
+    """Get the latest batch of most liked posts."""
+    res: list[dict] = []
+    for feed in ["today", "week"]:
+        feed_url = feed_to_info_map[feed]["url"]
+        print(f"Getting most liked posts from {feed} feed with URL={feed_url}")
+        posts: list[FeedViewPost] = get_posts_from_custom_feed_url(
+            feed_url=feed_url, limit=None
+        )
+        processed_posts: list[dict] = process_feedview_posts(
+            posts=posts, source_feed=feed
+        )
+        res.extend(processed_posts)
+        print(f"Finished processing {len(posts)} posts from {feed} feed")
+    return res
+
+
+def export_posts(posts: list[dict]) -> None:
+    """Export the posts to a file."""
+    with open(sync_fp, "w") as f:
+        for post in posts:
+            post_json = json.dumps(post)
+            f.write(post_json + "\n")
+    num_posts = len(posts)
+    print(f"Wrote {num_posts} posts to {sync_fp}")
+
+
+if __name__ == "__main__":
+    posts: list[dict] = get_latest_most_liked_posts()
+    export_posts(posts)
+```
+
+If we look at the output we can see that we successfully synced the posts:
+```plaintext
+>>> python helper.py
+Finished processing 995 posts from today feed
+Finished processing 986 posts from week feed
+Wrote 1981 posts to /Users/mark/Documents/work/bluesky-research/services/sync/most_liked_posts/syncs/most_liked_posts_2024-05-07-12:19:13.jsonl
+```
+
+### Storing data into MongoDB
+Let's store our data into MongoDB. This'll give us a NoSQL store to store our data as JSONs.
+
+We first need to start by [creating a MongoDB account](https://www.mongodb.com/docs/guides/atlas/account/). Then, we'll create a database, called "bluesky_research_posts":
+
+![MongoDB database image](/assets/images/mongodb_database_img.png)
+
+We'll now set up the connection to MongoDB in Python:
+
+```python
+mongodb_uri = MONGODB_URI
+mongo_db_name = "bluesky-research-posts"
+mongo_collection_name = "most_liked_posts"
+
+mongodb_client = MongoClient(mongodb_uri)
+mongo_db = mongodb_client[mongo_db_name]
+mongo_collection = mongo_db[mongo_collection_name]
+```
+We can now write the posts directly to MongoDB. We want the URI to be the primary key
+```python
+def insert_chunks(operations, chunk_size=100):
+    """Insert collections into MongoDB in chunks."""
+    total_successful_inserts = 0
+    duplicate_key_count = 0
+
+    for i in range(0, len(operations), chunk_size):
+        chunk = operations[i:i + chunk_size]
+        try:
+            result = mongo_collection.bulk_write(chunk, ordered=False)
+            total_successful_inserts += result.inserted_count
+        except BulkWriteError as bwe:
+            total_successful_inserts += bwe.details['nInserted']
+            duplicate_key_count += len(bwe.details['writeErrors'])
+
+    return total_successful_inserts, duplicate_key_count
+
+
+def export_posts(
+    posts: list[dict],
+    store_local: bool = True,
+    store_remote: bool = True,
+    bulk_write_remote: bool = True,
+    bulk_chunk_size: int = 100
+) -> None:
+    """Export the posts to a file, either locally as a JSON or remote in a
+    MongoDB collection."""
+    if store_local:
+        print(f"Writing {len(posts)} posts to {sync_fp}")
+        with open(sync_fp, "w") as f:
+            for post in posts:
+                post_json = json.dumps(post)
+                f.write(post_json + "\n")
+        num_posts = len(posts)
+        print(f"Wrote {num_posts} posts locally to {sync_fp}")
+
+    if store_remote:
+        duplicate_key_count = 0
+        total_successful_inserts = 0
+        total_posts = len(posts)
+        print(f"Inserting {total_posts} posts to MongoDB collection {mongo_collection_name}") # noqa
+        formatted_posts_mongodb = [
+            {"_id": post["post"]["uri"], **post}
+            for post in posts
+        ]
+        if bulk_write_remote:
+            print("Inserting into MongoDB in bulk...")
+            mongodb_operations = [
+                InsertOne(post) for post in formatted_posts_mongodb
+            ]
+            total_successful_inserts, total_successful_inserts = insert_chunks(
+                operations=mongodb_operations, chunk_size=bulk_chunk_size
+            )
+            print("Finished bulk inserting into MongoDB.")
+        else:
+            for idx, post in enumerate(posts):
+                if idx % 100 == 0:
+                    print(f"Inserted {idx}/{total_posts} posts")
+                try:
+                    post_uri = post["post"]["uri"]
+                    # set the URI as the primary key.
+                    # NOTE: if this doesn't work, check if the IP address has
+                    # permission to access the database.
+                    mongo_collection.insert_one(
+                        {"_id": post_uri, **post},
+                    )
+                    total_successful_inserts += 1
+                except DuplicateKeyError:
+                    duplicate_key_count += 1
+            if duplicate_key_count > 0:
+                print(f"Skipped {duplicate_key_count} duplicate posts")
+        print(f"Inserted {total_successful_inserts} posts to remote MongoDB collection {mongo_collection_name}") # noqa
+
+
+def dump_most_recent_local_sync_to_remote() -> None:
+    """Dump the most recent local sync to the remote MongoDB collection."""
+    sync_files = os.listdir(os.path.join(current_directory, sync_dir))
+    most_recent_filename = sorted(sync_files)[-1]
+    sync_fp = os.path.join(current_directory, sync_dir, most_recent_filename)
+    print(f"Reading most recent sync file {sync_fp}")
+    with open(sync_fp, "r") as f:
+        posts: list[dict] = [json.loads(line) for line in f]
+    export_posts(posts=posts, store_local=False, store_remote=True)
+```
+
+If we run this, we get the following:
+
+```plaintext
+Inserted 0/1979 posts
+Inserted 100/1979 posts
+Inserted 200/1979 posts
+Inserted 300/1979 posts
+Inserted 400/1979 posts
+Inserted 500/1979 posts
+Inserted 600/1979 posts
+Inserted 700/1979 posts
+Inserted 800/1979 posts
+Inserted 900/1979 posts
+Inserted 1000/1979 posts
+Inserted 1100/1979 posts
+Inserted 1200/1979 posts
+Inserted 1300/1979 posts
+Inserted 1400/1979 posts
+Inserted 1500/1979 posts
+Inserted 1600/1979 posts
+Inserted 1700/1979 posts
+Inserted 1800/1979 posts
+Inserted 1900/1979 posts
+Skipped 115 duplicate posts
+Inserted 1864 posts to remote MongoDB collection most_liked_posts
+```
+
+This now lets us write the synced posts to our MongoDB collection. We can take a look at the posts in the collection:
+
+![MongoDB database image](/assets/images/mongodb_collection_img.png)
 
 ### Next steps
-Next, I'd like to go back to other improvements for the process, such as:
+Now that we have the posts to label and have stored them both locally and in a remote MongoDB database, I want to be able to classify them at scale. Then, I'd like to go back to other improvements for the process. What I'd like to do is:
+- Updating and refactoring the LLM pipeline to label the posts efficiently at scale.
 - How does our model perform with other LLMs (e.g., Mixtral)?
 - Can we experiment with optimizing the prompt (e.g, with [dspy](https://github.com/stanfordnlp/dspy))?
 
