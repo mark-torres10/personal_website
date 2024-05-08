@@ -850,7 +850,7 @@ local_fasttext_labels: list[dict] = classify_posts(
 The `fasttext` model is by far the fastest out of all the ones that I tried. Given that this was developed at Facebook and that they would need to massively classify language at scale, the `fasttext` model being fastest doesn't surprise me.
 
 ### What I ended up going with
-For our use case, language detection is actually made relatively simple, courtesy of the [PR](https://github.com/bluesky-social/atproto/pull/2301) to automatically add language detection. We can just filter on this field now in our models. Just in case there are some that haven't been classified (this can be the case with older posts), we can default to using our `fasttext` detection (though this should be a very rare occurrence, if at all).
+For our use case, language detection is actually made relatively simple, courtesy of the [PR](https://github.com/bluesky-social/atproto/pull/2301) to automatically add language detection. We can just filter on this field now in our models. Just in case there are some that haven't been classified (this can be the case with older posts), we can default to using our `fasttext` detection (though this should be a very rare occurrence, if at all; I encountered it in ~15-20 posts out of 2,000 in my latest sync).
 
 ```python
 def record_is_english(record: TransformedRecordModel) -> bool:
@@ -964,6 +964,17 @@ export_posts(
     bulk_write_remote=True
 )
 ```
+
+We get the following counts before and after filtering:
+
+```plaintext
+(Pdb) len(transformed_posts)
+1984
+(Pdb) len(filtered_posts)
+1595
+```
+
+So, this appears to have removed ~400 (~20\%) non-English posts.
 
 ## Next steps
 Now that we've cleaned up the code for loading posts and have more confidence in the robustness of our ETL pipeline, I want to be able to classify them at scale. Then, I'd like to go back to other improvements for the process. What I'd like to do is:
