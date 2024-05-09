@@ -1,7 +1,7 @@
 ---
 layout: single
 title:  "Experiments with LLM classification for political content (Part VI)"
-date:   2024-05-09 15:00:00 +0800
+date:   2024-05-08 20:00:00 +0800
 classes: wide
 toc: true
 categories:
