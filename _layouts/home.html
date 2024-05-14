@@ -10,7 +10,32 @@ layout: archive
 
 <h3 class="archive__subtitle">{{ site.data.ui-text[site.locale].recent_posts | default: "Recent Posts" }}</h3>
 
-{% if paginator %}
+{% assign all_posts = site.research | concat: site.self_education %}
+{% assign all_posts = all_posts | sort: 'date' | reverse %}
+
+{% assign posts_per_page = 5 %}
+{% assign num_pages = all_posts.size | divided_by: posts_per_page | ceil %}
+{% assign page_num = page.page_num | default: 1 %}
+{% assign start_index = posts_per_page | times: page_num | minus: posts_per_page %}
+{% assign end_index = posts_per_page | times: page_num %}
+{% assign paginated_posts = all_posts | slice: start_index, posts_per_page %}
+
+<div class="entries-list">
+  {% for post in paginated_posts %}
+    {% include archive-single.html type='list' %}
+  {% endfor %}
+</div>
+
+<div class="pagination">
+  {% if page_num > 1 %}
+    <a href="{{ site.baseurl }}{{ page.url | replace: 'index', page_num | minus: 1 }}" class="pagination__prev">Previous</a>
+  {% endif %}
+  {% if page_num < num_pages %}
+    <a href="{{ site.baseurl }}{{ page.url | replace: 'index', page_num | plus: 1 }}" class="pagination__next">Next</a>
+  {% endif %}
+</div>
+
+<!-- {% if paginator %}
   {% assign posts = paginator.posts %}
 {% else %}
   {% assign posts = site.posts %}
@@ -21,6 +46,6 @@ layout: archive
   {% for post in posts %}
     {% include archive-single.html type=entries_layout %}
   {% endfor %}
-</div>
+</div> -->
 
 {% include paginator.html %}
