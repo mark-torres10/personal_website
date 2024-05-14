@@ -26,7 +26,9 @@
     </h2>
     {% include page__meta.html type=include.type %}
     {% if post.excerpt %}<p class="archive__item-excerpt" itemprop="description">{{ post.excerpt | markdownify | strip_html | truncate: 160 }}</p>{% endif %}
-    <p class="archive__item-date">{{ post.date | date: "%B %-d, %Y" }}</p>
+    {% if post.content contains "<!--more-->" %}
+      <a href="{{ post.url | relative_url }}" class="btn btn--primary">Read more</a>
+    {% endif %}
     <p class="page__date"><strong>"Post date"</strong> <time class="dt-published" datetime="{{ post.date |  date: "%Y-%m-%d" }}">{{ post.date | date: date_format }}</time></p>
   </article>
 </div>
