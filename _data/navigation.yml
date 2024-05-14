@@ -1,20 +1,20 @@
 # main links
 main:
+  - title: "Research"
+    url: /research/
+  - title: "Self Education"
+    url: /self_education/
   - title: "Linear Algebra"
     url: /linear_algebra/
   - title: "Machine Learning"
     url: /machine_learning/
-  - title: "Research"
-    url: /research/
   - title: "Personal"
     url: /personal/
-  - title: "Self Education"
-    url: /self_education/
   # - title: "About"
   #   url: https://mmistakes.github.io/minimal-mistakes/about/
   # - title: "Sample Posts"
   #   url: /year-archive/
-  # - title: "Sample Collections"
-  #   url: /collection-archive/
-  # - title: "Sitemap"
-  #   url: /sitemap/
+  - title: "Sample Collections"
+    url: /collection-archive/
+  - title: "Sitemap"
+    url: /sitemap/
