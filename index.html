@@ -6,28 +6,3 @@ pagination:
   enabled: true
   per_page: 5
 ---
-
-<div class="home">
-  <h1>Hello!</h1>
-  <p>I'm Mark. Doing ML research and engineering at <a href="https://www.northwestern.edu">Northwestern</a>. In a previous life, I worked as a data scientist at <a href="https://www.setsail.co">SetSail</a>. Currently working on developing machine-learning algorithms for studying the spread of information on social media.</p>
-  
-  <h2>Recent posts</h2>
-  <ul class="post-list">
-    {% for post in paginator.posts %}
-      <li>
-        <h3><a href="{{ post.url }}">{{ post.title }}</a></h3>
-        <p>{{ post.excerpt | strip_html | truncate: 160 }}</p>
-        <p class="post-date">{{ post.date | date: "%B %-d, %Y" }}</p>
-      </li>
-    {% endfor %}
-  </ul>
-
-  <div class="pagination">
-    {% if paginator.previous_page %}
-      <a href="{{ paginator.previous_page_path }}" class="pagination__prev">Previous</a>
-    {% endif %}
-    {% if paginator.next_page %}
-      <a href="{{ paginator.next_page_path }}" class="pagination__next">Next</a>
-    {% endif %}
-  </div>
-</div>

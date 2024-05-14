@@ -27,7 +27,7 @@
     {% include page__meta.html type=include.type %}
     {% if post.excerpt %}<p class="archive__item-excerpt" itemprop="description">{{ post.excerpt | markdownify | strip_html | truncate: 160 }}</p>{% endif %}
     <p class="archive__item-date">{{ post.date | date: "%B %-d, %Y" }}</p>
-    {% if page.date %}<meta itemprop="datePublished" content="{{ page.date | date_to_xmlschema }}">{% endif %}
-    {% if page.last_modified_at %}<meta itemprop="dateModified" content="{{ page.last_modified_at | date_to_xmlschema }}">{% endif %}
+    {% if post.date %}<meta itemprop="datePublished" content="{{ post.date | date_to_xmlschema }}">{% endif %}
+    {% if post.last_modified_at %}<meta itemprop="dateModified" content="{{ post.last_modified_at | date_to_xmlschema }}">{% endif %}
   </article>
 </div>
