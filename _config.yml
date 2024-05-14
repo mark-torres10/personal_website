@@ -304,3 +304,36 @@ defaults:
       comments: # true
       share: true
       related: true
+  # _research
+  - scope:
+      path: ""
+      type: research
+    values:
+      layout: single
+      author_profile: true
+      read_time: true
+      comments: # true
+      share: true
+      related: true
+  # _self_education
+  - scope:
+      path: ""
+      type: self_education
+    values:
+      layout: single
+      author_profile: true
+      read_time: true
+      comments: # true
+      share: true
+      related: true
+  # _personal
+  - scope:
+      path: ""
+      type: personal
+    values:
+      layout: single
+      author_profile: true
+      read_time: true
+      comments: # true
+      share: true
+      related: true
