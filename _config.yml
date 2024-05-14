@@ -265,6 +265,11 @@ tag_archive:
 #   permalinks:
 #     category: /categories/:name/
 #     tag: /tags/:name/
+collections:
+  research:
+    output: true
+    permalink: /:collection/:path/
+
 
 
 # HTML Compression
