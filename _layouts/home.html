@@ -10,7 +10,7 @@ layout: archive
 
 <h3 class="archive__subtitle">{{ site.data.ui-text[site.locale].recent_posts | default: "Recent Posts" }}</h3>
 
-{% assign all_posts = site.research | concat: site.self_education %}
+<!-- {% assign all_posts = site.research | concat: site.self_education %}
 {% assign all_posts = all_posts | sort: 'date' | reverse %}
 
 {% assign posts_per_page = 5 %}
@@ -24,7 +24,7 @@ layout: archive
   {% for post in paginated_posts %}
     {% include archive-single.html type='list' %}
   {% endfor %}
-</div>
+</div> -->
 
 <!-- <div class="pagination">
   {% if paginator.previous_page %}
@@ -43,7 +43,7 @@ layout: archive
   {% endif %}
 </div> -->
 
-<!-- {% if paginator %}
+{% if paginator %}
   {% assign posts = paginator.posts %}
 {% else %}
   {% assign posts = site.posts %}
@@ -54,6 +54,6 @@ layout: archive
   {% for post in posts %}
     {% include archive-single.html type=entries_layout %}
   {% endfor %}
-</div> -->
+</div>
 
 {% include paginator.html %}
