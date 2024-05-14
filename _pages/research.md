@@ -6,4 +6,5 @@ permalink: /research/
 author_profile: false
 ---
 
-Sample document listing for the collection `_recipes`.
+Blog posts about research that I'm working on.
+
