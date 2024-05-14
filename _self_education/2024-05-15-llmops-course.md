@@ -6,6 +6,7 @@ classes: wide
 toc: true
 categories:
 - self_education
+- post
 permalink: /self_education/llm-course-day-1
 ---
 # LLMOps self-education, Day 1
