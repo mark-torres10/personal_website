@@ -85,6 +85,19 @@
   }
 }
 
+.archive__item-date {
+  margin-top: 0;
+  font-size: $type-size-6;
+
+  & + p {
+    text-indent: 0;
+  }
+
+  a {
+    position: relative;
+  }
+}
+
 .archive__item-teaser {
   position: relative;
   border-radius: $border-radius;
