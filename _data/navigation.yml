@@ -4,8 +4,6 @@ main:
     url: /research/
   - title: "Self Education"
     url: /self_education/
-  - title: "Linear Algebra"
-    url: /linear_algebra/
   - title: "Personal"
     url: /personal/
   # - title: "About"
