@@ -265,12 +265,23 @@ tag_archive:
 #   permalinks:
 #     category: /categories/:name/
 #     tag: /tags/:name/
-collections:
-  research:
-    output: true
-    permalink: /:collection/:path/
 
 
+# collections:
+#   research:
+#     output: true
+#     permalink: /:collection/:path/
+
+jekyll-archives:
+  enabled:
+    - categories
+    - tags
+  layouts:
+    category: archive-taxonomy
+    tag: archive-taxonomy
+  permalinks:
+    category: /categories/:name/
+    tag: /tags/:name/
 
 # HTML Compression
 # - https://jch.penibelst.de/
