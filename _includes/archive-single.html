@@ -29,5 +29,6 @@
     <p class="archive__item-date">{{ post.date | date: "%B %-d, %Y" }}</p>
     {% if post.date %}<meta itemprop="datePublished" content="{{ post.date | date_to_xmlschema }}">{% endif %}
     {% if post.last_modified_at %}<meta itemprop="dateModified" content="{{ post.last_modified_at | date_to_xmlschema }}">{% endif %}
+    {% include page__date.html type=include.type %}
   </article>
 </div>
