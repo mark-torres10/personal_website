@@ -290,6 +290,9 @@ tag_archive:
 
 
 collections:
+  post:
+    output: true
+    permalink: /:collection/:path/
   linear_algebra:
     output: true
     permalink: :collection/:path/
