@@ -4,10 +4,6 @@ main:
     url: /research/
   - title: "Self Education"
     url: /self_education/
-  - title: "Linear Algebra"
-    url: /linear_algebra/
-  - title: "Machine Learning"
-    url: /machine_learning/
   - title: "Personal"
     url: /personal/
   # - title: "About"
@@ -16,5 +12,3 @@ main:
   #   url: /year-archive/
   - title: "Sample Collections"
     url: /collection-archive/
-  - title: "Sitemap"
-    url: /sitemap/
