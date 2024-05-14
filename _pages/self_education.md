@@ -1,8 +1,8 @@
 ---
-layout: collection
 title: "Self Education"
-collection: self_education
+layout: collection
 permalink: /self_education/
+collection: self_education
 author_profile: false
 ---
 
