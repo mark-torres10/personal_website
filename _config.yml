@@ -271,10 +271,10 @@ tag_archive:
 collections:
   linear_algebra:
     output: true
-    permalink: /:collection/:path/
+    permalink: _posts/:collection/:path/
   machine_learning:
     output: true
-    permalink: /:collection/:path/
+    permalink: _posts/:collection/:path/
   research:
     output: true
     permalink: /:collection/:path/
