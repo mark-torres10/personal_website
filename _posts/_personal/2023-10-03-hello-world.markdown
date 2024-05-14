@@ -2,6 +2,11 @@
 layout: single
 title:  "'Hello World!' (properly this time)"
 date:   2023-10-03 15:00:00 +0800
+classes: wide
+toc: true
+categories:
+- personal
+permalink: /personal/2023-10-03-hello-world
 ---
 This is a proper `Hello World` if I've ever seen one.
 

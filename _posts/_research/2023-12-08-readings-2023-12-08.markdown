@@ -2,6 +2,11 @@
 layout: single
 title:  "Summary of \"Algorithm-mediated social learning in online social networks\""
 date:   2023-12-08 15:00:00 +0800
+classes: wide
+toc: true
+categories:
+- research
+permalink: /research/2023-12-08-readings
 ---
 
 ## Paper overview

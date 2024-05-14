@@ -2,6 +2,11 @@
 layout: single
 title:  "Working with Bluesky as a researcher"
 date:   2023-11-28 15:00:00 +0800
+classes: wide
+toc: true
+categories:
+- research
+permalink: /research/2023-11-28-working-with-bsky
 ---
 I'm currently doing research at Northwestern, studying how people engage with political content online on social media, especially how they relate to algorithmically curated content. We look at and answer questions such as how people become [more polarized](https://www.nature.com/articles/s41562-023-01550-8) or how they end up in [echo chambers](https://journals.sagepub.com/doi/pdf/10.1177/07439156221103852). A lot of research in this topic is necessarily reactive and correlational - people get a feed of posts, they comment, like, react, etc., and we look at their actions after the fact. There are ways to perform causal inference through experiments, such as recruiting participants to [participate in controlled experiments](https://www.nature.com/articles/s41598-022-23673-0) or [artificially manipulate the recommendation algorithms](https://arxiv.org/abs/2203.10666) of social media platforms. Some research teams at larger tech firms study these phenomena themselves - for example, Twitter studied [algorithmic amplification of political information](https://cdn.cms-twdigitalassets.com/content/dam/blog-twitter/official/en_us/company/2021/rml/Algorithmic-Amplification-of-Politics-on-Twitter.pdf) on their platform, finding that right-wing news experiences higher amplification on social media than other news sources.
 

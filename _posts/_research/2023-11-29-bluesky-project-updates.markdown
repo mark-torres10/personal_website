@@ -2,6 +2,11 @@
 layout: single
 title:  "Creating custom feeds in Bluesky: a data scientist's experience"
 date:   2023-11-29 15:00:00 +0800
+classes: wide
+toc: true
+categories:
+- research
+permalink: /research/2023-11-29-working-with-bsky
 ---
 Currently, as part of my research, I am investigating the possibility of manipulating
 people's social media algorithms and measuring their perceptions of political events around
