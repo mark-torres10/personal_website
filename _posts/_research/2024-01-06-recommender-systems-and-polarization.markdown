@@ -19,6 +19,9 @@ It depends, maybe? Research is still inconclusive. At the very least, it's not a
 #### Why do we need a recommendation algorithm?
 
 #### How do recommendation algorithms work?
+(how rec algos work)
+
+Recommendation algorithms historically have wanted to know which items users wanted to see more of (or were more likely to purchase). [Initial attempts](https://www.researchgate.net/publication/2314792_GroupLens_Applying_collaborative_filtering_to_Usenet_news) to do this asked, for example, explicit questons to try to understand user preferences. However, researchers quickly learned that instead of explicitly asking for user's preferences, we could use their activity (e.g., [which links users clicked on](https://static.googleusercontent.com/media/research.google.com/en//pubs/archive/35599.pdf)) as a more accurate metric of what users actually wanted (or, at the very least, what their actions say they wanted). Once social media came around, recommendation algorithms were a [well-established area of research](https://research.ibm.com/haifa/dept/imt/papers/guySIGIR10.pdf) and these algorithms used those findings to get people on the apps and to get them to come back.
 
 #### How do recommendation algorithms curate what you see on social media?
 
@@ -73,14 +76,20 @@ Some interventions change the recommendation algorithm design itself. For exampl
 
 A common thread behind these approaches is a desire to "upsample" desirable outcomes (e.g., posts that we want users to see) while "downsampling" undesirable outcomes (e.g., posts that promote polarization). This is similar to other work in the recommender algorithms literature (e.g., [Do et al. (2023)](https://arxiv.org/pdf/2210.09957.pdf) and [Zehlike and Castillo (2018)](https://arxiv.org/abs/1805.08716)) that look at how we can make these algorithms more fair (e.g., debiasing on race, gender, etc., see [Zehlike et al., (2020)](https://arxiv.org/pdf/2103.14000.pdf) for a survey of current research). 
 
-#### Changing the objective function of recommendation algorithms
+#### Changing the goals of recommendation algorithms
 Other work focuses on the objective functions of these recommendation algorithms. Normally, these prioritize "engagement", however that may be defined.
 (Stray - optimize human values)
 
-#### Explaining why the algorithm made its recommendations
+This plays into a larger discussion about whether an algorithm's goals are even aligned with what we want to measure in the first place. For example, traditional social media algorithms measure clicks as a way to measure what content people want to see. However, clicking on something doesn't necessarily mean that that's what people want to see on their feeds; for example, research has shown that people are more likely to engage with content that they find somehow [upsetting](https://www.nature.com/articles/s41562-023-01582-0) or [addictive](https://link.springer.com/article/10.1007/s40124-020-00236-3) online. Is this what people really want to see online? A [team at Twitter](https://arxiv.org/pdf/2008.12623.pdf) looked at this and trained an algorithm around measuring what people actually value instead of measuring just clicks.
+
+#### Increasing algorithmic transparency
 Much of machine learning is traditionally a "black box", where an algorithm can make a recommendation but we as users are unable to explain why it came to that recommendation. As black-box algorithms become more prevalent (e.g., [large language models](https://arxiv.org/abs/2310.00603)), [more work](https://orca.cardiff.ac.uk/id/eprint/152361/1/3561048.pdf) is being done to improve the explainability of these models.
 
+How does improved transparency affect how people engage with social media algorithsm? One study out of [Microsoft](https://www.cs.cornell.edu/people/tj/publications/schnabel_etal_20a.pdf) found that when people were explicitly able to update their recommendations through upvotes, they enjoyed their recommended feed more. (TODO - look at this paper for more sources to read up on).
+
 While we want to improve transparency of algorithms in general, is increased transparency helpful for reducing polarization? 
+
+
 
 ### Recommendation algorithms and the alignment problem
 
