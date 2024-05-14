@@ -26,14 +26,22 @@ layout: archive
   {% endfor %}
 </div>
 
-<div class="pagination">
+<!-- <div class="pagination">
+  {% if paginator.previous_page %}
+    <a href="{{ paginator.previous_page_path }}" class="pagination__prev">Previous</a>
+  {% endif %}
+  {% if paginator.next_page %}
+    <a href="{{ paginator.next_page_path }}" class="pagination__next">Next</a>
+  {% endif %} -->
+
+<!-- <div class="pagination">
   {% if page_num > 1 %}
     <a href="{{ site.baseurl }}{{ page.url | replace: 'index', page_num | minus: 1 }}" class="pagination__prev">Previous</a>
   {% endif %}
   {% if page_num < num_pages %}
     <a href="{{ site.baseurl }}{{ page.url | replace: 'index', page_num | plus: 1 }}" class="pagination__next">Next</a>
   {% endif %}
-</div>
+</div> -->
 
 <!-- {% if paginator %}
   {% assign posts = paginator.posts %}
