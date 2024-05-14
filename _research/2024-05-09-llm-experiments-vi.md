@@ -6,7 +6,7 @@ classes: wide
 toc: true
 categories:
 - research
-- post
+- all_posts
 permalink: /research/llm-experiments-pt-vi
 ---
 # Using LLMs to classify if social media posts are political or not (Part VI).
