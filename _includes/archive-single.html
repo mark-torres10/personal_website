@@ -29,6 +29,6 @@
     {% if post.content contains "<!--more-->" %}
       <a href="{{ post.url | relative_url }}" class="btn btn--primary">Read more</a>
     {% endif %}
-    <p class="page__date"><strong>Post date:</strong> {{ post.date | date: "%Y-%m-%d" }}</p>
+    <p class="page__date"><strong>Date:</strong> {{ post.date | date: "%Y-%m-%d" }}</p>
   </article>
 </div>

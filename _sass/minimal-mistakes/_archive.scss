@@ -223,6 +223,17 @@
     }
   }
 
+  .archive__item-date {
+    display: none;
+
+    @include breakpoint($medium) {
+      display: block;
+      font-size: $type-size-6;
+    }
+  }
+  
+
+
   .archive__item-teaser {
     @include breakpoint($small) {
       max-height: 200px;
