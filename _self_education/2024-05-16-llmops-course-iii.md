@@ -1,7 +1,7 @@
 ---
 layout: single
 title:  "LLMOps self-education, Pt. III"
-date:   2024-05-15 05:00:00 +0800
+date:   2024-05-16 05:00:00 +0800
 classes: wide
 toc: true
 categories:
