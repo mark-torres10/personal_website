@@ -306,6 +306,9 @@ collections:
   self_education:
     output: true
     permalink: /:collection/:path/
+  personal:
+    output: true
+    permalink: /:collection/:path/
 
 
 # HTML Compression
