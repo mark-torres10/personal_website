@@ -32,7 +32,7 @@ import getpass
 os.environ['GOOGLE_API_KEY'] = getpass.getpass('Gemini API Key:')
 ```
 
-## Contruct a Barbie retrieval agent
+## Construct a Barbie retriever agent
 We'll create a Barbie retriever, which will allow us to ask questions about the Barbie film. For our case, we'll use the Wikipedia entry about the Barbie movie. We'll embed the entry into a vector database and then query it to get information about the movie.
 
 We'll use Langchain's [WikipediaLoader](https://python.langchain.com/v0.1/docs/integrations/document_loaders/wikipedia/), which lets us pass a query into Wikipedia and get results.
