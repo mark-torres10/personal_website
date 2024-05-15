@@ -29,7 +29,11 @@ I think my current conclusion is this:
 
 (Obvious) caveats:
 - I mean higher education in general. Community college is great and provides a quality education at a fraction of the cost, and people should really be going to those more often. Trade schools are also great and provide a much more direct connection of education to job-related skills.
-- This doesn't mean taking on $100,000-$250,000 in debt to go to a private university. Again, there are many cheaper options, such as community college and trade school, that should be more embraced. I personally think that the rising cost of college is an unregulated grift and a scam, and people are rightfully upset at the high cost. However, the horror stories of taking on six figures in debt are overblown I think. You can get a quality education for much cheaper, and 99% of higher education options worth considering are much cheaper in my opinion.
+- This doesn't mean taking on \$100,000-\$250,000 in debt to go to a private university. Again, there are many cheaper options, such as community college and trade school, that should be more embraced. I personally think that the rising cost of college is an unregulated grift and a scam, and people are rightfully upset at the high cost. However, the horror stories of taking on six figures in debt are overblown I think. You can get a quality education for much cheaper, and 99% of higher education options worth considering are much cheaper in my opinion.
+- There are people who genuinely shouldn't be going to college.
+    - If you're an athlete, I can see the value of going professional. However, 99% of athletes in D1 programs (and even more at lower levels) aren't going to be able to meaningfully and profitably pursue their athletic careers. Plus education is a 
+    - For other skills
+    - For entrepreneurial types, (). But >99% of entrepreneurs fail, and the stories that we hear of entrepreneurs successfully dropping of college can generally be attributed to survivorship bias, plus many entrepreneurs who do drop out and succeed drop out only after making a calculated decision that their pursuit is worth the risk. Yes, Mark Zuckerberg dropped out, but 99.9999% of people aren't as talented as Mark Zuckerberg, and he dropped out of *Harvard*, not a random ordinary school.
 
 Some pros 
 
