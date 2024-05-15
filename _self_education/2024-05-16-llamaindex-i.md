@@ -1,4 +1,16 @@
-# Experimenting with LlamaIndex Pt. I
+---
+layout: single
+title:  "Experimenting with LlamaIndex, Pt. I"
+date:   2024-05-15 05:00:00 +0800
+classes: wide
+toc: true
+categories:
+- self_education
+- all_posts
+permalink: /self_education/llamaindex-i
+---
+
+# Experimenting with LlamaIndex, Pt. I
 As part of me learning more about LLMs, I'm working through different use cases, tools, and examples that I find online. Right now, I'm working through the [example notebooks](https://github.com/run-llama/llama_index/blob/main/docs/docs/examples/) from the LlamaIndex Github repo.
 
 ## Overview of LlamaIndex
