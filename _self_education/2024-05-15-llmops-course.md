@@ -1,16 +1,16 @@
 ---
 layout: single
-title:  "LLMOps self-education, Day 1"
+title:  "LLMOps self-education, Pt. I"
 date:   2024-05-15 04:00:00 +0800
 classes: wide
 toc: true
 categories:
 - self_education
 - all_posts
-permalink: /self_education/llm-course-day-1
+permalink: /self_education/llm-course-part-i
 ---
 
-# LLMOps self-education, Day 1
+# LLMOps self-education, Part I
 I'm working on improving my RAG-building skills. As a part of that, I'm taking courses online. The course I'm currently taking is from [AI Makerspace](https://github.com/AI-Maker-Space), as part of their [LLMOps](https://github.com/AI-Maker-Space/LLM-Ops-Cohort-1) curriculum.
 
 ## Session 1: Course Intro | Building Your First RAG App with LangChain, Chainlit, and Hugging Face
