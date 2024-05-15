@@ -133,3 +133,45 @@ review_df.to_csv("reviews.csv")
 
 Here's what our data looks like:
 ![Reviews of Barbie movie](/assets/images/2024-05-15-llmops-course/reviews_df.png)
+
+### Loading the data
+We can use Langchain's [CSVLoader](https://python.langchain.com/v0.1/docs/integrations/document_loaders/csv/) to load the data as a series of documents.
+
+```python
+from langchain.document_loaders.csv_loader import CSVLoader
+
+loader = CSVLoader(
+    file_path="reviews.csv",
+    source_column="Review"
+)
+
+data = loader.load()
+
+print(data)
+```
+
+Now we have to split our documents into chunks. We'll use the [RecursiveCharacterTextSplitter](https://python.langchain.com/v0.1/docs/modules/data_connection/document_transformers/recursive_text_splitter/), which works by splitting on delimiting characters such as "\n" and " " recursively until we hit the required chunk size. This has the effect of creating chunks that have the highest chance of keeping together paragraphs, sentences, and then individual words together.
+
+For example, if we have a document such as:
+
+```plaintext
+This is a sentence.
+This is another sentence
+```
+We can set a chunk size and the character splitter will ideally give us the following two chunks:
+```plaintext
+1. This is a sentence.
+2. This is another sentence.
+```
+
+We can set up the text splitter and apply it to our dataset:
+
+```python
+from langchain.text_splitter import RecursiveCharacterTextSplitter
+
+text_splitter = RecursiveCharacterTextSplitter(
+    chunk_size = 1000, # the character length of the chunk
+    chunk_overlap = 100, # the character length of the overlap between chunks
+    length_function = len, # the length function
+)
+```
