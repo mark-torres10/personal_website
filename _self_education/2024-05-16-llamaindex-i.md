@@ -1,7 +1,7 @@
 ---
 layout: single
 title:  "Experimenting with LlamaIndex, Pt. I"
-date:   2024-05-16 07:00:00 +0800
+date:   2024-05-16 10:00:00 +0800
 classes: wide
 toc: true
 categories:
@@ -693,5 +693,258 @@ These initiatives reflect Lyft's calculated approach to navigating the operation
 We can see now how to use LlamaIndex, OpenAI, and Supabase to create an assistant agent that loads documents from an external vector store, creates a tool to query said documents, and creates an agent that can use those tools to answer questions passed to the LLM.
 
 ## Example 4: OpenAI agent query planning
+We'll go over a LlamaIndex implementation of query planning with an OpenAI agent.  We'll follow the notebook [here](https://github.com/run-llama/llama_index/blob/main/docs/docs/examples/agent/openai_agent_query_plan.ipynb). My implementation is [here](https://colab.research.google.com/drive/13vJwS8oNOLVwYuU3VS0uSxXy4NhmCuNe).
 
-## Example 5: 
+### Overview of query planning
+When we pass in a query to an LLM, the query might not be broken down in a way that is optimal for the LLM to process it. We can ask the LLM to break down the initial query into a series of smaller, atomic queries that are easier in scope for the LLM to answer and will help it arrive at the answer in a step-by-step manner. This upfront query planning is in contrast to ReAct agents, in which at each time step the LLM reasons what the next question is, answers that question, and then prompts itself in a loop to ask a question and answer it. [This](https://blog.langchain.dev/planning-agents/) Langchain blog post has a great overview of query planning agents.
+
+### LlamaIndex implementation of an OpenAI agent with query planning
+
+#### Setup
+```python
+%pip install llama-index-agent-openai
+%pip install llama-index-llms-openai
+!pip install llama-index
+```
+
+```python
+from llama_index.core import SimpleDirectoryReader, VectorStoreIndex
+from llama_index.core.response.pprint_utils import pprint_response
+from llama_index.llms.openai import OpenAI
+```
+
+```python
+model_name = "gpt-3.5-turbo-0125"
+# model_name = "gpt-4"
+llm = OpenAI(temperature=0, model=model_name)
+```
+
+#### Load data and create indices
+Now we can load our data and create our indices.
+
+```python
+march_2022 = SimpleDirectoryReader(
+    input_files=["./data/10q/uber_10q_march_2022.pdf"]
+).load_data()
+june_2022 = SimpleDirectoryReader(
+    input_files=["./data/10q/uber_10q_june_2022.pdf"]
+).load_data()
+sept_2022 = SimpleDirectoryReader(
+    input_files=["./data/10q/uber_10q_sept_2022.pdf"]
+).load_data()
+```
+
+```python
+march_index = VectorStoreIndex.from_documents(march_2022)
+june_index = VectorStoreIndex.from_documents(june_2022)
+sept_index = VectorStoreIndex.from_documents(sept_2022)
+```
+
+Now we create query engines on top of each index.
+```python
+march_engine = march_index.as_query_engine(similarity_top_k=3, llm=llm)
+june_engine = june_index.as_query_engine(similarity_top_k=3, llm=llm)
+sept_engine = sept_index.as_query_engine(similarity_top_k=3, llm=llm)
+```
+#### Create tools
+Then we create tools out of each query engine.
+```python
+from llama_index.core.tools import QueryEngineTool
+
+
+query_tool_sept = QueryEngineTool.from_defaults(
+    query_engine=sept_engine,
+    name="sept_2022",
+    description=(
+        f"Provides information about Uber quarterly financials ending"
+        f" September 2022"
+    ),
+)
+query_tool_june = QueryEngineTool.from_defaults(
+    query_engine=june_engine,
+    name="june_2022",
+    description=(
+        f"Provides information about Uber quarterly financials ending June"
+        f" 2022"
+    ),
+)
+query_tool_march = QueryEngineTool.from_defaults(
+    query_engine=march_engine,
+    name="march_2022",
+    description=(
+        f"Provides information about Uber quarterly financials ending March"
+        f" 2022"
+    ),
+)
+```
+
+#### Create query planner tool
+Now we can create a query planner tool, which will take the query engine tools as well as a response synthesizer. This query planner tool will use the tools to help it create a plan for how to execute a query.
+
+```python
+# define query plan tool
+from llama_index.core.tools import QueryPlanTool
+from llama_index.core import get_response_synthesizer
+
+response_synthesizer = get_response_synthesizer()
+query_plan_tool = QueryPlanTool.from_defaults(
+    query_engine_tools=[query_tool_sept, query_tool_june, query_tool_march],
+    response_synthesizer=response_synthesizer,
+)
+```
+
+We can look at the actual prompt of the query planner:
+```python
+query_plan_tool.metadata.to_openai_tool()  # to_openai_function() deprecated
+```
+
+```plaintext
+{'name': 'query_plan_tool',
+ 'description': '        This is a query plan tool that takes in a list of tools and executes a query plan over these tools to answer a query. The query plan is a DAG of query nodes.\n\nGiven a list of tool names and the query plan schema, you can choose to generate a query plan to answer a question.\n\nThe tool names and descriptions are as follows:\n\n\n\n        Tool Name: sept_2022\nTool Description: Provides information about Uber quarterly financials ending September 2022 \n\nTool Name: june_2022\nTool Description: Provides information about Uber quarterly financials ending June 2022 \n\nTool Name: march_2022\nTool Description: Provides information about Uber quarterly financials ending March 2022 \n        ',
+ 'parameters': {'title': 'QueryPlan',
+  'description': "Query plan.\n\nContains a list of QueryNode objects (which is a recursive object).\nOut of the list of QueryNode objects, one of them must be the root node.\nThe root node is the one that isn't a dependency of any other node.",
+  'type': 'object',
+  'properties': {'nodes': {'title': 'Nodes',
+    'description': 'The original question we are asking.',
+    'type': 'array',
+    'items': {'$ref': '#/definitions/QueryNode'}}},
+  'required': ['nodes'],
+  'definitions': {'QueryNode': {'title': 'QueryNode',
+    'description': 'Query node.\n\nA query node represents a query (query_str) that must be answered.\nIt can either be answered by a tool (tool_name), or by a list of child nodes\n(child_nodes).\nThe tool_name and child_nodes fields are mutually exclusive.',
+    'type': 'object',
+    'properties': {'id': {'title': 'Id',
+      'description': 'ID of the query node.',
+      'type': 'integer'},
+     'query_str': {'title': 'Query Str',
+      'description': 'Question we are asking. This is the query string that will be executed. ',
+      'type': 'string'},
+     'tool_name': {'title': 'Tool Name',
+      'description': 'Name of the tool to execute the `query_str`.',
+      'type': 'string'},
+     'dependencies': {'title': 'Dependencies',
+      'description': 'List of sub-questions that need to be answered in order to answer the question given by `query_str`.Should be blank if there are no sub-questions to be specified, in which case `tool_name` is specified.',
+      'type': 'array',
+      'items': {'type': 'integer'}}},
+    'required': ['id', 'query_str']}}}}
+```
+
+#### Creating the agent
+Now we can create a query planning agent.
+
+```python
+from llama_index.agent.openai import OpenAIAgent
+from llama_index.llms.openai import OpenAI
+
+
+agent = OpenAIAgent.from_tools(
+    [query_plan_tool],
+    max_function_calls=10,
+    llm=OpenAI(temperature=0, model="gpt-4-0613"),
+    verbose=True,
+)
+```
+
+Let's run our agent and see how it looks:
+
+```python
+response = agent.query(
+    "Analyze Uber revenue growth in March, June, and September"
+)
+```
+
+```plaintext
+=== Calling Function ===
+Calling function: query_plan_tool with args: {
+  "nodes": [
+    {
+      "id": 1,
+      "query_str": "What is Uber's revenue for March 2022?",
+      "tool_name": "march_2022",
+      "dependencies": []
+    },
+    {
+      "id": 2,
+      "query_str": "What is Uber's revenue for June 2022?",
+      "tool_name": "june_2022",
+      "dependencies": []
+    },
+    {
+      "id": 3,
+      "query_str": "What is Uber's revenue for September 2022?",
+      "tool_name": "sept_2022",
+      "dependencies": []
+    },
+    {
+      "id": 4,
+      "query_str": "Analyze Uber revenue growth in March, June, and September",
+      "tool_name": "revenue_growth_analyzer",
+      "dependencies": [1, 2, 3]
+    }
+  ]
+}
+Executing node {"id": 4, "query_str": "Analyze Uber revenue growth in March, June, and September", "tool_name": "revenue_growth_analyzer", "dependencies": [1, 2, 3]}
+Executing 3 child nodes
+Executing node {"id": 1, "query_str": "What is Uber's revenue for March 2022?", "tool_name": "march_2022", "dependencies": []}
+Selected Tool: ToolMetadata(description='Provides information about Uber quarterly financials ending March 2022', name='march_2022', fn_schema=None)
+Executed query, got response.
+Query: What is Uber's revenue for March 2022?
+Response: Uber's revenue for March 2022 was $6.854 billion.
+Executing node {"id": 2, "query_str": "What is Uber's revenue for June 2022?", "tool_name": "june_2022", "dependencies": []}
+Selected Tool: ToolMetadata(description='Provides information about Uber quarterly financials ending June 2022', name='june_2022', fn_schema=None)
+Executed query, got response.
+Query: What is Uber's revenue for June 2022?
+Response: Uber's revenue for June 2022 cannot be determined from the provided information. However, the revenue for the three months ended June 30, 2022, was $8,073 million.
+Executing node {"id": 3, "query_str": "What is Uber's revenue for September 2022?", "tool_name": "sept_2022", "dependencies": []}
+Selected Tool: ToolMetadata(description='Provides information about Uber quarterly financials ending September 2022', name='sept_2022', fn_schema=None)
+Executed query, got response.
+Query: What is Uber's revenue for September 2022?
+Response: Uber's revenue for the three months ended September 30, 2022, was $8.343 billion.
+Got output: Based on the provided context information, we can analyze Uber's revenue growth as follows:
+
+- In March 2022, Uber's revenue was $6.854 billion.
+- For the three months ended June 30, 2022, Uber's revenue was $8,073 million (or $8.073 billion). However, we do not have the specific revenue for June 2022.
+- For the three months ended September 30, 2022, Uber's revenue was $8.343 billion.
+
+From this information, we can observe that Uber's revenue has been growing between the periods mentioned. The revenue increased from $6.854 billion in March 2022 to $8.073 billion for the three months ended June 2022, and further increased to $8.343 billion for the three months ended September 2022. However, we cannot provide a month-by-month analysis for June and September as the specific monthly revenue figures are not available.
+```
+
+We can see how the query planner created a query execution plan with smaller atomic queries and answered each of those separately to come to the final answer.
+
+```python
+print(str(response))
+```
+
+```plaintext
+Based on the provided context information, we can analyze Uber's revenue growth for the three-month periods ending in March, June, and September.
+
+1. For the three months ended March 31, 2022, Uber's revenue was $6.854 billion.
+2. For the three months ended June 30, 2022, Uber's revenue was $8.073 billion.
+3. For the three months ended September 30, 2022, Uber's revenue was $8.343 billion.
+
+To analyze the growth, we can compare the revenue figures for each period:
+
+- From March to June, Uber's revenue increased by $1.219 billion ($8.073 billion - $6.854 billion), which represents a growth of approximately 17.8% (($1.219 billion / $6.854 billion) * 100).
+- From June to September, Uber's revenue increased by $0.270 billion ($8.343 billion - $8.073 billion), which represents a growth of approximately 3.3% (($0.270 billion / $8.073 billion) * 100).
+
+In summary, Uber experienced significant revenue growth of 17.8% between the three-month periods ending in March and June, followed by a smaller growth of 3.3% between the periods ending in June and September.
+```
+
+## Example 5: LLMCompiler agent
+We'll also go over a LlamaIndex implementation of [LLMCompiler](https://github.com/SqueezeAILab/LLMCompiler), which is an "LLM compiler for parallel function calling", as per their docs. We'll follow the LlamaIndex notebook [here](https://github.com/run-llama/llama_index/blob/main/docs/docs/examples/agent/llm_compiler.ipynb) as well review the actual paper implementation [here](https://arxiv.org/pdf/2312.04511). We'll also use the [Groq](https://docs.llamaindex.ai/en/stable/examples/llm/groq/) integration with LlamaIndex so we have access to and can use open-source models, and for a much lower rate than GPT4 (which is the default for this iteration of LlamaIndex).My notebook implementation is [here](https://colab.research.google.com/drive/12WuDBiNZJ9S8_UuKjtjC-GJlJvb2K_po), which closely follows the original notebook except for swapping OpenAI with Groq.
+
+Note: the original notebook uses [Arize Phoenix](https://docs.arize.com/phoenix) for observability and I tried to get this to work but it seems like there's some package conflicts, see [this](https://github.com/run-llama/llama_index/issues/10602) Github issue.
+
+### Overview of LLMCompiler
+LLMCompiler extends and optimizes regular query planning. It does this by breaking down the query into multiple tasks that are atomic and can be executed in parallel. Most multi-step approaches, such as ReAct or regular query planning, operate serially, but LLMCompiler improves on this by designing subqueries that can operate in parallel. The user specifies the tools and LLMCompiler will compute an optimized query and execution plan using those tools to answer the question.
+
+[This](https://blog.langchain.dev/planning-agents/) Langchain blog has a great overview of how LLMCompiler works.
+
+### LLMCompiler demo
+
+#### Setting up Groq
+
+
+## Example 6: Multi-document agents
+We'll follow the LlamaIndex notebook [here](https://github.com/run-llama/llama_index/blob/main/docs/docs/examples/agent/multi_document_agents.ipynb)
+
+## Summary
