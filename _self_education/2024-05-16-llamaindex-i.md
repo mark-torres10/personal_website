@@ -16,10 +16,10 @@ As part of me learning more about LLMs, I'm working through different use cases,
 ## Overview of LlamaIndex
 [LlamaIndex](https://www.llamaindex.ai/) is, as they themselves describe it, a data framework built for LLMs. [LlamaIndex does well](https://github.com/run-llama/llama_index?tab=readme-ov-file#-overview) at integrating multiple different data sources, creating ways to structure the data so it can be easily queried or indexed, and exposing helper tools for easily querying and fetching the data when needed. By default, LlamaIndex uses OpenAI as its LLM provider, though it supports integrations with [many](https://python.langchain.com/v0.1/docs/integrations/llms/) LLMs. LlamaIndex often is used with Langchain in order to build end-to-end LLM agent interfaces.
 
-## Example applications with LlamaIndex
+# Example applications with LlamaIndex
 First we'll go over a few simple and short example notebooks to see how LlamaIndex works. These are all directly from the [LlamaIndex Github repo](https://github.com/run-llama/llama_index/tree/main/docs/docs/examples) of example notebooks and recipes.
 
-### Example 1: OpenAI Agent
+## Example 1: OpenAI Agent
 We'll start with a simple LLM agent, using OpenAI, that uses tools in order to do some math. The original notebook is [here](https://colab.research.google.com/github/run-llama/llama_index/blob/main/docs/docs/examples/agent/openai_agent_retrieval.ipynb) and my version is [here](https://colab.research.google.com/drive/146W9ebHE2wtq4_3WqmbV5bzArLiCr8Ym).
 
 First, we need to install dependencies:
