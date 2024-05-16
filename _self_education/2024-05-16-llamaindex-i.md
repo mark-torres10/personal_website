@@ -941,10 +941,421 @@ LLMCompiler extends and optimizes regular query planning. It does this by breaki
 
 ### LLMCompiler demo
 
-#### Setting up Groq
+#### Setting up our session
 
+```python
+!pip install llama-index llama-index-readers-web
+```
+
+```python
+import nest_asyncio
+
+nest_asyncio.apply()
+# Option: if developing with the llama_hub package
+# from llama_hub.llama_packs.agents.llm_compiler.step import LLMCompilerAgentWorker
+
+# Option: download_llama_pack
+from llama_index.llama_pack import download_llama_pack
+
+download_llama_pack(
+    "LLMCompilerAgentPack",
+    "./agent_pack",
+    skip_load=True,
+    # leave the below line commented out if using the notebook on main
+    # llama_hub_url="https://raw.githubusercontent.com/run-llama/llama-hub/jerry/add_llm_compiler_pack/llama_hub"
+)
+from agent_pack.step import LLMCompilerAgentWorker
+```
+
+```python
+import json
+from typing import Sequence, List
+
+# from llama_index.llms import OpenAI, ChatMessage
+from llama_index.tools import BaseTool, FunctionTool
+
+import nest_asyncio
+
+nest_asyncio.apply()
+```
+
+#### Defining our tools
+Now we define some basic tools for our agent:
+
+```python
+def multiply(a: int, b: int) -> int:
+    """Multiple two integers and returns the result integer"""
+    return a * b
+
+
+multiply_tool = FunctionTool.from_defaults(fn=multiply)
+
+
+def add(a: int, b: int) -> int:
+    """Add two integers and returns the result integer"""
+    return a + b
+
+
+add_tool = FunctionTool.from_defaults(fn=add)
+
+tools = [multiply_tool, add_tool]
+```
+
+Let's take a look at the tools:
+```python
+multiply_tool.metadata.fn_schema_str
+```
+
+```plaintext
+"{'title': 'multiply', 'type': 'object', 'properties': {'a': {'title': 'A', 'type': 'integer'}, 'b': {'title': 'B', 'type': 'integer'}}, 'required': ['a', 'b']}"
+```
+
+#### Setting up Groq
+We can now set up Groq. Groq is an alternative to OpenAI and lets us use some open-source models such as Llama. I'll follow the setup steps [here](https://docs.llamaindex.ai/en/stable/examples/llm/groq/).
+
+```python
+% pip install llama-index-llms-groq
+!pip install llama-index
+```
+
+```python
+from llama_index.llms.groq import Groq
+```
+
+We then grab our Groq API key:
+
+```python
+export GROQ_API_KEY=<your api key>
+api_key = os.getenv("GROQ_API_KEY")
+```
+
+Now we set up our LLM. We'll use Mixtral for this example (as it's what's in the example documentation).
+```python
+llm = Groq(model="mixtral-8x7b-32768", api_key=api_key)
+callback_manager = llm.callback_manager
+```
+
+#### Setting up the LLMCompiler agent
+Now we can set up our agent.
+
+```python
+agent_worker = LLMCompilerAgentWorker.from_tools(
+    tools, llm=llm, verbose=True, callback_manager=callback_manager
+)
+agent = AgentRunner(agent_worker, callback_manager=callback_manager)
+```
+
+Let's test to see how it works.
+```python
+response = agent.chat("What is (121 * 3) + 42?")
+```
+```plaintext
+> Running step 7fbd5304-8f67-46f6-882d-9c15ace75d80 for task dbbb4991-5347-4302-a358-6fe5d0705bdc.
+> Step count: 0
+> Plan: 1. multiply(121, 3)
+2. add($1, 42)
+3. join()<END_OF_PLAN>
+Ran task: multiply. Observation: 363
+Ran task: add. Observation: 405
+Ran task: join. Observation: None
+> Thought: The result of the operation is 405.
+> Answer: 405
+```
+
+It looks like it works! We can see that the LLMCompiler step plans the individual steps and does it in a way where the steps are optimized as much as possible.
 
 ## Example 6: Multi-document agents
-We'll follow the LlamaIndex notebook [here](https://github.com/run-llama/llama_index/blob/main/docs/docs/examples/agent/multi_document_agents.ipynb)
+We can use LlamaIndex on top of multiple documents so we can use multiple documents for our agents. We'll follow the LlamaIndex notebook [here](https://github.com/run-llama/llama_index/blob/main/docs/docs/examples/agent/multi_document_agents.ipynb).
+
+### Multi-document agent demo
+
+#### Setup
+
+```python
+%pip install llama-index-agent-openai
+%pip install llama-index-embeddings-openai
+%pip install llama-index-llms-openai
+```
+
+```python
+!pip install llama-index
+```
+
+### Load data
+We now can load data for our agent. We'll load Wikipedia documents for a set of cities.
+```python
+from llama_index.core import (
+    VectorStoreIndex,
+    SimpleKeywordTableIndex,
+    SimpleDirectoryReader,
+)
+from llama_index.core import SummaryIndex
+from llama_index.core.schema import IndexNode
+from llama_index.core.tools import QueryEngineTool, ToolMetadata
+from llama_index.llms.openai import OpenAI
+from llama_index.core.callbacks import CallbackManager
+
+wiki_titles = [
+    "Toronto",
+    "Seattle",
+    "Chicago",
+    "Boston",
+    "Houston",
+    "Tokyo",
+    "Berlin",
+    "Lisbon",
+    "Paris",
+    "London",
+    "Atlanta",
+    "Munich",
+    "Shanghai",
+    "Beijing",
+    "Copenhagen",
+    "Moscow",
+    "Cairo",
+    "Karachi",
+]
+```
+
+We'll loop through each city and write the entries to a text file:
+```python
+from pathlib import Path
+
+import requests
+
+for title in wiki_titles:
+    response = requests.get(
+        "https://en.wikipedia.org/w/api.php",
+        params={
+            "action": "query",
+            "format": "json",
+            "titles": title,
+            "prop": "extracts",
+            # 'exintro': True,
+            "explaintext": True,
+        },
+    ).json()
+    page = next(iter(response["query"]["pages"].values()))
+    wiki_text = page["extract"]
+
+    data_path = Path("data")
+    if not data_path.exists():
+        Path.mkdir(data_path)
+
+    with open(data_path / f"{title}.txt", "w") as fp:
+        fp.write(wiki_text)
+```
+We'll then load the text files for each city's Wikipedia entries as a LlamaIndex document:
+```python
+# Load all wiki documents
+city_docs = {}
+for wiki_title in wiki_titles:
+    city_docs[wiki_title] = SimpleDirectoryReader(
+        input_files=[f"data/{wiki_title}.txt"]
+    ).load_data()
+```
+
+We'll also do more setup and set up our LLM model.
+```python
+import os
+
+os.environ["OPENAI_API_KEY"] = "<OPENAI_API_KEY>"
+```
+```python
+from llama_index.llms.openai import OpenAI
+from llama_index.embeddings.openai import OpenAIEmbedding
+from llama_index.core import Settings
+
+Settings.llm = OpenAI(temperature=0, model="gpt-3.5-turbo")
+Settings.embed_model = OpenAIEmbedding(model="text-embedding-ada-002")
+```
+### Creating our agents
+To create our agents, we need to (1) create an agent for each of the documents and then (2) create a top-level parent agent.
+
+#### Building a Document Agent for each Document
+We'll create an agent for each of the cities.
+
+```python
+from llama_index.agent.openai import OpenAIAgent
+from llama_index.core import load_index_from_storage, StorageContext
+from llama_index.core.node_parser import SentenceSplitter
+import os
+
+node_parser = SentenceSplitter()
+
+# Build agents dictionary
+agents = {}
+query_engines = {}
+
+# this is for the baseline
+all_nodes = []
+
+for idx, wiki_title in enumerate(wiki_titles):
+    nodes = node_parser.get_nodes_from_documents(city_docs[wiki_title])
+    all_nodes.extend(nodes)
+
+    if not os.path.exists(f"./data/{wiki_title}"):
+        # build vector index
+        vector_index = VectorStoreIndex(nodes)
+        vector_index.storage_context.persist(
+            persist_dir=f"./data/{wiki_title}"
+        )
+    else:
+        vector_index = load_index_from_storage(
+            StorageContext.from_defaults(persist_dir=f"./data/{wiki_title}"),
+        )
+
+    # build summary index
+    summary_index = SummaryIndex(nodes)
+    # define query engines
+    vector_query_engine = vector_index.as_query_engine(llm=Settings.llm)
+    summary_query_engine = summary_index.as_query_engine(llm=Settings.llm)
+
+    # define tools
+    query_engine_tools = [
+        QueryEngineTool(
+            query_engine=vector_query_engine,
+            metadata=ToolMetadata(
+                name="vector_tool",
+                description=(
+                    "Useful for questions related to specific aspects of"
+                    f" {wiki_title} (e.g. the history, arts and culture,"
+                    " sports, demographics, or more)."
+                ),
+            ),
+        ),
+        QueryEngineTool(
+            query_engine=summary_query_engine,
+            metadata=ToolMetadata(
+                name="summary_tool",
+                description=(
+                    "Useful for any requests that require a holistic summary"
+                    f" of EVERYTHING about {wiki_title}. For questions about"
+                    " more specific sections, please use the vector_tool."
+                ),
+            ),
+        ),
+    ]
+
+    # build agent
+    function_llm = OpenAI(model="gpt-4")
+    agent = OpenAIAgent.from_tools(
+        query_engine_tools,
+        llm=function_llm,
+        verbose=True,
+        system_prompt=f"""\
+You are a specialized agent designed to answer queries about {wiki_title}.
+You must ALWAYS use at least one of the tools provided when answering a question; do NOT rely on prior knowledge.\
+""",
+    )
+
+    agents[wiki_title] = agent
+    query_engines[wiki_title] = vector_index.as_query_engine(
+        similarity_top_k=2
+    )
+```
+#### Building a Retriever-Enabled OpenAI Agent
+We'll now build a top-level agent to manage each of the agents for each of the documents. We'll create an agent that retrieves the correct tool before using the tool itself (unlike a regular agent that takes all the tools available and adds that them to the prompt for the LLM to determine which to use).
+
+First, we'll define a `Tool` instance for each document agent.
+```python
+# define tool for each document agent
+all_tools = []
+for wiki_title in wiki_titles:
+    wiki_summary = (
+        f"This content contains Wikipedia articles about {wiki_title}. Use"
+        f" this tool if you want to answer any questions about {wiki_title}.\n"
+    )
+    doc_tool = QueryEngineTool(
+        query_engine=agents[wiki_title],
+        metadata=ToolMetadata(
+            name=f"tool_{wiki_title}",
+            description=wiki_summary,
+        ),
+    )
+    all_tools.append(doc_tool)
+```
+
+Then we'll define an object index and retriever over these tools. This stores the tools as vectors so then our parent agent can query the index and fetch the correct tools to pass to the LLM.
+
+```python
+# define an "object" index and retriever over these tools
+from llama_index.core import VectorStoreIndex
+from llama_index.core.objects import ObjectIndex
+
+obj_index = ObjectIndex.from_objects(
+    all_tools,
+    index_cls=VectorStoreIndex,
+)
+```
+
+Now we create our top-level agent. This will use the tool retriever that we just created.
+```python
+from llama_index.agent.openai import OpenAIAgent
+
+top_agent = OpenAIAgent.from_tools(
+    tool_retriever=obj_index.as_retriever(similarity_top_k=3),
+    system_prompt=""" \
+You are an agent designed to answer queries about a set of given cities.
+Please always use the tools provided to answer a question. Do not rely on prior knowledge.\
+
+""",
+    verbose=True,
+)
+```
+
+#### Testing our agent
+Let's now run some queries and see how the results look:
+```python
+# should use Boston agent -> vector tool
+response = top_agent.query("Tell me about the arts and culture in Boston")
+```
+```plaintext
+=== Calling Function ===
+Calling function: tool_Boston with args: {
+  "input": "arts and culture"
+}
+=== Calling Function ===
+Calling function: vector_tool with args: {
+  "input": "arts and culture"
+}
+Got output: Boston is known for its vibrant arts and culture scene. The city is home to a number of performing arts organizations, including the Boston Ballet, Boston Lyric Opera Company, Opera Boston, Boston Baroque, and the Handel and Haydn Society. There are also several theaters in or near the Theater District, such as the Cutler Majestic Theatre, Citi Performing Arts Center, the Colonial Theater, and the Orpheum Theatre. Boston is a center for contemporary classical music, with groups like the Boston Modern Orchestra Project and Boston Musica Viva. The city also hosts major annual events, such as First Night, the Boston Early Music Festival, and the Boston Arts Festival. In addition, Boston has several art museums and galleries, including the Museum of Fine Arts, the Isabella Stewart Gardner Museum, and the Institute of Contemporary Art.
+========================
+Got output: Boston is renowned for its vibrant arts and culture scene. It is home to numerous performing arts organizations, including the Boston Ballet, Boston Lyric Opera Company, Opera Boston, Boston Baroque, and the Handel and Haydn Society. The city's Theater District houses several theaters, such as the Cutler Majestic Theatre, Citi Performing Arts Center, the Colonial Theater, and the Orpheum Theatre.
+
+Boston is also a hub for contemporary classical music, with groups like the Boston Modern Orchestra Project and Boston Musica Viva. The city hosts major annual events, such as First Night, the Boston Early Music Festival, and the Boston Arts Festival, which contribute to its cultural richness.
+
+In terms of visual arts, Boston boasts several art museums and galleries. The Museum of Fine Arts, the Isabella Stewart Gardner Museum, and the Institute of Contemporary Art are among the most notable. These institutions offer a wide range of art collections, from ancient to contemporary, attracting art enthusiasts from around the world.
+========================
+```
+
+```python
+print(response)
+```
+```plaintext
+Boston has a rich arts and culture scene, with a variety of performing arts organizations and venues. The city is home to renowned institutions such as the Boston Ballet, Boston Lyric Opera Company, Opera Boston, Boston Baroque, and the Handel and Haydn Society. The Theater District in Boston is a hub for theatrical performances, with theaters like the Cutler Majestic Theatre, Citi Performing Arts Center, Colonial Theater, and Orpheum Theatre.
+
+In addition to performing arts, Boston also has a thriving contemporary classical music scene, with groups like the Boston Modern Orchestra Project and Boston Musica Viva. The city hosts several annual events that celebrate the arts, including First Night, the Boston Early Music Festival, and the Boston Arts Festival.
+
+Boston is also known for its visual arts scene, with a number of art museums and galleries. The Museum of Fine Arts, the Isabella Stewart Gardner Museum, and the Institute of Contemporary Art are among the notable institutions in the city. These museums offer a diverse range of art collections, spanning from ancient to contemporary art, and attract art enthusiasts from around the world.
+```
+
+We can see based on the response that our parent agent calls the correct agent, which is the Boston agent. It then uses the Boston agent to query and get the correct information.
+
+The parent agent chooses the Boston agent and then calls it here:
+```python
+=== Calling Function ===
+Calling function: tool_Boston with args: {
+  "input": "arts and culture"
+}
+```
+The Boston agent then is called here:
+```python
+=== Calling Function ===
+Calling function: vector_tool with args: {
+  "input": "arts and culture"
+}
+```
 
 ## Summary
+These are a few exmaples of using LlamaIndex for creating agents. This is a good overview of LlamaIndex, what it does, and how it fits into the LLMOps pipeline and workflow.
