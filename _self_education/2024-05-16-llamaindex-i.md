@@ -11,7 +11,7 @@ permalink: /self_education/llamaindex-i
 ---
 
 # Experimenting with LlamaIndex, Pt. I
-As part of me learning more about LLMs, I'm working through different use cases, tools, and examples that I find online. Right now, I'm working through the [example notebooks](https://github.com/run-llama/llama_index/blob/main/docs/docs/examples/) from the LlamaIndex Github repo.
+As part of me learning more about LLMs, I'm working through different use cases, tools, and examples that I find online. Right now, I'm working through the [example notebooks](https://github.com/run-llama/llama_index/blob/main/docs/docs/examples/) from the LlamaIndex Github repo. Each of the following examples is a fully-worked through example, based on the notebooks that are in the LlamaIndex examples repo.
 
 ## Overview of LlamaIndex
 [LlamaIndex](https://www.llamaindex.ai/) is, as they themselves describe it, a data framework built for LLMs. [LlamaIndex does well](https://github.com/run-llama/llama_index?tab=readme-ov-file#-overview) at integrating multiple different data sources, creating ways to structure the data so it can be easily queried or indexed, and exposing helper tools for easily querying and fetching the data when needed. By default, LlamaIndex uses OpenAI as its LLM provider, though it supports integrations with [many](https://python.langchain.com/v0.1/docs/integrations/llms/) LLMs. LlamaIndex often is used with Langchain in order to build end-to-end LLM agent interfaces.
@@ -346,5 +346,349 @@ Thought: I can answer without using any more tools.
 Answer: 10
 10
 ```
-## Example 3: ReAct agent with query engine for RAG
 
+## Example 3: OpenAI assistant agent
+We can use LlamaIndex along with [OpenAI](https://platform.openai.com/docs/assistants/overview) in order to create an AI assistant agent.
+The original notebook is [here](https://github.com/run-llama/llama_index/blob/main/docs/docs/examples/agent/openai_assistant_agent.ipynb) and my version is [here](https://colab.research.google.com/drive/1IQP42Px32HWfVaYnOjbJ7V20pZzDji0r).
+
+First, we do some setup:
+```python
+%pip install llama-index-agent-openai
+%pip install llama-index-vector-stores-supabase
+!pip install llama-index
+```
+
+```python
+import os
+import getpass
+
+os.environ["OPENAI_API_KEY"] = getpass.getpass("OpenAI API Key: ")
+```
+
+### Simple assistant agent
+First, let's just us the out-of-the-box agent without any extra tooling. We can use the code interpreter that OpenAI offers instead of providing our own tool.
+
+```python
+from llama_index.agent.openai import OpenAIAssistantAgent
+
+agent = OpenAIAssistantAgent.from_new(
+    name="Math Tutor",
+    instructions="You are a personal math tutor. Write and run code to answer math questions.",
+    openai_tools=[{"type": "code_interpreter"}],
+    instructions_prefix="Please address the user as Jane Doe. The user has a premium account.",
+)
+
+agent.thread_id # thread_Eq4zpjr4mlNa6dA9kY9HIlLS
+```
+
+```python
+response = agent.chat(
+    "I need to solve the equation `3x + 11 = 14`. Can you help me?"
+)
+print(str(response))
+```
+
+```plaintext
+Certainly! The equation you've provided is a simple linear equation in one variable which can be solved with algebra. Here are the steps to solve the equation \(3x + 11 = 14\):
+
+1. Subtract 11 from both sides of the equation to isolate the term with the variable \(x\) on one side:
+\[3x + 11 - 11 = 14 - 11\]
+2. Simplify both sides of the equation:
+\[3x = 3\]
+3. Divide both sides of the equation by 3 to solve for \(x\):
+\[\frac{3x}{3} = \frac{3}{3}\]
+4. Simplify the division to find the value of \(x\):
+\[x = 1\]
+
+So the solution to the equation is \(x = 1\).
+```
+
+### Assistant with the native LlamaIndex vector store and query engine
+Now we can try a similar task, but using the vector story and query engine available in LlamaIndex.
+
+First, we load the necessary imports:
+```python
+from llama_index.agent.openai import OpenAIAssistantAgent
+from llama_index.core import (
+    SimpleDirectoryReader,
+    VectorStoreIndex,
+    StorageContext,
+    load_index_from_storage,
+)
+
+from llama_index.core.tools import QueryEngineTool, ToolMetadata
+```
+
+We then create persistent data stores for our sample data and then download the data. We'll be using financial reports from Uber and Lyft.
+
+```python
+try:
+    storage_context = StorageContext.from_defaults(
+        persist_dir="./storage/lyft"
+    )
+    lyft_index = load_index_from_storage(storage_context)
+
+    storage_context = StorageContext.from_defaults(
+        persist_dir="./storage/uber"
+    )
+    uber_index = load_index_from_storage(storage_context)
+
+    index_loaded = True
+except:
+    index_loaded = False
+```
+
+```python
+!mkdir -p 'data/10k/'
+!wget 'https://raw.githubusercontent.com/run-llama/llama_index/main/docs/docs/examples/data/10k/uber_2021.pdf' -O 'data/10k/uber_2021.pdf'
+!wget 'https://raw.githubusercontent.com/run-llama/llama_index/main/docs/docs/examples/data/10k/lyft_2021.pdf' -O 'data/10k/lyft_2021.pdf'
+```
+
+At this point, we should be able to see the data stored locally.
+![Screenshot of current notebook status](/assets/images/2024-05-16-llamaindex-i/uber-lyft-data-notebook-screenshot.png)
+
+We now load the data and create an index for each:
+
+```python
+from llama_index.core.schema import Document as LlamaIndexDocument
+from llama_index.core.indices.vector_store.base import VectorStoreIndex
+
+if not index_loaded:
+    # load data
+    lyft_docs: list[LlamaIndexDocument] = SimpleDirectoryReader(
+        input_files=["./data/10k/lyft_2021.pdf"]
+    ).load_data()
+    uber_docs: list[LlamaIndexDocument] = SimpleDirectoryReader(
+        input_files=["./data/10k/uber_2021.pdf"]
+    ).load_data()
+
+    # build index
+    lyft_index: VectorStoreIndex = VectorStoreIndex.from_documents(lyft_docs)
+    uber_index: VectorStoreIndex = VectorStoreIndex.from_documents(uber_docs)
+
+    # persist index
+    lyft_index.storage_context.persist(persist_dir="./storage/lyft")
+    uber_index.storage_context.persist(persist_dir="./storage/uber")
+```
+
+The `SimpleDirectoryReader` automatically chooses the best file reader given the file. For our use case, 
+
+After creating an index for each, our data should look like this:
+![Screenshot of current notebook status after creating each index](/assets/images/2024-05-16-llamaindex-i/uber-lyft-data-indices.png)
+
+Let's take a look at what one of these docs looks like.
+```python
+print(lyft_docs[0])
+```
+
+```plaintext
+Doc ID: 223c3b51-1c8a-4cbc-bdda-26db81f32032
+Text: UNITED STATESSECURITIES AND EXCHANGE COMMISSION Washington, D.C.
+20549 FORM 10-K   (Mark One) ☒ ANNUAL REPORT PURS UANT TO SECTION 13
+OR 15(d) OF THE SECURITIES EXCHANGE ACT OF 1934For the fiscal year
+ended December 31, 2021 OR ☐ TRANSITION REPORT PURS UANT TO SECTION 13
+OR 15(d) OF THE SECURITIES EXCHANGE ACT OF 1934 FOR THE TRANSITION
+PERIODFR...
+```
+
+We can compare this to a picture of the PDF:
+![Picture of Lyft PDF](/assets/images/2024-05-16-llamaindex-i/lyft-2021-pdf-picture.png)
+
+It looks like the first document consists of the text extracted from the PDF. The PDF has 238 pages, and if we look at the length of `lyft_docs`, we can see that it equals 238, meaning that each document contains the text extracted from one page of the PDF.
+
+We create an index for each of the documents. This will allow us to query each index given a query and then obtain the documents most relevant to that query. We can now build a query engine on top of each index. Let's create a query engine that, given a query, fetches the top `k=3` documents relaetd to the query.
+
+```python
+from llama_index.core.query_engine.retriever_query_engine import RetrieverQueryEngine
+
+lyft_engine: RetrieverQueryEngine = lyft_index.as_query_engine(similarity_top_k=3)
+uber_engine: RetrieverQueryEngine = uber_index.as_query_engine(similarity_top_k=3)
+```
+
+Now we can create a `Tool` object out of each query engine. This lets us use each query engine as a tool for our LLM agent.
+
+```python
+query_engine_tools = [
+    QueryEngineTool(
+        query_engine=lyft_engine,
+        metadata=ToolMetadata(
+            name="lyft_10k",
+            description=(
+                "Provides information about Lyft financials for year 2021. "
+                "Use a detailed plain text question as input to the tool."
+            ),
+        ),
+    ),
+    QueryEngineTool(
+        query_engine=uber_engine,
+        metadata=ToolMetadata(
+            name="uber_10k",
+            description=(
+                "Provides information about Uber financials for year 2021. "
+                "Use a detailed plain text question as input to the tool."
+            ),
+        ),
+    ),
+]
+```
+
+We see a common framework here for working with data on LlamaIndex, which is:
+1. Load and process data as documents
+2. Create a way to access/interact with the data:
+    1. Create an index
+    2. Create a query engine on top of the index.
+3. Create a tool on top that lets the agent interact with the data.
+4. Pass the tool to the agent.
+
+We can now create an engine and try it out for ourselves:
+
+```python
+agent = OpenAIAssistantAgent.from_new(
+    name="SEC Analyst",
+    instructions="You are a QA assistant designed to analyze sec filings.",
+    tools=query_engine_tools,
+    instructions_prefix="Please address the user as Jerry.",
+    verbose=True,
+    run_retrieve_sleep_time=1.0,
+)
+```
+
+```python
+response = agent.chat("What was Lyft's revenue growth in 2021?")
+```
+
+```plaintext
+=== Calling Function ===
+Calling function: lyft_10k with args: {"input":"What was Lyft's revenue growth in 2021?"}
+Got output: Lyft's revenue increased by 36% in 2021 compared to the prior year.
+========================
+```
+
+We see that our agent called the `lyft_10k` tool, based off the docstring description of the tool, and passed along the correct args required to access our index and fetch the docs that are most related.
+
+### Assistant with an external vector store (Supabase)
+Let's try to recreate our exercise from above, but now use an external database. Like in the base notebook, we'll also use Supabase.
+
+#### Creating a Supabase account.
+Let's first start by creating a Supabase account. Go to [this](https://supabase.com/dashboard/sign-in?returnTo=%2Fprojects) link to create an account. Since this is a demo, I'll just create an account and use a free trial.
+
+After creating a new account, the website should look like this:
+![Supabase dashboard](/assets/images/2024-05-16-llamaindex-i/supabase-intro-dashboard.png)
+
+Then, create a new project:
+![Supabase create project](/assets/images/2024-05-16-llamaindex-i/supabase-create-new-project.png)
+
+This will return a set of credentials that we can then use to access our database.
+
+Now we can set up our code in LlamaIndex:
+
+```python
+from llama_index.agent.openai import OpenAIAssistantAgent
+from llama_index.core import (
+    SimpleDirectoryReader,
+    VectorStoreIndex,
+    StorageContext,
+)
+from llama_index.vector_stores.supabase import SupabaseVectorStore
+
+from llama_index.core.tools import QueryEngineTool, ToolMetadata
+```
+
+```python
+# load data
+reader = SimpleDirectoryReader(input_files=["./data/10k/lyft_2021.pdf"])
+docs = reader.load_data()
+for doc in docs:
+    doc.id_ = "lyft_docs"
+```
+
+```python
+os.environ["SUPABASE_PASSWORD"] = getpass.getpass("Supabase password: ")
+supabase_password = os.getenv("SUPABASE_PASSWORD")
+```
+
+We now use the `SupabaseVectorStore` integration to connect LlamaIndex to our Supabase database. Note, I had to change the connection string, which Supabase provides, to use "postgresql" instead of "postgres", as per this [StackOverflow thread](https://stackoverflow.com/questions/71000246/sqlalchemy-exc-nosuchmoduleerror-cant-load-plugin-sqlalchemy-dialectspostgre) (yes, I used StackOverflow instead of ChatGPT. Weird, right?).
+
+```python
+vector_store = SupabaseVectorStore(
+    postgres_connection_string=(
+        f"postgresql://postgres.jhiypislszswpmsvctqa:{supabase_password}@aws-0-ap-southeast-1.pooler.supabase.com:5432/postgres"
+    ),
+    collection_name="base_demo",
+)
+storage_context = StorageContext.from_defaults(vector_store=vector_store)
+index = VectorStoreIndex.from_documents(docs, storage_context=storage_context)
+```
+
+Let's now check that the docs are in the vector store. First we can check this from our notebook:
+```python
+# sanity check that the docs are in the vector store
+num_docs = vector_store.get_by_id("lyft_docs", limit=1000)
+print(len(num_docs))
+```
+We can then check what this looks like in Supabase. LlamaIndex stores our documents as vectors and if we look at Supabase we can actually see how the storage works. Each document is represented by a vector, an ID, and some metadata.
+![Supabase vector store](/assets/images/2024-05-16-llamaindex-i/supabase-vector-store.png)
+
+Now we follow the same procedure as before. The only difference between this version of our agent and the previous one is that our document vectors are stored in an external vector store (via Supabase) instead of a local vector store (via LlamaIndex's default storage).
+
+Let's create a tool to query the index, an agent to use that tool, and then test that agent.
+
+```python
+lyft_tool = QueryEngineTool(
+    query_engine=index.as_query_engine(similarity_top_k=3),
+    metadata=ToolMetadata(
+        name="lyft_10k",
+        description=(
+            "Provides information about Lyft financials for year 2021. "
+            "Use a detailed plain text question as input to the tool."
+        ),
+    ),
+)
+agent = OpenAIAssistantAgent.from_new(
+    name="SEC Analyst",
+    instructions="You are a QA assistant designed to analyze SEC filings.",
+    tools=[lyft_tool],
+    verbose=True,
+    run_retrieve_sleep_time=1.0,
+)
+response = agent.chat(
+    "Tell me about Lyft's risk factors, as well as response to COVID-19"
+)
+print(str(response))
+```
+
+```plaintext
+Lyft's 2021 10-K filing outlines a multifaceted risk landscape for the company, encapsulating both operational and environmental challenges that could impact its business model:
+
+- **Economic Factors**: Risks include the ramifications of the COVID-19 pandemic, susceptibility to natural disasters, the volatility of economic downturns, and geopolitical tensions.
+
+- **Operational Dynamics**: The company is cognizant of its limited operating history, the uncertainties surrounding its financial performance, the intense competition in the ridesharing sector, the unpredictability in financial results, and the ambiguity tied to the expansion potential of the rideshare market.
+
+- **Human Capital**: A critical concern is the ability of Lyft to attract and maintain a robust network of both drivers and riders, which is essential for the platform's vitality.
+
+- **Insurance and Safety**: Ensuring adequate insurance coverage for stakeholders and addressing autonomous vehicle technology risks are pivotal.
+
+- **Reputation and Brand**: Lyft is attentive to the influence that illegal or unseemly activities on its platform can have on its public image.
+
+- **Pricing Structure**: Changing pricing models pose a risk to Lyft's revenue streams, considering how essential pricing dynamics are to maintaining competitive service offerings.
+
+- **Systemic Integrity**: Lyft also acknowledges risks emanating from potential system failures which could disrupt service continuity.
+
+Furthermore, Lyft is vigilant about regulatory and legal risks that could lead to litigation and is conscious of the broader implications of climate change on its operations.
+
+In terms of its response to COVID-19, Lyft has adopted strategic measures to secure the welfare of both its workforce and customer base:
+
+1. **Health and Safety Protocols**: Lyft has instituted health and safety mandates tailored specifically to the ridesharing experience in view of the pandemic.
+
+2. **Workplace Adjustments**: The company revised its workplace policies to accommodate the shifts in the work environment precipitated by the pandemic.
+
+3. **Financial Adaptations**: To synchronize with the revenue contraction experienced during the pandemic, Lyft executed monetary realignments, which necessitated workforce reductions in 2020.
+
+These initiatives reflect Lyft's calculated approach to navigating the operational and financial hurdles enacted by the COVID-19 pandemic. By prioritizing health and safety, nimbly altering corporate practices, and recalibrating fiscal management, Lyft aimed to buttress its business against the storm of the pandemic while setting a foundation for post-pandemic recovery.
+```
+
+We can see now how to use LlamaIndex, OpenAI, and Supabase to create an assistant agent that loads documents from an external vector store, creates a tool to query said documents, and creates an agent that can use those tools to answer questions passed to the LLM.
+
+## Example 4: 
+
+## Example 5: 
