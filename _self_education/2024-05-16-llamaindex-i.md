@@ -580,6 +580,7 @@ Then, create a new project:
 
 This will return a set of credentials that we can then use to access our database.
 
+#### Set up access to Supabase
 Now we can set up our code in LlamaIndex:
 
 ```python
@@ -607,6 +608,7 @@ os.environ["SUPABASE_PASSWORD"] = getpass.getpass("Supabase password: ")
 supabase_password = os.getenv("SUPABASE_PASSWORD")
 ```
 
+#### Store document vectors in Supabase
 We now use the `SupabaseVectorStore` integration to connect LlamaIndex to our Supabase database. Note, I had to change the connection string, which Supabase provides, to use "postgresql" instead of "postgres", as per this [StackOverflow thread](https://stackoverflow.com/questions/71000246/sqlalchemy-exc-nosuchmoduleerror-cant-load-plugin-sqlalchemy-dialectspostgre) (yes, I used StackOverflow instead of ChatGPT. Weird, right?).
 
 ```python
@@ -629,6 +631,7 @@ print(len(num_docs))
 We can then check what this looks like in Supabase. LlamaIndex stores our documents as vectors and if we look at Supabase we can actually see how the storage works. Each document is represented by a vector, an ID, and some metadata.
 ![Supabase vector store](/assets/images/2024-05-16-llamaindex-i/supabase-vector-store.png)
 
+#### Create tools and agent
 Now we follow the same procedure as before. The only difference between this version of our agent and the previous one is that our document vectors are stored in an external vector store (via Supabase) instead of a local vector store (via LlamaIndex's default storage).
 
 Let's create a tool to query the index, an agent to use that tool, and then test that agent.
@@ -689,6 +692,6 @@ These initiatives reflect Lyft's calculated approach to navigating the operation
 
 We can see now how to use LlamaIndex, OpenAI, and Supabase to create an assistant agent that loads documents from an external vector store, creates a tool to query said documents, and creates an agent that can use those tools to answer questions passed to the LLM.
 
-## Example 4: 
+## Example 4: OpenAI agent query planning
 
 ## Example 5: 
