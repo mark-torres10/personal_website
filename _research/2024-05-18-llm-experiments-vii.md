@@ -23,12 +23,12 @@ Specifically, I'll do the following:
 - Explore more ways to reduce tokens in the request
 
 ## Experiment with converting JSON to YAML
-First, I'll explore converting JSON to YAML. This is inspired by [this](https://www.linkedin.com/blog/engineering/generative-ai/musings-on-building-a-generative-ai-product) blog article from LinkedIn Engineering discussing their improved success with using YAML instead of JSON for their LLM applications. The efficiency gains can vary, but several (e.g., [here](https://betterprogramming.pub/yaml-vs-json-which-is-more-efficient-for-language-models-5bc11dd0f6df) and [here](https://mychen76.medium.com/practical-techniques-to-constraint-llm-output-in-json-format-e3e72396c670)) report good results when moving from JSON to YAML, due to speedups in parsing, reductions in token usage, and improved output formatting.
+First, I'll explore converting JSON to YAML. This is inspired by [this](https://www.linkedin.com/blog/engineering/generative-ai/musings-on-building-a-generative-ai-product) blog article from LinkedIn Engineering discussing their improved success with using YAML instead of JSON for their LLM applications. The efficiency gains can vary, but several (e.g., [here](https://betterprogramming.pub/yaml-vs-json-which-is-more-efficient-for-language-models-5bc11dd0f6df) and [here](https://mychen76.medium.com/practical-techniques-to-constraint-llm-output-in-json-format-e3e72396c670)) report good results when moving from JSON to YAML, due to speedups in parsing, reductions in token usage, and improved output formatting. For example, [this](https://betterprogramming.pub/yaml-vs-json-which-is-more-efficient-for-language-models-5bc11dd0f6df) reports that in some examples, we can cut tokens in half when using YAML (see below).
 
-### Comparison of JSON format to YAML
+![JSON to YAML tokens comparison](/assets/images/2024-05-18-llm-experiments-vii/example-json-to-yaml-tokens.png)
 
 ### Adding a YAML format to the context generation
-We already generate a dictionary for context. We can simply dump this into a YAML format:
+We already generate a dictionary for context. We initially just use a JSON version of that dictionary as the context for our prompt. Instead, we can simply dump this into a YAML format.
 
 ```python
 import json
@@ -74,21 +74,87 @@ def generate_post_and_context(
         raise ValueError("Unsupported format. Use 'json' or 'yaml'.")
 ```
 
-Let's check how this makes our prompts look with the help of our demo app. Let's try it on the following [post](https://bsky.app/profile/michaelhobbes.bsky.social/post/3ksowrqbmmk27) from Bluesky.
+Let's check how this makes our prompts look with the help of our demo app. Let's try it on the following [post](https://bsky.app/profile/michaelhobbes.bsky.social/post/3ksowrqbmmk27) from Bluesky. I am doing all this testing via [Google Gemini](https://deepmind.google/technologies/gemini/).
 
 ![Example Bluesky post](/assets/images/2024-05-18-llm-experiments-vii/example_bsky_post.png)
 
-Old context:
+Old prompt (using JSON):
+```plaintext
+Pretend that you are a classifier that predicts whether a post has sociopolitical content or not. Sociopolitical refers to whether a given post is related to politics (government, elections,
+politicians, activism, etc.) or social issues (major issues that affect a large group of people, such as the economy, inequality, racism, education, immigration, human rights, the environment, etc.).
+We refer to any content that is classified as being either of these two categories as "sociopolitical"; otherwise they are not sociopolitical. Please classify the following text as "sociopolitical" or
+"not sociopolitical".
+
+Then, if the post is sociopolitical, classify the text based on the political lean of the opinion or argument it presents. Your options are "democrat", "republican", or 'unclear'. You are analyzing
+text that has been pre-identified as 'political' in nature. If the text is not sociopolitical, return "unclear".
+
+Think through your response step by step.
+
+Return in a JSON format in the following way:
+{
+    "sociopolitical": <two values, 'sociopolitical' or 'not sociopolitical'>,
+    "political_ideology": <three values, 'democrat', 'republican', 'unclear'. If the post is not sociopolitical, return an empty string, "">,
+    "reason_sociopolitical": <optional, a 1 sentence reason for why the text is sociopolitical or not.>,
+    "reason_political_ideology": <optional, a 1 sentence reason for why the text has the given political ideology or is unclear. If the post is not sociopolitical, return an empty string, "">
+}
+
+All of the fields in the JSON must be present for the response to be valid, and the answer must be returned in JSON format.
+
+
+Here is the post text that needs to be classified:
+'''
+<text>
+The most chilling thing about this era isn't the growing number of explicit fascists, it's the way elite institutions refuse to even attempt to stop them.
+'''
+
+
+The following contains the post and its context:
+'''
+{'context': {'content_referenced_in_post': {'embedded_content_type': None,
+                                            'embedded_record_with_media_context': {'embed_image_alt_text': {'image_alt_texts': 'Our second question tonight #bbcqt\n'
+                                                                                                                               'B\n'
+                                                                                                                               'C\n'
+                                                                                                                               'QUESTION TIME\n'
+                                                                                                                               'AUDIENCE QUESTION\n'
+                                                                                                                               'Should Scotland follow Westminster in banning the teaching of gender '
+                                                                                                                               'ideology?\n'
+                                                                                                                               '#bbcqt'},
+                                                                                   'text': 'Every day I get more radicalised I’d probably pop a bottle of brut if the BBC Question Time offices were '
+                                                                                           'obliterated by a rogue timetravelling Luftwaffe pilot'},
+                                            'has_embedded_content': True},
+             'post_author_context': {'post_author_is_reputable_news_org': False},
+             'post_tags_labels': {'post_labels': '', 'post_tags': ''},
+             'post_thread': {'thread_parent_post': {'embedded_image_alt_text': None, 'text': None}, 'thread_root_post': {'embedded_image_alt_text': None, 'text': None}},
+             'urls_in_post': {'embed_url_context': {'is_trustworthy_news_article': False, 'url': ''}, 'url_in_text_context': {'has_trustworthy_news_links': False}}},
+ 'text': "The most chilling thing about this era isn't the growing number of explicit fascists, it's the way elite institutions refuse to even attempt to stop them."}
+'''
+```
+
+Result of old prompt (using JSON):
+
+
+New prompt (using YAML):
 ```plaintext
 
 ```
 
-New context:
+Result of new prompt (using JSON):
 ```plaintext
-
+{
+    "sociopolitical": "sociopolitical",
+    "political_ideology": "democrat",
+    "reason_sociopolitical": "The post discusses the rise of fascism and the failure of institutions to address it,
+which are both sociopolitical issues.",
+    "reason_political_ideology": "The post criticizes elite institutions, which is a common theme in democratic
+political discourse."
+}
+Prompt token count: 849
+Output token count: 90
 ```
 
-### Comparing token counts and LLM performance under both formats
+
+
+### Comparing token counts and and LLM runtime under both formats
 
 ### Investigating fetching results from the LLM in YAML format.
 
