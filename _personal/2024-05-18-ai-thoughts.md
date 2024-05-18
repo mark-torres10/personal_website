@@ -1,7 +1,7 @@
 ---
 layout: single
 title:  "Why I'm not too worried about AI taking over the world"
-date:   2024-05-16 05:00:00 +0800
+date:   2024-05-18 05:00:00 +0800
 classes: wide
 toc: true
 categories:
@@ -16,14 +16,19 @@ permalink: /personal/2024-05-18-ai-thoughts
 I'm currently reading Nick Bostrom's classic book [Superintelligence](https://www.goodreads.com/en/book/show/20527133), and my thoughts could change based on how he describes the future of AGI and our relationship with it. It's definitely in the science-fiction/transhumanist camp, which I think applies to a very niche effective-altruist subset of people, but there's a high overlap between that group and Silicon Valley.
 
 ## Some concerns about AI that I think are valid
-- Access to WMD, other warfare-related uses
-- Use by malicious state actors
-- Lowering the cost of phishing attacks, identity fraud, and other scams related to social engineering
-- Propagation of misinformation
+### Access to WMD, other warfare-related uses
+### Use by malicious state actors
+### Lowering the cost of phishing attacks, identity fraud, and other scams related to social engineering
+### Propagation of misinformation
+AI significantly makes it easier to spread coordinated misinformation campaigns. [more stuff]
+
+For example, in the Philippines, misinformation is already rampant and is used as a tool by the elites to craft narratives in a way that suites their interests and to do so in more explicit and subversive ways than Western democracies could only dream of. [Rappler](https://www.rappler.com/technology/social-media/239606-cambridge-analytica-philippines-online-propaganda-christopher-wylie/) has done extensive work, for example, on how the Philippines was used as an experimentation ground for Cambridge Analytica before the 2016 US elections. They also track some of the many falsehoods and misinformation spread by the [current Marcos administration](https://www.rappler.com/newsbreak/in-depth/lies-persisted-marcos-jr-administration-first-year-president-2023/)as well as the [previous Duterte administration](https://www.rappler.com/newsbreak/iq/times-social-media-boosted-rodrigo-duterte-lies-false-statement/), so much so that they were targeted as a ["fake news outlet"](https://www.rappler.com/nation/193806-duterte-fake-news-outlet/) by Duterte himself, using classic Trump-style tactics. Just recently, a deepfake of the current president Bongbong Marcos was [discovered](https://time.com/6971239/philippines-marcos-deepfake-china-foreign-actor/) that urged Philippines to take action against China, in a time where Filipino-China relationships, in light of conflicts in the West Philippine/South China Sea as well as concerns about "Chinese sleeper agents", are at an all-time low.
 
 ## My reasons for not worrying about AI in general
 
 ### If AI exceeded human intelligence, how would we know? And would we believe it?
+
+### Can AI touch grass?
 
 ### AI adoption is left as an exercise to the reader
 [great at building stuff, not adapting it in practice]
