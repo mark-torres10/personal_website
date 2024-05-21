@@ -458,6 +458,154 @@ CRON_JOB="0 23 * * * cd $DIR && python main.py --sync_type firehose && python ma
 echo "Cron job created to run main.py everyday at 6pm Eastern Time."
 ```
 
+### Running the cron job on KLC
+Let's now pull the latest commits into KLC and then run the bash script to schedule the cron job.
+
+Then, let's give our user the permissions required to run the file:
+```bash
+chmod +x create_cron_job.sh
+./create_cron_job.sh
+```
+
+We can now see that the cron job is scheduled:
+![Cron job scheduled](/assets/images/2024-05-21-llm-experiments-viii/cron-job-schedule.png)
+
+Let's also now set up some basic logging. First, here's a setup for creating a logger and adding configs.
+
+```python
+"""Creates wrapper logger class."""
+import logging
+from logging.handlers import RotatingFileHandler
+import os
+from typing import Any, Dict
+
+log_directory = os.path.dirname(os.path.abspath(__file__))
+os.makedirs(log_directory, exist_ok=True)
+
+log_filename = os.path.join(log_directory, "logfile.log")
+
+# mypy: ignore-errors
+logging.basicConfig(
+    level=logging.INFO,
+    format="%(asctime)s %(levelname)s [%(filename)s]: %(message)s",
+    handlers=[
+        logging.StreamHandler(),
+        # Rotating log file, 1MB max size, keeping 5 backups
+        RotatingFileHandler(log_filename, maxBytes=1024 * 1024, backupCount=5),
+    ],
+)
+
+
+# mypy: ignore-errors
+class Logger(logging.Logger):
+    def __init__(self, name: str, level: int = logging.INFO) -> None:
+        super().__init__(name, level)
+
+    def log(self, message: str, **kwargs: Dict[str, Any]) -> None:
+        """Convenience method to log a message with some extra data."""
+        self.info(message, extra=kwargs)
+```
+
+We now add this logger to all of the relevant places:
+
+First, when fetching posts from the firehose.
+```python
+from lib.log.logger import Logger
+from services.sync.stream.app import start_app
+
+
+logger = Logger()
+
+def get_posts() -> None:
+    logger.info("Getting posts from the firehose.")
+    try:
+        start_app()
+        logger.info("Successfully fetched posts from the firehose.")
+    except Exception as e:
+        logger.error(f"Error getting posts from the firehose: {e}")
+        raise
+```
+
+Then, posts from the most liked feed.
+```python
+from lib.log.logger import Logger
+from services.sync.most_liked_posts.helper import main as get_most_liked_posts
+
+logger = Logger()
+
+def get_posts() -> None:
+    logger.info("Getting posts from the most liked feed.")
+    try:
+        args = {
+            "use_latest_local": False,
+            "store_local": True,
+            "store_remote": True,
+            "bulk_write_remote": True,
+            "feeds": ["today"]
+        }
+        get_most_liked_posts(**args)
+        logger.info("Successfully got posts from the most liked feed.")
+    except Exception as e:
+        logger.error(f"Error getting posts from the most liked feed: {e}")
+        raise
+```
+
+Finally, the centralized pipeline.
+```python
+"""Pipeline for getting posts from Bluesky.
+
+Can either fetch raw posts from the firehose or from the "Most Liked" feed.
+
+Run via `typer`: https://pypi.org/project/typer/
+
+Example usage:
+>>> python main.py --sync-type firehose
+"""
+import sys
+import typer
+from typing_extensions import Annotated
+
+from firehose import get_posts as get_firehose_posts
+from lib.log.logger import Logger
+from most_liked import get_posts as get_most_liked_posts
+
+from enum import Enum
+
+logger = Logger()
+
+
+class SyncType(str, Enum):
+    firehose = "firehose"
+    most_liked = "most_liked"
+
+
+def main(
+    sync_type: Annotated[
+        SyncType, typer.Option(help="Type of sync")
+    ]
+):
+    try:
+        logger.fino(f"Starting sync with type: {sync_type}")
+        if sync_type == "firehose":
+            get_firehose_posts()
+        elif sync_type == "most_liked":
+            get_most_liked_posts()
+        else:
+            print("Invalid sync type.")
+            logger.error("Invalid sync type provided.")
+            sys.exit(1)
+        logger.info(f"Completed sync with type: {sync_type}")
+    except Exception as e:
+        logger.error(f"Error in sync pipeline: {e}")
+        sys.exit(1)
+
+
+if __name__ == "__main__":
+    typer.run(main)
+```
+
+Later, we'll look at the log outputs from the pipeline job as well as the cron job outputs.
+
 ## Summary and next steps
 This is an overview of how I set up access to a remote computing cluster, migrated my code to said cluster, and then set up my data pipeline to run
 Some other remaining TODO items are:
