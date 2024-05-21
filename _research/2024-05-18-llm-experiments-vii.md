@@ -19,8 +19,7 @@ Now I want to optimize the LLM pipeline even more. We'll want to be able to supp
 Specifically, I'll do the following:
 - Convert JSON to YAML
 - Pre-compute and caching context.
-- Minimize requests to Bluesky for context generation as much as possible
-- Explore more ways to reduce tokens in the request
+- Minimize requests to Bluesky for context generation as much as possible.
 
 ## Experiment with converting JSON to YAML
 First, I'll explore converting JSON to YAML. This is inspired by [this](https://www.linkedin.com/blog/engineering/generative-ai/musings-on-building-a-generative-ai-product) blog article from LinkedIn Engineering discussing their improved success with using YAML instead of JSON for their LLM applications. The efficiency gains can vary, but several (e.g., [here](https://betterprogramming.pub/yaml-vs-json-which-is-more-efficient-for-language-models-5bc11dd0f6df) and [here](https://mychen76.medium.com/practical-techniques-to-constraint-llm-output-in-json-format-e3e72396c670)) report good results when moving from JSON to YAML, due to speedups in parsing, reductions in token usage, and improved output formatting. For example, [this](https://betterprogramming.pub/yaml-vs-json-which-is-more-efficient-for-language-models-5bc11dd0f6df) reports that in some examples, we can cut tokens in half when using YAML (see below).
@@ -562,7 +561,241 @@ We can see that using the YAML format consistently uses 2\%-3\% fewer tokens tha
 ### Adding defensive fixes for errors in YAML output formatting.
 
 ## Pre-compute and caching context
+Let's also pre-compute the context and cache it so we don't have to re-compute it over time.
+
+First, I'll create Pydantic models in order to verify the expected schemas for the context.
+```python
+class ContextModel(BaseModel):
+    context_referenced_in_post: EmbeddedContextContextModel = Field(
+        ..., description="The context referenced in the post."
+    )
+    urls_in_post: PostLinkedUrlsContextModel = Field(
+        ..., description="The URLs in the post."
+    )
+    post_thread: ThreadContextModel = Field(
+        ..., description="The context of the thread of the post."
+    )
+    post_tags_labels: PostTagsLabelsContextModel = Field(
+        ..., description="The tags and labels of the post."
+    )
+    post_author_context: AuthorContextModel = Field(
+        ..., description="The context of the author of the post."
+    )
+
+
+class FullPostContextModel(BaseModel):
+    """Model for the context of a post."""
+    uri: str = Field(..., description="The URI of the post.")
+    context: ContextModel = Field(..., description="The context of the post.")
+    text: str = Field(..., description="The text of the post.")
+    timestamp: str = Field(..., description="The timestamp of the post.")
+```
+
+The code to generate the context as a dictionary then becomes:
+```python
+def generate_post_and_context_json(post: dict) -> dict:
+    """Creates a JSON object with the post and its context.
+
+    The JSON object has the following format:
+    {
+        "post": {
+            "text": "The text of the post"
+        },
+        "context": {
+            "context_type": "context_details"
+        }
+    }
+    """
+    context_details_list: list[tuple] = generate_context_details_list(post)
+    context_dict = {
+        # convert each Pydantic model to dict
+        context_type: context_details.dict()
+        for (context_type, context_details) in context_details_list
+    }
+    full_context_dict =  {
+        "uri": post["uri"],
+        "text": post["text"],
+        "context": context_dict,
+        "timestamp": current_datetime_str
+    }
+    return FullPostContextModel(**full_context_dict).dict()
+```
+
+I wasn't sure what to use for the DB for this portion. I think that I'll eventually move to NoSQL so that I have the flexibility to make adjustments to what fields to include when calculating context as well as making it easier to re-calculate specific nested fields within the context dictionary. But, for the sake of building quickly, I'll use SQLite (and `peewee` for my ORM).
+
+```python
+db = peewee.SqliteDatabase(SQLITE_DB_PATH)
+db_version = 2
+
+conn = sqlite3.connect(SQLITE_DB_PATH)
+cursor = conn.cursor()
+
+class BaseModel(peewee.Model):
+    class Meta:
+        database = db
+
+
+class FullPostContext(BaseModel):
+    """Full context for a post."""
+    uri = peewee.CharField(unique=True)
+    context = peewee.TextField() # will need to serialize
+    text = peewee.TextField()
+    timestamp = peewee.TextField()
+
+def insert_post_context(post: FullPostContextModel):
+    """Insert a post context into the database."""
+    with db.atomic():
+        FullPostContext.create(
+            uri=post.uri,
+            context=post.context.json(),
+            text=post.text,
+            timestamp=post.timestamp
+        )
+
+
+def get_post_context(uri: str) -> Optional[FullPostContextModel]:
+    """Get a post context from the database."""
+    post = FullPostContext.get_or_none(FullPostContext.uri == uri)
+    if post:
+        return FullPostContextModel(
+            uri=post.uri,
+            context=post.context,
+            text=post.text,
+            timestamp=post.timestamp
+        )
+    return None
+```
+
+Now we can test this. We'll connect this to the prompt generation code. We'll create the context if it doesn't exist, else fetch from the database.
+```python
+def generate_post_context(post: dict) -> FullPostContextModel:
+    """Creates context of the post."""
+    context_details_list: list[tuple] = generate_context_details_list(post)
+    context_dict = {
+        # convert each Pydantic model to dict
+        context_type: context_details.dict()
+        for (context_type, context_details) in context_details_list
+    }
+    full_context_dict =  {
+        "uri": post["uri"],
+        "text": post["text"],
+        "context": context_dict,
+        "timestamp": current_datetime_str
+    }
+    return FullPostContextModel(**full_context_dict)
+
+
+def get_or_create_post_and_context_json(post: dict) -> dict:
+    """Gets or creates the context for a post."""
+    uri: str = post["uri"]
+    post_context: Optional[FullPostContextModel] = get_post_context(uri=uri)
+    if not post_context:
+        print(f"Creating context for post {uri}")
+        post_context: FullPostContextModel = generate_post_context(post)
+        insert_post_context(post_context)
+    return post_context.dict()
+```
+
+Now we update our helper for adding the context to our prompt:
+```python
+def generate_context_from_post(
+    post: dict,
+    format: str = Literal["json", "yaml"],
+    pformat_output: bool = True
+) -> str:
+    """Generates the context from the post."""
+    json_context: dict = get_or_create_post_and_context_json(post=post)
+    if format == "json":
+        res: dict = json_context
+        if pformat_output:
+            res: str = pformat(res, width=200)
+    elif format == "yaml":
+        # yes having multiple typings is weird
+        res: str = yaml.dump(json_context, sort_keys=False)
+    else:
+        raise ValueError("Unsupported format. Use 'json' or 'yaml'.")
+    full_context = f"""
+The following contains the post and its context:
+'''
+{res}
+'''
+"""
+    return full_context
+```
+
+To verify that the above code work, we test for the following cases.
+
+1. Test 1: brand new post
+    1. Verify that if context for post URI doesn’t exist, context is generated and inserted to DB.
+2. Test 2: same post as Test 1
+    1. Verify that URI exists in DB and that context is correctly pulled from the database.
+
+Now that those have been verified, we can move on.
 
 ## Minimize requests to Bluesky for context generation as much as possible
+We look at any other posts that referenced in a given Bluesky post. We look at three such cases:
 
-## Explore more ways to reduce tokens in the request
+1. A post that is an embed of another post. This is a Bluesky "quote tweet", where one post is referencing another post.
+2. If a post is part of a thread, the parent post, or the post that the current post is replying to.
+3. If a post is part of a thread, the root post, or the very first post in the thread.
+
+For all of these cases, we hydrate the referenced post from Bluesky and grab information as needed. We should store these posts in our database so that we don't have to duplicate requests.
+
+First, we create a new function that either gets a record from the database, given the record uri, or requests it from the Bluesky API:
+```python
+def get_or_request_embedded_record_with_author(
+    record_uri: str, insert_new_record_bool: bool = True
+) -> dict:
+    """Fetches the record associated with a record URI from the DB or, if it
+    doesn't exist, fetches it from the Bluesky API and then stores it in DB.
+    """
+    record_dict: dict = get_record_as_dict_by_uri(record_uri)
+    if record_dict:
+        print(f"Fetched record with URI {record_uri} from DB.")
+        record_with_author: TransformedRecordWithAuthorModel = (
+            TransformedRecordWithAuthorModel(**record_dict)
+        )
+    else:
+        print(f"Fetching record with URI {record_uri} from Bluesky API.")
+        record_with_author: TransformedRecordWithAuthorModel = (
+            get_record_with_author_given_post_uri(record_uri)
+        )
+        if insert_new_record_bool:
+            insert_new_record(record_with_author)
+    return record_with_author.dict()
+```
+
+This simplifies the way that we get information about posts referenced in a given Bluesky post:
+```python
+def process_record_context(record_uri: str) -> RecordContextModel:
+    """Processes the context for any records that are referenced in a post.
+
+    This includes posts that are being referenced by another post as well as
+    posts that are part of the thread that a post is a part of.
+
+    For now we'll just return the text and the image of these posts.
+
+    Doesn't recursively process embedded records (e.g., if the post references
+    another post that references another post, etc., the processing only goes
+    down 2 layers deep). We enforce this by getting only the text and image
+    of the embedded record, not if the embedded record has its own embedded
+    record within it.
+    """
+    if not record_uri:
+        return RecordContextModel()
+    record: dict = get_or_request_embedded_record_with_author(record_uri)
+    text = record.text
+    embed_dict = record.embed
+    embed_image_alt_text = None
+    if embed_dict:
+        if embed_dict["has_image"]:
+            embed_image_alt_text: ImagesContextModel = (
+                process_images_embed(embed_dict)
+            )
+    return RecordContextModel(
+        text=text, embed_image_alt_text=embed_image_alt_text
+    )
+```
+
+## Summary
+Now with these modified changes as well as previous changes to include batching, we should see more efficient inference due to fewer tokens being used and less duplicated requests to Bluesky being made.
