@@ -80,10 +80,13 @@ There are two types of posts that we want to sync:
 
 What I want to do is:
 1. For the firehose posts, pick X hours out of the day (maybe something like 4?) and run the firehose. While the firehose is running, we'll save all the new posts that are being written to Bluesky, in real time.
-2. For the engagement posts, fetch the latest posts from the most liked posts in the past 24 hours.
+2. For the most liked posts, fetch the latest posts from the most liked posts in the past 24 hours.
 
 #### How much data should we expect to sync per day?
 
-For the engagement 
+For the most liked posts, we know that we can expect up to 1,000 posts per day. For the firehose posts, [this](https://bsky.jazco.dev/stats) dashboard, built by one of the core Bluesky developers, gives us baseline rates, in real time, of activity on Bluesky.
+
+According to the following graphic from that dashboard, it looks like the past month, as per the writing of this document, has averaged ~800,000 posts per day.
+![Number of posts per day on Bluesky](/assets/images/2024-05-21-llm-experiments-viii/dashboard-number-posts-per-day.png)
 
 ### Setting up the cron job
