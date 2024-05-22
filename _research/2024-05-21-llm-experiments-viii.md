@@ -436,26 +436,38 @@ FYI: for this particular sync, I found that 789 out of 999 posts (79%) of posts 
 Since we want our posts to be primarily English-language and revolving around US news and events, we'll want to run the code during times in which US-based users are likely to be active. We'll kick this off around 6pm Eastern, arbitrarily assuming that that's when people start to be more active online. For simplicity's sake, we'll just run this with a cron job (no need to use some more high-powered orchestration tooling).
 
 #### Implementing the cron job via bash script
-The following is a bash script that, according to ChatGPT, will set up the cron job for running this code at 6pm Eastern everyday (we're currently on UTC-5 time for Eastern Time):
+The following is a bash script that, according to ChatGPT, will set up the cron job for running this code at 4pm Central every day.
 
 ```bash
 #!/bin/bash
 
-# This bash script will create a cron job that runs the sync pipeline via main.py everyday at 6pm Eastern Time (currently UTC-5).
+# This bash script will create a cron job that runs the sync pipeline via main.py everyday at 5pm Eastern Time (currently UTC-5)/4pm Central.
 # It will execute two commands:
-#   - python main.py --sync_type firehose
-#   - python main.py --sync_type most_liked
+#   - python main.py --sync-type firehose
+#   - python main.py --sync-type most_liked
 
 # Get the current directory
 DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
+# load conda env
+CONDA_PATH="/hpc/software/mamba/23.1.0/etc/profile.d/conda.sh"
+
+# set pythonpath
+PYTHONPATH="/projects/p32375/bluesky-research/:$PYTHONPATH"
+
+# 4pm Central
+CRON_EXPRESSION="0 16 * * *"
+
 # Define the cron job command
-CRON_JOB="0 23 * * * cd $DIR && python main.py --sync_type firehose && python main.py --sync_type most_liked"
+CRON_JOB_FIREHOSE="$CRON_EXPRESSION source $CONDA_PATH && conda activate bluesky_research && export PYTHONPATH=$PYTHONPATH && cd $DIR && python main.py --sync-type firehose >> /projects/p32375/bluesky-research/lib/log/logfile.log"
+CRON_JOB_MOST_LIKED="$CRON_EXPRESSION source $CONDA_PATH && conda activate bluesky_research && export PYTHONPATH=$PYTHONPATH && cd $DIR && python main.py --sync-type most_liked >> /projects/p32375/bluesky-research/lib/log/logfile.log"
 
 # Add the cron job to the current user's crontab
-(crontab -l 2>/dev/null; echo "$CRON_JOB") | crontab -
+(crontab -l 2>/dev/null; echo "$CRON_JOB_FIREHOSE") | crontab -
+(crontab -l 2>/dev/null; echo "$CRON_JOB_MOST_LIKED") | crontab -
+#(crontab -l 2>/dev/null; echo "$TESTCRON") | crontab -
 
-echo "Cron job created to run main.py everyday at 6pm Eastern Time."
+echo "Cron jobs created to run sync pipelines everyday at 4pm Central Time."
 ```
 
 ### Running the cron job on KLC
@@ -605,6 +617,9 @@ if __name__ == "__main__":
 ```
 
 Later, we'll look at the log outputs from the pipeline job as well as the cron job outputs.
+
+We can take a look at the logs, from testing, to see what this will look like:
+![Cron job scheduled](/assets/images/2024-05-21-llm-experiments-viii/cronjob-output.png)
 
 ## Summary and next steps
 This is an overview of how I set up access to a remote computing cluster, migrated my code to said cluster, and then set up my data pipeline to run
