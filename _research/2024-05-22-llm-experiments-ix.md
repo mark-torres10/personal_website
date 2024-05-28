@@ -425,16 +425,304 @@ def get_latest_firehose_posts(
     return res_dicts
 ```
 
-2. Filter the data
-3. Preprocess the data
-4. Write the data
+2. Filter and preprocess the data
 
-### Load the data
+We previously created code to filter posts, but we can extend that to this use case.
 
-### Filter the data
+Here is the top-level function to handle preprocessing data:
+```python
+def preprocess_raw_data() -> None:
+    """Preprocesses raw data.
+
+    We'll preprocess using the following steps:
+    1. Filter the raw data.
+    2. Preprocess the filtered data.
+    3. Validate the preprocessed data.
+    4. Write the filtered, preprocessed, validated data to the database.
+    """
+    filtered_posts, total_raw_posts,  num_posts_passed_filters = (
+        filter_latest_raw_data()
+    )
+    batch_create_filtered_posts(filtered_posts)
+    print(f"Filtered data written to DB. After filtering, {num_posts_passed_filters} posts passed the filters (out of {total_raw_posts} original posts).")  # noqa
+```
+
+First, we filter the latest raw data (latest defined as being synced later than the synctimestamp of the most recently processed post):
+```python
+def filter_latest_raw_data() -> tuple[list[FilteredPreprocessedPostModel], int, int]:  # noqa
+    """Filters the latest raw data.
+
+    Loads the latest posts, filters them, and writes the filtered data to the
+    database. Writes all posts and their filtered status, so we can track
+    which posts passed the filters and which ones didn't and so we don't
+    duplicate filtering in the future.
+    """
+    latest_raw_posts: list[ConsolidatedPostRecordModel] = load_latest_raw_posts()  # noqa
+    num_posts: int = len(latest_raw_posts)
+    print(f"Loaded {num_posts} posts for filtering.")
+    filtered_posts: list[FilteredPreprocessedPostModel] = filter_posts(
+        posts=latest_raw_posts
+    )
+    total_raw_posts = len(latest_raw_posts)
+    num_posts_passed_filters = sum(
+        post.passed_filters for post in filtered_posts
+    )
+    return filtered_posts, total_raw_posts, num_posts_passed_filters
+```
+
+We load the latest raw posts:
+```python
+def load_firehose_posts(
+    latest_preprocessing_timestamp: Optional[str] = None
+) -> list[ConsolidatedPostRecordModel]:
+    """Loads latest synced firehose posts from SQLite and then consolidates
+    their format."""
+    posts: list[dict] = get_latest_firehose_posts(
+        k=None, latest_preprocessing_timestamp=latest_preprocessing_timestamp
+    )
+    transformed_posts: list[TransformedRecordWithAuthorModel] = [
+        TransformedRecordWithAuthorModel(**post) for post in posts
+    ]
+    return consolidate_post_records(posts=transformed_posts)
+
+
+def load_feedview_posts(
+    latest_preprocessing_timestamp: Optional[str] = None
+) -> list[ConsolidatedPostRecordModel]:
+    """Loads latest synced feedview posts from MongoDB and then consolidates
+    their format."""
+    posts: list[dict] = load_collection(
+        collection=mongo_collection,
+        limit=None,
+        latest_timestamp=latest_preprocessing_timestamp,
+        timestamp_fieldname="metadata.synctimestamp"
+    )
+    transformed_posts: list[TransformedFeedViewPostModel] = [
+        TransformedFeedViewPostModel(**post) for post in posts
+    ]
+    return consolidate_post_records(posts=transformed_posts)
+
+
+def filter_previously_preprocessed_posts(
+    posts: list[ConsolidatedPostRecordModel]
+) -> list[ConsolidatedPostRecordModel]:
+    previous_uris: set[str] = get_previously_filtered_post_uris()
+    # OK for now, and will prob be OK, but in case this doesn't scale,
+    # I could explore something like a Bloom filter.
+    return [post for post in posts if post.uri not in previous_uris]
+
+
+@track_performance
+def load_latest_raw_posts(
+    sources: list[str] = ["firehose", "most_liked"]
+) -> list[ConsolidatedPostRecordModel]:
+    """Loads raw data from the firehose DB.
+    """
+    logger.info("Loading latest raw data.")
+    latest_preprocessed_post_timestamp: str = load_latest_preprocessed_post_timestamp()  # noqa
+    consolidated_raw_posts: list[ConsolidatedPostRecordModel] = []
+    for source in sources:
+        if source == "firehose":
+            posts: list[ConsolidatedPostRecordModel] = load_firehose_posts(
+                latest_preprocessing_timestamp=latest_preprocessed_post_timestamp  # noqa
+            )
+        elif source == "most_liked":
+            posts: list[ConsolidatedPostRecordModel] = load_feedview_posts(
+                latest_preprocessing_timestamp=latest_preprocessed_post_timestamp  # noqa
+            )
+        else:
+            raise ValueError(f"Data source not recognized: {source}")
+        consolidated_raw_posts.extend(posts)
+    consolidated_raw_posts: list[ConsolidatedPostRecordModel] = (
+        filter_previously_preprocessed_posts(posts=consolidated_raw_posts)
+    )
+    return consolidated_raw_posts
+```
+
+Once these are loaded, we then pass them through filtering steps. In this filtering step, we do the following:
+1. We pass the posts through a series of filters
+- The first filter is on language, where we filter out posts that are not English. This is the filter that will remove the most posts, hence why it is first.
+- We then pass through other filters, such as if a post has spam, if it has hate speech, and others. Some of these (e.g., hate speech) are not implemented yet so I just have pass-through functions for these.
+- At each stage, we record which posts pass the filters and we move those to the next filters. We also record which posts fail at the given filter and note not only that they failed, but at which step they failed
+2. We then consolidate the posts with the results of filtering, to record if a given post passed filtering and if it failed, at which step.
+
+```python
+@track_performance
+def filter_posts(
+    posts: list[ConsolidatedPostRecordModel]
+) -> list[FilteredPreprocessedPostModel]:
+    """Applies the filtering steps and returns the posts along with their
+    status.
+
+    Returns the following fields per dictionary:
+    :uri: str: The URI of the post.
+    :passed_filters: bool: Whether the post passed the filters or not.
+    :filtered_at: datetime: The timestamp of when the post was filtered.
+    :filtered_by_func: if filtered out, which function filtered it out.
+
+    Each filtering function returns the following for a given post:
+    :uri: str: The URI of the post.
+    :<filter_name>: bool: Whether the post passed the filter or not.
+
+    Example:
+        - {"uri": post["uri"], "has_spam": has_spam}
+
+    For posts, we run the filtering function and return two sets of URIs:
+    :passed_filters: set[str]: the URIs of the posts that passed the filter.
+    :failed_filters: set[str]: the URIs of the posts that failed the filter.
+
+    We add the URIs of those that failed that filter to the output. We then
+    pass to the next filter only the URIs that passed the previous filter.
+
+    After all the filters are done, we add the remaining URIs to the output
+    as the URIs of the posts that have passed all the filters.
+    """  # noqa
+    # do any preprocessing for posts before filtering
+    posts: list[ConsolidatedPostRecordModel] = preprocess_posts(posts)
+
+    # we need to run the language filter first since this will filter the
+    # majority of posts (60% - 80% of posts per batch).
+    results_after_english_filter = filter_posts_with_filter_func(
+        posts=posts, filter_func=filter_text_is_english, label="is_english"
+    )
+    english_post_uris = results_after_english_filter["passed_filters"]
+
+    # for the posts that have been filtered out, let's add them to our
+    # output.
+    res = [
+        {
+            "uri": uri,
+            "passed_filters": False,
+            "filtered_at": current_datetime_str,
+            "filtered_by_func": filter_text_is_english.__name__
+        }
+        for uri in results_after_english_filter["failed_filters"]
+    ]
+
+    # we apply downstream filters only on English posts.
+    posts_to_filter = [
+        post for post in posts if post.uri in english_post_uris
+    ]
+
+    # for each filter, we apply the filter and add the results to the output.
+    # the order of these filters doesn't particularly matter, unless we have
+    # a specific reason to prefer one ordering over another.
+    filter_funcs_with_labels: list[tuple] = [
+        (filter_posts_not_written_by_bot, "is_not_from_possible_bot_account"),
+        (filter_posts_have_no_nsfw_content, "has_no_nsfw_content"),
+        (filter_posts_have_no_spam, "has_no_spam"),
+        (filter_posts_have_no_hate_speech, "has_no_hate_speech")
+    ]
+
+    for (filter_func, label) in filter_funcs_with_labels:
+        results = filter_posts_with_filter_func(
+            posts=posts_to_filter, filter_func=filter_func, label=label
+        )
+        res.extend([
+            {
+                "uri": uri,
+                "passed_filters": False,
+                "filtered_at": current_datetime_str,
+                "filtered_by_func": filter_func.__name__
+            }
+            for uri in results["failed_filters"]
+        ])
+        # update the posts to filter if it has passed all the filters so far.
+        posts_to_filter = [
+            post
+            for post in posts_to_filter
+            if post.uri in results["passed_filters"]
+        ]
+
+    # whatever posts are left, are the ones that have passed all filters.
+    res.extend([
+        {
+            "uri": post.uri,
+            "passed_filters": True,
+            "filtered_at": current_datetime_str,
+            "filtered_by_func": None
+        }
+        for post in posts_to_filter
+    ])
+
+    # we now create a hash map of the results, with URI as the key.
+    uri_to_results_map = {result["uri"]: result for result in res}
+
+    # we then work through the original list of posts and create the resulting
+    # objects accordingly.
+    filtered_posts: list[FilteredPreprocessedPostModel] = []
+    for post in posts:
+        uri = post.uri
+        filtering_results = uri_to_results_map[uri]
+        filtered_post_result = {
+            "uri": uri,
+            "cid": post.cid,
+            "indexed_at": post.indexed_at,
+            "author": post.author,
+            "metadata": post.metadata,
+            "record": post.record,
+            "metrics": post.metrics,
+            "passed_filters": filtering_results["passed_filters"],
+            "filtered_at": filtering_results["filtered_at"],
+            "filtered_by_func": filtering_results["filtered_by_func"],
+            "synctimestamp": post.metadata.synctimestamp,
+            "preprocessing_timestamp": current_datetime_str
+        }
+        filtered_post = FilteredPreprocessedPostModel(**filtered_post_result)
+        filtered_posts.append(filtered_post)
+
+    return filtered_posts
+```
+
+3. Write the data to the database
+```python
+def batch_create_filtered_posts(
+    posts: list[FilteredPreprocessedPostModel]
+) -> None:
+    """Batch create filtered posts in chunks.
+
+    Uses peewee's chunking functionality to write posts in chunks.
+    """
+    with db.atomic():
+        for idx in range(0, len(posts), DEFAULT_BATCH_WRITE_SIZE):
+            FilteredPreprocessedPosts.insert_many(
+                posts[idx:idx + DEFAULT_BATCH_WRITE_SIZE]
+            ).on_conflict_ignore().execute()
+    print(f"Batch created {len(posts)} posts.")
+```
 
 ## Create a pipeline to run the data preprocessing and filtering steps.
+Now that we have these steps, we can create a pipeline that, on trigger, runs the preprocessing and filtering steps.
+
+```python
+"""Pipeline for running preprocessing steps.
+
+Loads the latest data for preprocessing and runs the preprocessing steps.
+
+Run via `typer`: https://pypi.org/project/typer/
+
+Example usage:
+>>> python main.py
+"""
+import sys
+import typer
+
+from lib.log.logger import Logger
+from services.preprocess_raw_data.helper import preprocess_raw_data
+
+logger = Logger(__name__)
+
+def main():
+    try:
+        logger.info("Starting preprocessing pipeline.")
+        preprocess_raw_data()
+        logger.info("Completed preprocessing pipeline.")
+    except Exception as e:
+        logger.error(f"Error in preprocessing pipeline: {e}")
+        sys.exit(1)
+
+if __name__ == "__main__":
+    typer.run(main)
+```
 
 ## Run the pipeline on a cron job on the compute cluster.
-
-
