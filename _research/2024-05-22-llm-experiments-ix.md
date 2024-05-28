@@ -730,7 +730,7 @@ Now I can create a cron job for this, based off the cron job for the [sync pipel
 ```bash
 #!/bin/bash
 
-# This bash script will create a cron job that runs the sync pipeline via main.py everyday at 11pm Eastern Time (currently UTC-5)/10pm Central.
+# This bash script will create a cron job that runs the preprocessing pipeline via main.py everyday at 11pm Eastern Time (currently UTC-5)/10pm Central.
 # It will execute the following
 #   - python main.py
 
@@ -752,5 +752,5 @@ PIPELINE_CRON_JOB="$CRON_EXPRESSION source $CONDA_PATH && conda activate bluesky
 # Add the cron job to the current user's crontab
 (crontab -l 2>/dev/null; echo "$PIPELINE_CRON_JOB") | crontab -
 
-echo "Cron jobs created to run sync pipelines everyday at 10pm Central Time."
+echo "Cron jobs created to run preprocessing pipelines everyday at 10pm Central Time."
 ```
