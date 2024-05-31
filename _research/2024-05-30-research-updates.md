@@ -1,7 +1,7 @@
 ---
 layout: single
 title:  "Research updates, 2024-05-30"
-date:   2024-05-29 04:00:00 +0800
+date:   2024-05-30 16:00:00 +0800
 classes: wide
 toc: true
 categories:
@@ -15,9 +15,9 @@ Today, I worked on the following:
 
 - Scrapped introduction of DB migration tooling.
 - Fixed problems with preprocessing pipeline.
-- Experimented with GPU inference on KLC
-- Starting analysis of pilot data posts
-- Improved basic logging and backing up logging.
+- Experimented with GPU inference on KLC.
+- Starting analysis of pilot data posts.
+- Planned for meeting with Research Support
 
 ## Scrapped the introduction of DB migration tooling.
 Previously, I had problems with inserting preprocessed posts into a SQLite database because of integrity errors. Specifically, the "indexed_at" field, which I had changed to be nullable (firehose posts don't have an "indexed_at" field) wasn't nullable in the database. The most appropriate solution would be a database migration to add nullability to this field.
@@ -338,8 +338,97 @@ What I want to do is the following:
 - Planned for meeting with Research Support
 
 ### Exporting the pilot data from the databases
+First, I created a script to handle loading the data from the DBs to .csv and .json:
 
-## Improved basic logging and backing up logging.
+```python
+def get_filtered_posts(
+    k: Optional[int] = None,
+    latest_preprocessing_timestamp: Optional[str] = None,
+    export_format: Optional[Literal["model", "dict"]]="model"
+) -> list[Union[FilteredPreprocessedPostModel, dict]]:
+    """Get filtered posts from the database."""
+    query = FilteredPreprocessedPosts.select().where(
+        FilteredPreprocessedPosts.passed_filters == True
+    )
+    if latest_preprocessing_timestamp:
+        query = query.where(
+            FilteredPreprocessedPosts.preprocessing_timestamp
+            > latest_preprocessing_timestamp
+        )
+    if k:
+        query = query.limit(k)
+    res = list(query)
+    res_dicts: list[dict] = [r.__dict__['__data__'] for r in res]
+    transformed_res: list[FilteredPreprocessedPostModel] = [
+        FilteredPreprocessedPostModel(
+            uri=res_dict["uri"],
+            cid=res_dict["cid"],
+            indexed_at=res_dict["indexed_at"],
+            author=TransformedProfileViewBasicModel(
+                **ast.literal_eval(res_dict["author"])
+            ),
+            metadata=ConsolidatedPostRecordMetadataModel(
+                **ast.literal_eval(res_dict["metadata"])
+            ),
+            record=TransformedRecordModel(
+                **ast.literal_eval(res_dict["record"])
+            ),
+            metrics=(
+                ConsolidatedMetrics(**ast.literal_eval(res_dict["metrics"]))
+                if res_dict["metrics"] else None
+            ),
+            passed_filters=res_dict["passed_filters"],
+            filtered_at=res_dict["filtered_at"],
+            filtered_by_func=res_dict["filtered_by_func"],
+            synctimestamp=res_dict["synctimestamp"],
+            preprocessing_timestamp=res_dict["preprocessing_timestamp"]
+        )
+        for res_dict in res_dicts
+    ]
+    if export_format == "dict":
+        # doing the conversion here since doing it upstream leads to JSON
+        # processing errors due to the metadata and other fields being JSON
+        # fields within JSON fields, which can lead to JSONDecodeError problems.
+        return [post.dict() for post in transformed_res]
+    return transformed_res
+```
+
+```python
+"""Collect the pilot data from the database and store as .csv and .jsonl files.
+
+These posts, which have passed filtering and preprocessing, are already stored
+in the database. Since we want to know at all times what the data is that we
+are analyzing and that this dataset needs to be made openly available, we
+need to fetch the most recent data and store it as a .csv and .jsonl file.
+"""
+import json
+import os
+
+import pandas as pd
+
+from lib.constants import current_datetime_str
+from lib.db.sql.preprocessing_database import get_filtered_posts
+
+current_file_directory = os.path.dirname(os.path.abspath(__file__))
+
+pilot_data_filename_csv = f"pilot_data_{current_datetime_str}.csv"
+pilot_data_filename_jsonl = f"pilot_data_{current_datetime_str}.jsonl"
+
+if __name__ == "__main__":
+    post_dicts: list[dict] = get_filtered_posts(export_format="dict")
+    df = pd.DataFrame(post_dicts)
+    df.to_csv(
+        os.path.join(current_file_directory, pilot_data_filename_csv),
+        index=False
+    )
+    with open(pilot_data_filename_jsonl, 'w') as f:
+        df_dicts = df.to_dict(orient="records")
+        for df_dict in df_dicts:
+            df_dict_str = json.dumps(df_dict)
+            f.write(df_dict_str + '\n')
+```
+
+Now I'm working on the classifications and doing it in batch, which is WIP.
 
 ## Planned for meeting with Research Support
 I am meeting with Research Support later to go over how to use KLC. What I'd like to learn during that call is how to successfully submit jobs to the compute cluster. That way, I can begin to run inference. In addition, I'd like to know best practices for classifying with the LLMs on the compute cluster, such as ideal job configurations, how much memory and nodes to use, expected runtime, etc.
