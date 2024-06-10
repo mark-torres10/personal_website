@@ -6,8 +6,8 @@ main:
     url: /self_education/
   - title: "Personal"
     url: /personal/
-  # - title: "About"
-  #   url: https://mmistakes.github.io/minimal-mistakes/about/
+  - title: "About"
+    url: /about/
   # - title: "Sample Posts"
   #   url: /year-archive/
   # - title: "Sample Collections"
