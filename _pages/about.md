@@ -3,6 +3,7 @@ layout: single
 title: "About Me"
 collection: about
 permalink: /about/
+classes: wide
 author_profile: true
 ---
 
