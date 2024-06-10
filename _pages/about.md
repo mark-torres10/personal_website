@@ -10,7 +10,7 @@ author_profile: true
 # Hi!
 My name is Mark Torres. I'm currently a researcher and ML engineer at the [Kellogg School of Management](https://www.kellogg.northwestern.edu/) at [Northwestern University](https://www.northwestern.edu/), studying how ML algorithms affect people's perceptions of politics on social media. I develop end-to-end LLM-powered apps and AI agents in order to learn more about people's online behaviors. In a past life, I worked for a few years as a data scientist for [SetSail](https://www.setsail.co/), a Series A startup acquired by ZoomInfo. Before that, I also worked as a data scientist and researcher at Yale. I am also completing my Master's in Computer Science at UT Austin, after completing my Bachelor's in Statistics at Yale.
 
-## Current: Researcher and ML engineer @Northwestern (2023-present)
+## Current: ML Engineer @Northwestern (2023-present)
 
 Highlights include:
 - **Served as lead engineer.** Designed and developed system architecture, pipelines, and database models. Led system design and technical requirement meetings with stakeholders. Code [here](https://github.com/METResearchGroup/bluesky-research).
