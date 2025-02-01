@@ -30,11 +30,49 @@ For the dummy records, these only have fields `{"uri": <uri>, "text": <text>}` .
 }
 ```
 
-Using these settings, I've been getting the following performance (see testing script [here](https://github.com/METResearchGroup/bluesky-research/blob/main/lib/db/tests/queue_load_testing.py), courtesy of Claude and Cursor):
+Using these settings, I've been getting the following performance (see testing script [here](https://github.com/METResearchGroup/bluesky-research/blob/main/lib/db/tests/queue_load_testing.py), courtesy of Claude and Cursor).
 
-.
+Here are the results from writing 1,000 records per row, and 25 rows per transaction.
 
-It ended up taking my test script more time to generate dummy records than it did to write them to the database.
+| Records | Seconds | Records/Second | Final DB size (MB) |
+|---------|---------|----------------|-------------------|
+| 1,000 | 0 | 645,079 | 0.13 |
+| 10,000 | 0.1 | 1,213,910 | 1.26 |
+| 100,000 | 0.08 | 1,210,124 | 12.51 |
+| 1,000,000 | 0.96 | 1,015,605 | 125 |
+| 10,000,000 | 10.01 | 998,764 | 1,250 (1.25GB) |
+| 50,000,000 | 62.39 | 801,376 | 6,250 (6.25GB) |
+| 100,000,000 | 422.72 | 236,560 | 12,500.98 (12.5GB) |
+
+Surprisingly, writing 100 rows at a time seemed to be faster for the 50M run but was faster for the rest? It seems like there's probably a sweet spot for how many records to write as part of the same transaction:
+
+| Records | Seconds | Records/Second | Final DB size (MB) |
+|---------|---------|----------------|-------------------|
+| 1,000 | 0 | 488505 | 0.13 |
+| 10,000 | 0.01 | 1,214,473 | 1.26 |
+| 100,000 | 0.08 | 1,224,832 | 12.51 |
+| 1,000,000 | 0.71 | 1,403,378 | 125.02 |
+| 10,000,000 | 7.68 | 1,302,649 | 1,250 (1.25GB) |
+| 50,000,000 | 92.54 | 540,315 | 6,250 (6.25GB) |
+| 100,000,000 | N/A | N/A | N/A |
+
+I ran the job for 100M with 25 rows at a time locally and it worked fine (though my MacBook was humming weird at the end). I ran the job for 100M with 100 rows at a time on Slurm and, even after allocating 40GB of memory, it kept crashing with an OOM error. Oof.
+
+Writing 10 rows at a time seems strictly worse than the previous two:
+
+| Records | Seconds | Records/Second | Final DB size (MB) |
+|---------|---------|----------------|-------------------|
+| 1,000 | 0.13 | 7,643 | 0.13 |
+| 10,000 | 0.12 | 81,117 | 1.26 |
+| 100,000 | 3.75 | 26,675 | 12.51 |
+| 1,000,000 | 20.18 | 49,555 | 125.02 |
+| 10,000,000 | 204.40 | 48,923 | 1,250 (1.25GB) |
+| 50,000,000 | N/A | N/A | N/A |
+| 100,000,000 | N/A | N/A | N/A |
+
+I’m unsure to what degree writing 25 rows at a time is different from writing 100 rows at a time. In practice, I likely will be writing at most 1M records at a time anyways, though it’s good to know how it would scale in the worst case.
+
+Another observation was that it ended up taking my test script more time to generate dummy records than it did to write them to the database. This is something to consider as just having a large amount of records in memory is in itself a bottleneck, especially if you're not careful about memory management. I've been able to largely get around this by making my data pipelines operate in batches; this batch approach is also why creating a good buffering model is important, since I can detach the microservices from each other and separate out the data pipeline batching from the database writes.
 
 There's still the con of SQLite being single-writer. I've gotten around this by giving every service its own SQLite instance. This way, they can each scale separately. SQLite is pretty performant at scale across a variety of dimensions (see [this](https://www.sqlite.org/limits.html) link from the SQLite docs). Plus, SQLite is simple to implement, comes out-of-the-box with Python, requires no setup or server, and is easy to manage. I re-implemented some logic of the data pipelines to work around the single-writer constraint. But also, is it really a constraint? Or can I just simplify my problem to not make it harder than it needs to be? I also clear the DB whenever I get to writing the records to a more permanent storage (using .parquet and DuckDB, which is also a surprisingly great combination as well in its own right).
 
