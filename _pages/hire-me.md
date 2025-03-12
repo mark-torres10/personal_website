@@ -26,19 +26,23 @@ I offer specialized consulting services in machine learning (including cutting-e
 ## What I Can Do For You
 
 ### Machine Learning & AI
-- **Large Language Model (LLM) Applications**: End-to-end development of LLM-powered systems
+
+- **AI Agents**: Complete development of cutting-edge AI agents for tasks like content creation, social media management, and more.
 - **RAG Applications**: End-to-end development of RAG-powered systems for things like chatbots and search.
+- **Large Language Model (LLM) Applications**: End-to-end development of LLM-powered systems
 - **ML Algorithm Development**: Custom algorithm design and implementation
 - **Model Optimization**: Improve existing models for better performance and efficiency
 - **Data Pipeline Engineering**: Build robust, scalable data processing systems
 
 ### Backend Development
+
 - **Scalable System Architecture**: Design systems that can grow with your needs
 - **Database Optimization**: At various scales, I can help optimize for your use case
 - **API Development**: API design and implementation
 - **Microservice Architecture**: Design and implementation of decoupled service architectures
 
 ### Research & Analysis
+
 - **Experimental Design**: Robust methodology for testing hypotheses
 - **Statistical Analysis**: Rigorous data analysis to extract meaningful insights
 - **Research Implementation**: Translating academic research into practical applications
