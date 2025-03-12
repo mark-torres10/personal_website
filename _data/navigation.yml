@@ -8,6 +8,8 @@ main:
     url: /self_education/
   - title: "Personal"
     url: /personal/
+  - title: "Hire Me!"
+    url: /hire-me/
   # - title: "Sample Posts"
   #   url: /year-archive/
   # - title: "Sample Collections"
