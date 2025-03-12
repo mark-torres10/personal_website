@@ -1,13 +1,13 @@
 ---
 layout: single
-title: "Hire Me!"
+title: "Consulting Services"
 collection: hire-me
 permalink: /hire-me/
 classes: wide
 author_profile: true
 ---
 
-# AI & Backend Development Consulting
+# AI Consulting
 
 I offer specialized consulting services in machine learning (including cutting-edge work such as LLMs, AI agents, and RAG applications), data science, and backend development. I've helped build ML and LLM powered applications in Silicon Valley and in cutting-edge AI research universities like Yale University and Northwestern University. I've built AI-powered applications that have been used by thousands of users. With experience ranging from early-stage startups to cutting-edge AI research, I bring a versatile skill set to help your projects succeed.
 
@@ -49,10 +49,20 @@ I offer specialized consulting services in machine learning (including cutting-e
 
 ## Why Work With Me
 
-- **Proven Track Record**: My experience spans from Silicon Valley startups to cutting-edge AI research.
+- **Proven Track Record**: My experience spans from Silicon Valley startups to cutting-edge AI research at places like Yale University and Northwestern University.
 - **Academic & Industry Experience**: I bridge the gap between cutting-edge research and practical implementation
 - **End-to-End Solutions**: From concept to deployment, I deliver complete solutions
 - **Adaptable Approach**: Whether you need a quick MVP or a robust production system, I tailor my approach to your needs
+
+## Testimonials
+
+"Mark's advice has **transformed our approach to AI implementation**. We went from struggling with model accuracy to focusing on metrics that actually matter to our business."
+
+"Our team was able to **cut development time in half** while improving our model performance by 35%. Mark's expertise was invaluable in streamlining our workflow."
+
+"We were stuck in analysis paralysis before getting help that **broke down our complex vision into actionable steps**. Now we have a clear roadmap and are seeing real progress."
+
+"The impact on our product was **immediate and measurable**. Our users have responded extremely positively to the AI features we implemented based on Mark's recommendations."
 
 ## Ideal Projects
 
