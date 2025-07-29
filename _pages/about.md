@@ -10,8 +10,13 @@ author_profile: true
 # Hi!
 My name is Mark Torres. I'm currently a researcher and software engineer at the [Kellogg School of Management](https://www.kellogg.northwestern.edu/) at [Northwestern University](https://www.northwestern.edu/), studying how ML algorithms affect people's perceptions of politics on social media. I develop end-to-end LLM-powered apps and social media algorithms in order to learn more about people's behaviors on social media. In a past life, I worked for a few years as a data scientist for [SetSail](https://www.setsail.co/), a Series A startup acquired by ZoomInfo. Before that, I also worked as a data scientist and researcher at Yale. I am also completing my Master's in Computer Science at UT Austin, after completing my Bachelor's in Statistics at Yale.
 
-## Current: ML Engineer @Northwestern (2023-present)
-- Typing (senior engineer edition) + reading papers (fledgling academic)
+## Current: Lead AI Engineer @Northwestern (2023-present)
+Building applied AI systems for social media research and computational social science.
+
+- Leading development of an **AI agent simulation platform** to study information flow, opinion dynamics, and influence on digital platforms — a modular, “custom AI-powered Facebook simulator” for academic use.  
+- Creating **open-source tools** that provide scalable, reproducible access to millions of social media records for research teams studying behavior, ideology, and discourse online.  
+- Designing and prototyping **large-scale, AI-driven feed ranking algorithms** for experimental studies in political and social influence.  
+- Bridging ML engineering with academic research by owning data pipelines, modeling infrastructure, and real-time recommendation engines used across lab projects.
 
 ## Previous: Data Scientist @SetSail (2021-2023)
 - Lots of typing (data scientist startup bro edition)
