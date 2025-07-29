@@ -45,3 +45,11 @@ Whether you’re a startup building your first AI product, a research lab develo
 
 Most projects start with a **1-week scoped sprint** focused on a clearly defined goal.  
 At the end of the sprint, you'll walk away with a working prototype, demo, or system component you can evaluate and build on. From there, we can continue into a longer-term engagement or handoff—whatever fits your needs.
+
+## Ready to build?
+
+If you're exploring how to apply AI or LLMs in your product, research, or workflow, I'd love to hear what you're working on.
+
+Most projects start with a short 1-week sprint focused on prototyping or evaluating a clear goal. You'll walk away with a working demo, a real system component, or a strategic recommendation to move forward.
+
+📬 Reach out at [markptorres1@gmail.com](mailto:markptorres1@gmail.com) or schedule a meeting via my [Calendly link](https://calendly.com/markptorres1/30min).
