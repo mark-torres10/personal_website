@@ -104,8 +104,8 @@ analytics:
 author:
   name             : "Mark Torres"
   avatar           : "assets/images/self_photo_cropped.png"
-  bio              : "ML engineering @Northwestern. Using ML to better understand human behavior on social media. Digital nomad, writing code that does stuff sometimes."
-  location         : "Philippines | US | Remote"
+  bio              : "I build machine learning systems that study social behavior online at scale. My work spans ML infrastructure, LLM-powered products, and behavior-driven insights. At Northwestern, I lead engineering and ML for academic research on social platforms. As a consultant, I help teams apply AI—whether it's building recommendation engines, automating workflows, or extracting insight from messy behavioral data. Whatever moves the needle, I ship it."
+  location         : "Chicago, IL"
   email            : "markptorres1[at]gmail.com"
   links:
     - label: "Email"

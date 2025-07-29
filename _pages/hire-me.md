@@ -7,105 +7,41 @@ classes: wide
 author_profile: true
 ---
 
-# Bridging Cutting-Edge AI Advancements with Real-World Business Impact
+# Consulting & AI Engineering Support
 
-I transform theoretical AI advancements into practical, measurable business outcomes. With experience spanning Silicon Valley startups and research at institutions like Yale and Northwestern, I deliver solutions that combine academic rigor with commercial pragmatism. I help companies adopt the latest advances in AI agents, RAG, and LLMs, to their use cases in order to drive business value.
+I help teams move fast with applied machine learning and AI systems.
 
-## I work with leaders who:
+Whether you’re a startup building your first AI product, a research lab developing ML infrastructure, or a business looking to automate workflows with LLMs—I bring the engineering experience and systems thinking to make it happen.
 
-* **Struggle to measure the ROI of their AI investments** - I help implement meaningful metrics beyond accuracy and show how to measure AI performance to drive business value.
+## What I Offer
 
-* **Lack ML expertise but are interested in building AI-powered products** - With experience from building large-scale ML systems in Silicon Valley and in cutting-edge research universities like Yale University and Northwestern University, I provide hands-on training and knowledge transfer for engineering teams.
+- **LLM Applications & AI Agents**  
+  I build custom GPT-style agents, retrieval pipelines, and task automation tools tailored to your workflows.
 
-* **Want AI features that drive business value** - I help transform existing products into AI-enabled solutions that solve real user problems, not just showcase capabilities.
+- **AI Strategy & Prototyping**  
+  I work with teams to scope high-leverage use cases, rapidly prototype new features, or audit existing AI systems.
 
-* **Need to scale AI systems cost-effectively** - Drawing from my experience optimizing large-scale systems, I help design architectures that balance performance with operational costs.
+- **Recommendation & Ranking Systems**  
+  I help teams develop models to personalize feeds, rank leads, and prioritize actions using behavior or business data.
 
-## What I Can Do For You
+- **ML Infrastructure & Pipelines**  
+  From ingestion to inference, I design, optimize, and productionize end-to-end ML systems.
 
-### Machine Learning & AI
+## Who I've Helped
 
-* **AI Agents**: End-to-end development of autonomous AI agents that automate complex workflows, generate content, and manage interactions—delivering up to 70% time savings on routine tasks.
+- Small businesses automating sales and marketing and admin workflows through AI agents. Projects include:
+  - A [lead qualification AI agent](https://github.com/mark-torres10/lead-generation-agent) that filters and triages inbound leads in real time—reducing response time to under 10 minutes and routing with over 90% accuracy.
+  - A [CRM-updating agent](https://github.com/mark-torres10/lead-generation-agent) that automatically syncs lead data with <30s latency to keep contact records up-to-date.
+  - A [meeting-scheduling agent](https://github.com/mark-torres10/lead-generation-agent) that follows up with qualified leads and books meetings—converting 42% of routed leads to scheduled calls.
+  - A [copywriting AI agent](https://github.com/mark-torres10/copywriting-ai-agent) that writes tailored marketing copy based on a customer's own branding.
+  - An [campaign analyzer AI agent](https://github.com/mark-torres10/campaign-agent-analyzer-n8n) that scores Google Ads campaigns and flags underperformance..
+  - An [social content AI generator](https://github.com/mark-torres10/restaurant_marketing_agent) that drafts Facebook, Instagram, and email blasts for local businesses..
+- SaaS and consumer applications looking for how to power their products with AI. One example includes integrating cutting-edge voice and video AI models to create [custom AI avatars](https://github.com/mark-torres10/ai_voice_visual_avatar_agent).
+- Product and engineering teams integrating LLMs into internal tools and customer-facing platforms.
+- Academic labs researching online behavior, political expression, and social media influence.
+- Civic and policy-focused organizations applying AI to large-scale behavioral and demographic data using LLMs and predictive models.
 
-* **RAG Applications**: Custom retrieval-augmented generation systems that combine your proprietary data with LLMs, resulting in highly accurate, context-aware responses for chatbots and knowledge bases.
+## How I Work
 
-* **Large Language Model (LLM) Applications**: Strategic implementation of LLMs into your products with custom fine-tuning, evaluation frameworks, and cost-optimized architectures.
-
-* **ML Algorithm Development**: Custom algorithm design using supervised, unsupervised, and reinforcement learning approaches tailored to your specific data characteristics and business constraints.
-
-* **Model Optimization**: Performance tuning that improves accuracy while reducing inference costs—typically achieving 30-50% cost reduction without performance degradation.
-
-* **Data Pipeline Engineering**: Scalable, fault-tolerant data workflows that handle evolving data needs while maintaining performance under increasing load.
-
-### Backend Development
-
-* **Scalable System Architecture**: Systems designed for growth, with clear migration paths from MVP to enterprise scale.
-
-* **Database Optimization**: Performance tuning across SQL, NoSQL, and vector database systems, with particular expertise in cost-effective scaling patterns.
-
-* **API Development**: Clean, well-documented, and versioned APIs that enable seamless integration and future extensibility.
-
-* **Microservice Architecture**: Strategically decomposed services that balance team autonomy with system cohesion.
-
-### Research & Analysis
-
-* **Experimental Design**: Methodologically sound research frameworks that produce reliable, actionable insights.
-
-* **Statistical Analysis**: Rigorous statistical approaches that extract meaningful patterns while avoiding common analytical pitfalls.
-
-* **Research Implementation**: Translation of academic advances into production-ready implementations with appropriate trade-offs for business contexts.
-
-## What Sets Me Apart
-
-* **Research-to-Production Expertise**: I don't just understand papers—I implement them in production environments that need to work reliably at scale.
-
-* **Full-Stack AI Understanding**: From data pipelines to model architecture to business integration, I address the entire AI implementation lifecycle.
-
-* **Outcome-Focused Approach**: Every technical decision is evaluated against its impact on business metrics and user experience.
-
-* **Rapid Prototyping to Production**: I build quick proofs-of-concept that can evolve into robust production systems without complete rewrites.
-
-## Testimonials
-
-"The consulting expertise **transformed our approach to AI implementation**. We went from struggling with model accuracy to focusing on metrics that actually matter to our business."
-
-"Our team was able to **cut development time in half** while improving our model performance by 35%. The frameworks and methodologies were invaluable in streamlining our workflow."
-
-"We were stuck in analysis paralysis before getting help that **broke down our complex vision into actionable steps**. Now we have a clear roadmap and are seeing real progress."
-
-"The impact on our product was **immediate and measurable**. Our users have responded extremely positively to the AI features we implemented, with engagement increasing 43% in the first month."
-
-"The consulting provided **bridged the gap between technical capabilities and business outcomes** for us. We now understand not just what our AI can do, but how it drives value for our customers."
-
-## Ideal Projects
-
-I can best help with projects involving:
-
-* LLM-powered applications including RAG systems, chatbots, AI agents, and semantic search
-* Social media algorithms and analysis with user behavior modeling
-* Data-intensive backend systems requiring performance optimization
-* Experimental platforms for behavioral research with rigorous evaluation methodologies
-* Performance and cost optimization for ML systems in production
-* Data pipeline architectures that need to scale with evolving business needs
-
-## Let's Work Together
-
-I offer flexible engagement models including:
-
-* **Strategy Sessions**: One-time deep dives to address specific challenges.
-* **Project-Based Consulting**: End-to-end implementation of defined initiatives.
-* **Ongoing Advisory**: Regular guidance for your internal teams.
-* **Technical Due Diligence**: Evaluation of AI systems and approaches.
-
-**Ready to discuss your project? Here's how:**
-
-1. Send a brief overview of your challenge to [markptorres1@gmail.com](mailto:markptorres1@gmail.com)
-2. Schedule a free 30-minute consultation to explore how I can help
-3. Receive a tailored proposal within 48 hours of our discussion
-
-**Contact:**  
-**Email**: [markptorres1@gmail.com](mailto:markptorres1@gmail.com)  
-**LinkedIn**: [LinkedIn](https://www.linkedin.com/in/mark-torres)  
-**GitHub**: [GitHub](https://github.com/mark-torres10)
-
-I typically respond within 24-48 hours and am currently accepting new projects.
+Most projects start with a **1-week scoped sprint** focused on a clearly defined goal.  
+At the end of the sprint, you'll walk away with a working prototype, demo, or system component you can evaluate and build on. From there, we can continue into a longer-term engagement or handoff—whatever fits your needs.
