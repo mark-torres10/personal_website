@@ -43,7 +43,7 @@ layout: archive
     <a href="{{ site.baseurl }}{{ page.url | replace: 'index', page_num | plus: 1 }}" class="pagination__next">Next</a>
   {% endif %}
 </div> -->
-{% assign all_posts = site.research | concat: site.self_education | concat: site.personal %}
+{% assign all_posts = site.research | concat: site.self_education | concat: site.personal | concat: site.ai_workflows %}
 {% assign all_posts = all_posts | sort: 'date' | reverse %}
 {% if paginator %}
   {% assign posts = paginator.posts %}

@@ -1,13 +1,13 @@
 ---
 layout: single
 title:  "From Production Crashes to Systematic Solutions: How AI-Human Collaboration Solves Complex Problems"
-date:   2025-01-31 05:00:00 +0800
+date:   2025-06-30 05:00:00 +0800
 classes: wide
 toc: true
 categories:
 - ai_workflows
 - all_posts
-permalink: /ai_workflows/2025-01-31-systematic-debugging-ai-collaboration
+permalink: /ai_workflows/2025-06-30-systematic-debugging-ai-collaboration
 ---
 
 # From Production Crashes to Systematic Solutions: How AI-Human Collaboration Solves Complex Problems
