@@ -181,6 +181,7 @@ exclude:
   - tmp
   - /docs # ignore Minimal Mistakes /docs
   - /test # ignore Minimal Mistakes /test
+  - ai_tools # exclude AI tools directory from Jekyll processing
 keep_files:
   - .git
   - .svn
