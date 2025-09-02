@@ -9,7 +9,7 @@ author_profile: true
 
 # Hi!
 
-I'm Mark — an AI generalist and ML engineer with one foot in research and the other in production. At Northwestern, I lead AI and ML engineering for academic work on online behavior and influence. In my consulting practice, I help teams apply machine learning and LLMs to real-world problems—building tools, agents, and infrastructure that automate, augment, or accelerate their work. I bridge research and engineering to help teams ship smart, scalable systems. My focus is simple: solve real problems with real systems that ship.
+I'm Mark — an AI generalist and ML engineer with one foot in research and the other in production. At Northwestern, I lead AI and ML engineering for academic work on online behavior and influence. I'm specifically interested in how AI affects how people learn about the world as well as how to use AI to simulate large-scale social networks. In my consulting practice, I help teams apply machine learning and LLMs to real-world problems—building tools, agents, and infrastructure that automate, augment, or accelerate their work. I bridge research and engineering to help teams ship smart, scalable systems. My focus is simple: solve real problems with real systems that ship.
 
 ## Current: Lead AI Engineer @Northwestern (2023-present)
 
