@@ -309,6 +309,9 @@ collections:
   personal:
     output: true
     permalink: /:collection/:path/
+  ai_workflows:
+    output: true
+    permalink: /:collection/:path/
 
 
 # HTML Compression
@@ -358,6 +361,17 @@ defaults:
   - scope:
       path: ""
       type: personal
+    values:
+      layout: single
+      author_profile: true
+      read_time: true
+      comments: # true
+      share: true
+      related: true
+  # _ai_workflows
+  - scope:
+      path: ""
+      type: ai_workflows
     values:
       layout: single
       author_profile: true

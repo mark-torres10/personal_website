@@ -4,6 +4,8 @@ main:
     url: /about/
   - title: "Research"
     url: /research/
+  - title: "AI Workflows"
+    url: /ai_workflows/
   - title: "Self Education"
     url: /self_education/
   - title: "Personal"
