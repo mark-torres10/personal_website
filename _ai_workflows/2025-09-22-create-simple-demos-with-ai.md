@@ -20,6 +20,16 @@ permalink: /ai_workflows/2025-09-22-create-simple-demos-with-ai
 
 *I realized that I can actually use AI to build a demo very quickly in order to figure the core concepts*
 
+(I create plans)
+
+(But instead of having the AI just go off and do it, I have it first create a simple demo version. That way, I can test the code logic on well-constrained data, verify training logic, check if file exports make sense, and see if code functionality and analysis of results make sense)
+
+(More generally, it's really good for demo-driven development, which IDK if it exists generally so I'll have to look, but I like it as a complement to test-driven development)
+
+(It's definitely a framework that I'll keep in mind for executing further workflows)
+
+(TODO: can I add this to my AI agent tool stack?)
+
 ## Where does a normal AI-driven workflow fall short?
 
 ## What works well for me?
