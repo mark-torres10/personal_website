@@ -1,16 +1,16 @@
 ---
 layout: single
-title:  "What I'm reading today (2025-09-28)"
-date:   2025-09-28 05:00:00 +0800
+title:  "What I'm reading today (2025-09-26)"
+date:   2025-09-26 05:00:00 +0800
 classes: wide
 toc: true
 categories:
 - research
 - all_posts
-permalink: /research/2025-09-28-what-im-reading
+permalink: /research/2025-09-26-what-im-reading
 ---
 
-# What I'm reading today (2025-09-28)
+# What I'm reading today (2025-09-26)
 
 A brief compilation of things I'm reading and looking at today. Includes link to resource, as well as (1) key insight in plain English, (2) my brief thoughts as well as where this plugs into my work today, and (3) follow-up action (if any). Recording my readings like this helps keep me accountable to understanding what I'm reading, while also keeping it light and sustainable.
 
