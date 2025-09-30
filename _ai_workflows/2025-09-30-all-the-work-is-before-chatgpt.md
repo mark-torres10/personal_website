@@ -1,16 +1,16 @@
 ---
 layout: single
-title: "Creating an evals platform from scratch"
-date: 2025-09-29 05:00:00 +0800
+title: "The hard work comes before you start asking ChatGPT to write (code, papers, docs, etc.)"
+date: 2025-09-30 05:00:00 +0800
 classes: wide
 toc: true
 categories:
 - ai_workflows
 - all_posts
-permalink: /ai_workflows/2025-09-29-creating-evals-platform-from-scratch
+permalink: /ai_workflows/2025-09-30-all-the-work-is-before-chatgpt
 ---
 
-# The hard work comes before you start asking ChatGPT to write (code, papers, docs, etc.).
+# The hard work comes before you start asking ChatGPT to write (code, papers, docs, etc.)
 
 Vibe coding promises to make it really easy to write an app. But there's fundamentally 2 things that are flawed with this premise:
 
