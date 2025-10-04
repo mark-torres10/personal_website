@@ -1,6 +1,6 @@
 ---
 layout: single
-title: "Creating grounded AI experts"
+title: "Being AI-first for non-technical tasks: a specific example"
 date: 2025-10-04 10:00:00 +0800
 classes: wide
 toc: true
@@ -10,9 +10,11 @@ categories:
 permalink: /ai_workflows/2025-10-04-being-ai-first
 ---
 
-# Being AI-first: non-technical workflows
+# Being AI-first for non-technical tasks: a specific example
 
-Right now I'm working on securing grant funding for projects in 2026. Instead of approaching this traditionally, I'm using AI workflows throughout the entire process. Here's how I'm being AI-first in a non-technical domain.
+Right now I'm working on securing grant funding for projects in 2026. Instead of approaching this traditionally, I'm using AI workflows throughout the entire process. Here's how I'm being AI-first in a non-technical task.
+
+I've been building out my [AI tooling and workflow system](https://github.com/mark-torres10/ai_tools/tree/main/agents) over the past few months, and this grant writing process was a perfect test case for applying these tools to non-technical work. Many of the personas and task instructions I've developed were directly applicable to this workflow.
 
 ## Use case 1: Have ChatGPT summarize my research interests
 
@@ -91,4 +93,3 @@ This approach isn't limited to grant writing. You can apply similar workflows to
 The traditional approach to complex writing tasks is largely sequential and individual. You research alone, write alone, and get limited feedback from a few colleagues. The AI-first approach makes every step collaborative, systematic, and iterative. Instead of hoping your first draft is good enough, you can rapidly iterate through multiple versions with different perspectives and systematic feedback. It's the difference between working with a single research assistant versus having an entire research team at your disposal.
 
 There's no free lunch here, though. The hard work comes before you start asking ChatGPT to write anything. You still need to articulate why you're doing the task, clearly define what you need, and know what success looks like. But once you've done that foundational work, AI can dramatically accelerate the execution phase.
-
