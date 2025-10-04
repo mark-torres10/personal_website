@@ -7,7 +7,7 @@ toc: true
 categories:
 - ai_workflows
 - all_posts
-permalink: /ai_workflows/2025-09-30-creating-grounded-ai-expets
+permalink: /ai_workflows/2025-09-30-creating-grounded-ai-experts
 ---
 
 # Creating grounded AI experts
