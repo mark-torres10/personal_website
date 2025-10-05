@@ -9,7 +9,10 @@ author_profile: true
 
 # Hi!
 
-I'm Mark — an AI generalist and ML engineer with one foot in research and the other in production. At Northwestern, I lead AI and ML engineering for academic work on online behavior and influence. I'm specifically interested in how AI affects how people learn about the world as well as how to use AI to simulate large-scale social networks. In my consulting practice, I help teams apply machine learning and LLMs to real-world problems—building tools, agents, and infrastructure that automate, augment, or accelerate their work. I bridge research and engineering to help teams ship smart, scalable systems. My focus is simple: solve real problems with real systems that ship.
+  I'm Mark, an AI engineer, researcher, and systems builder. As a research engineer, I combine social sciences with AI tools, AI agents, and large-scale algorithms to study social media platforms and computationally redesign them to promote healthier discourse.
+  In parallel, I work at the intersection of AI research and methodology, developing and evaluating large language models as tools for computational social science. Outside academia,
+  I also consult with teams across industries, helping startups, researchers, and organizations turn AI ideas into working systems.
+  I believe the future of AI isn't about replacing human judgment, but about amplifying us through human-AI workflows that allow us to use the best of both worlds to solve real-world problems.
 
 ## Current: Lead AI Engineer @Northwestern (2023-present)
 
