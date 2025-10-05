@@ -35,13 +35,17 @@ Building applied AI systems for social media research and computational social s
 ## Published a few papers here and there
 
 My [Google Scholar Profile](https://scholar.google.com/citations?user=d7CzCRMAAAAJ&hl=en).
-- Brady, W.J., McLoughlin, K.L., Torres, M.P. et al. Overperception of moral outrage in online social networks inflates beliefs about intergroup hostility. Nat Hum Behav 7, 917–927 (2023). https://doi.org/10.1038/s41562-023-01582-0
-- Iwamoto, S.K., Alexander, M., Torres, M. et al. Mindfulness Meditation Activates Altruism. Sci Rep 10, 6511 (2020). https://doi.org/10.1038/s41598-020-62652-1
 
-## Education:
+- Brady, W.J., Doyle, M, Elnakouri, A., Finkel, E., Jackson, J.C., Kteily, N., Parker, V., Puryear, C., Spelman, T. , Teeny, J., & **Torres, M.** (In Principle Acceptance; registered report). Redesigning algorithms to intervene on social norm misperceptions during a national election. Nature.
+- Brady, W.J., McLoughlin, K.L., **Torres, M.P.** et al. Overperception of moral outrage in online social networks inflates beliefs about intergroup hostility. Nat Hum Behav 7, 917–927 (2023). https://doi.org/10.1038/s41562-023-01582-0
+- Iwamoto, S.K., Alexander, M., **Torres, M.** et al. Mindfulness Meditation Activates Altruism. Sci Rep 10, 6511 (2020). https://doi.org/10.1038/s41598-020-62652-1
+
+## Education
+
 - MS, Computer Science, @UT Austin
 - BS, Statistics, @Yale
 - Certificate, Mrs. Puff's Boating School
 
 ## Et cetera
-I am a retired digital nomad, now based out of Chicago.
+
+I am a former digital nomad, now based out of Chicago.
