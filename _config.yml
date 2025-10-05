@@ -103,7 +103,7 @@ analytics:
 # Site Author
 author:
   name             : "Mark Torres"
-  avatar           : "assets/images/personal_picture.png"
+  avatar           : "assets/images/personal_picture.jpg"
   bio              : "I study how AI and social media algorithms interact with human psychology and sociology to shape social learning online. As a research engineer, I build large-scale data systems, AI-driven simulations, and LLM-based methods to understand and redesign digital environments for healthier discourse. I also consult with teams on shipping real-world AI systems as well as building AI agents and tools that drive value."
   location         : "Chicago, IL"
   email            : "markptorres1[at]gmail.com"
