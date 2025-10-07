@@ -1,18 +1,20 @@
 ---
 layout: single
-title: "A Practical Example and a Demo: I'm Using AI Agents for Everyday Tasks"
+title: What I learned watching ChatGPT Agent Mode try to automate lecture notes for me"
 date: 2025-10-07 10:00:00 +0800
 classes: wide
 toc: true
 categories:
 - ai_workflows
 - all_posts
-permalink: /ai_workflows/2025-10-07-practical-example-demo-ai-agents-everyday-tasks
+permalink: /ai_workflows/2025-10-07-chatgpt-agent-mode-learnings
 ---
 
-# A Practical Example and a Demo of how I'm uusing AI Agents for everyday work
+# What I learned watching ChatGPT Agent Mode try to automate lecture notes for me
 
 I have a task that I typically do where I take lecture videos from my class in my master's program, I go and I download the transcripts and I pass them in a ChatGPT so that then I can teach myself with my own AI agent prompt that I created for myself that is optimized to how I learn. And then I just do that instead of trying to watch the lectures, for me it's a lot more of active and engaging way to learn the material in a way that makes sense to me. Typically it's a manual process where I have to get the transcripts for myself and upload them to ChatGPT. It's very easy, but I wanted to see if AI agent mode on ChatGPT could automate this on my behalf. So below are some of the steps that I did to do that as well as some of the adventures that I had and some of the findings I had along the way.
+
+Here's a [Loom link](https://www.loom.com/share/435b0ed30d8941239a21b811dbab7fa8?sid=bdaa0dd5-1363-4dfd-b809-05c3532dcf71) of my (mis)adventures
 
 Here are the exact instructions I gave to ChatGPT:
 
@@ -40,4 +42,38 @@ I've downloaded the transcripts. Here are those text files. Continue with the st
 Then, when you have created the three ChatGPT chat windows, one for each of the text files, I want you to go back to the projects in the folder that called School plus learning stuff. And then I want to change the name to each of those conversations. I want to give them this name pattern that you see in the other lectures that are prepended with brackets of Fall 2025. There's a particular syntax of how I named those, and I wanted to decipher what that is, interpret it, and then rename each of the three subsequent chats that you created in the same way. 
 ```
 
-I had to log in to `ChatGPT` because I suppose that this is a run in a virtual sandbox environment. Beyond that, I didn't have to intervene. It did spend a lot of time trying to goof around. It kept misclicking the + to attach files. It clicked on the wrong folders. It sometimes misclicked the text box. So there were some mistakes that hopefully are going to be cleared up as the computer use agents get better over time. On the plus side, it was smart enough to be able to intelligently allow a page to load. It would give the page time to load. It would type in the correct thing. It would know what text box was and be able to populate it correctly. It also knew enough to be able to upload the correct files. It was able to read what was on the page and know the titles of other chats that I had mentioned. It was also able to correctly know the file on the folder that I wanted it to reference in the first place. So a bit of work on the edges, but actually pretty good. And eventually after 10-15 minutes, it was a complete task. It would have taken me like 2-3 minutes to do, but it's cool to see what it could and couldn't do. It kind of got confused and if it goofed around a little bit and it fumbled in ways that a human would not do. But the fact that a computer can even do this in the first place is pretty impressive. And you can imagine having something like this operate in the background and do tasks that don't require human intervention and just have it go upload forms, go and fill things out and things like that that normally a person wouldn't have to do. It oftentimes appears to also get messed up by pages having to reload it sometimes misclicks the wrong link and therefore has to spend time trying to correct itself and they get stuck in these weird loops even after 15 or so minutes it got stuck on like a misclicking task so it still can't really check the right thing but again the fact that a computer can do this is pretty impressive as it were.
+## What actually happened
+
+I had to log in to ChatGPT manually because the agent runs in a virtual sandbox environment. Beyond that initial authentication, I didn't have to intervene.
+
+### What didn't work well
+
+The agent spent considerable time making clumsy mistakes:
+
+- Repeatedly misclicked the `+` button to attach files
+- Clicked on wrong folders
+- Misclicked text boxes
+- Got confused when pages reloaded
+- Sometimes clicked the wrong links and had to backtrack
+- Got stuck in loops trying to correct its own mistakes
+
+These are mistakes that a human wouldn't make. After 15 minutes, it was still stuck on some misclicking tasks. These edge case failures will hopefully improve as computer use agents mature. Eventually I just stopped the agent and gave up after 25 minutes because I couldn't stand to watch it get stuck trying to click the ellipses that you had to click on the UI to be able to change the name. It knows that it should be doing it, but it's been stuck on that step for 10 minutes now.
+
+### What actually worked
+
+On the positive side, the agent demonstrated surprising competence in several areas:
+
+- Intelligently waited for pages to load before proceeding
+- Correctly typed in the right information
+- Identified which text boxes to populate
+- Successfully uploaded the correct files
+- Read page content and recognized the titles of my existing chats
+- Correctly navigated to the specific folder I wanted it to reference
+
+Eventually, after 10-15 minutes, it completed the task, whereas that would have taken me 2-3 minutes manually.
+
+## What this means for AI automation
+
+The fact that a computer can do this at all is impressive. You can imagine these agents operating in the background for tasks that don't require human intervention: uploading forms, filling out repetitive information, organizing files, setting up recurring workflows. The current implementation fumbles in ways that feel distinctly non-human, but the core capability is there.
+
+This isn't replacing human work yet. It's slower and more error-prone. But it's a glimpse of what's coming. Tasks that are tedious but don't require judgment or creativity are exactly where these agents will shine once the reliability improves.
