@@ -1,6 +1,6 @@
 ---
 layout: single
-title: "Why I migrated my notes from Notion to Github and Cursor using the Notion MCP"
+title: "How I migrated my notes from Notion to Github and Cursor using the Notion MCP"
 date: 2025-10-15 10:00:00 +0800
 classes: wide
 toc: true
@@ -10,7 +10,7 @@ categories:
 permalink: /ai_workflows/2025-10-15-migrating-notes-notion-to-github-cursor-mcp
 ---
 
-# Why I migrated my notes from Notion to Github and Cursor using the Notion MCP
+# How I migrated my notes from Notion to Github and Cursor using the Notion MCP
 
 After years of maintaining my notes and documentation in Notion, I recently made the decision to migrate everything to Github and manage it all through Cursor. Notion is a powerful tool with its own AI capabilities and I've used it for years. But the friction of context-switching between tools and the limitations of working across multiple apps finally outweighed the benefits. I like having a "second mind" and there's many ways to do it (Obsidian fans have strong opinions on this) but I figure that the easiest way to do this is to have lightweight markdown files that AI agents can easily index.
 
