@@ -118,6 +118,21 @@ The agent can:
 
 This automated process helps me keep track of the many possible ideas and projects that get thrown around in research work, ensuring nothing falls through the cracks. Without this automation, I'd either have to manually review every note file (which I'd never actually do) or risk losing important follow-up items.
 
+Here's an example of that. Here's the backlog of tasks that I came up with myself.
+![Starter prompt](/assets/images/2025-10-15-migrating-notes-notion-to-github-cursor-mcp/9.png)
+
+Now I'm asking ChatGPT to scan my notes to populate this backlog.
+
+![Starter prompt](/assets/images/2025-10-15-migrating-notes-notion-to-github-cursor-mcp/10.png)
+
+The raw output is pretty noisy.
+
+![Starter prompt](/assets/images/2025-10-15-migrating-notes-notion-to-github-cursor-mcp/11.png)
+
+But, having the AI agent curate it and give me the noisy list helps me to go through and trim it myself without having to go through months of notes to get the same information.
+
+![Starter prompt](/assets/images/2025-10-15-migrating-notes-notion-to-github-cursor-mcp/12.png)
+
 ### Plan Mode vs. my custom planning system
 
 I actually have my own [custom planning system](https://github.com/mark-torres10/ai_tools/blob/main/agents/task_instructions/project_management/PROJECT_PLANNING_EXECUTION_OUTLINE.md) that I've been using for heavier projects. It's designed for deep planning and thinking where the plan needs to be very detailed and requires extensive iteration.
@@ -141,3 +156,9 @@ All of this happened automatically. The AI agent handled:
 - Saving files with proper naming (e.g., `2025-10-15.md` for daily notes, `2025-10-15_billy.md` for meeting notes)
 
 ## Conclusion
+
+This migration completely changed how I think about knowledge management. Instead of juggling between Notion and Cursor, I now have everything in one place where my AI agents can actually use my notes to help me work better. The Notion MCP made what would've been a painful weekend project into a 30-minute automated process—just describe what you want and let the AI handle it.
+
+The real win isn't just having my notes in markdown files. It's that now when I'm debugging something, the AI can reference similar problems I've solved before. When I'm planning projects, it can pull insights from past research. My notes aren't just sitting there—they're actively making me more productive.
+
+If you're living in your code editor and constantly switching to a separate notes app, this approach is worth trying. The technical barrier is basically zero now with MCP, and the productivity gains are immediate. Sometimes the best solution is just bringing everything into the environment where you already spend your time.
