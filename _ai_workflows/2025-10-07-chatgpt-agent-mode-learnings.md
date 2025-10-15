@@ -1,6 +1,6 @@
 ---
 layout: single
-title: What I learned watching ChatGPT Agent Mode try to automate lecture notes for me"
+title: What I learned watching ChatGPT Agent Mode try to automate lecture notes for me
 date: 2025-10-07 10:00:00 +0800
 classes: wide
 toc: true
