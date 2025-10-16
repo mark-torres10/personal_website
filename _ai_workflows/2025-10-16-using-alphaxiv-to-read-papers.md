@@ -12,11 +12,11 @@ permalink: /ai_workflows/2025-10-16-using-alphaxiv-to-read-papers
 
 # How I use AlphaXiv to read research papers
 
-Reading research papers is a core part of staying current in AI and machine learning. But let's be honest—most papers are dense, technical, and time-consuming to parse. I've tried various approaches: reading papers cover-to-cover, using ChatGPT with PDFs, and browser extensions like Gemini. Each has its place, but I've recently been using AlphaXiv, and it's become my go-to tool for quickly understanding new research.
+Reading research papers is a core part of staying current in AI and machine learning. But most papers are dense, technical, and time-consuming to parse, and I need to quickly be able to read through papers, get the core takeaways, and figure out which ones are worth a deeper dive. I've tried various approaches: reading papers cover-to-cover, using ChatGPT with PDFs, and browser extensions like Gemini. Each has its place, but I've recently been using AlphaXiv, and it's become my go-to tool for quickly understanding new research.
 
 ## What is AlphaXiv?
 
-AlphaXiv is a platform designed specifically for reading and understanding research papers. Unlike just having an AI chat with a PDF, AlphaXiv provides a streamlined interface that combines paper discovery, AI-generated summaries, and interactive Q&A, all in one place.
+[AlphaXiv](https://www.alphaxiv.org/) is a platform designed specifically for reading and understanding research papers. Unlike just having an AI chat with a PDF, AlphaXiv provides a streamlined interface that combines paper discovery, AI-generated summaries, and interactive Q&A, all in one place.
 
 The key advantage is the integration. You're not copying links between tools or uploading PDFs. You search for papers, get digestible summaries, and can immediately ask follow-up questions without any context switching. It's built for the specific workflow of academic paper reading, which makes it more efficient than general-purpose AI tools.
 
