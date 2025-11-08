@@ -174,6 +174,101 @@ help: consider borrowing here
 316 |     println!("area of rect1 is: {}", area(&rect1));
 ```
 
+This applies even for something like a for-loop. For example, consider the following two loops:
+
+```rust
+let mut v = vec![1, 2, 3, 4, 5];
+for i in v {
+    println!("The element is {i}");
+}
+```
+
+This looks fine:
+
+```rust
+The element is 1
+The element is 2
+The element is 3
+The element is 4
+The element is 5
+The element is 6
+```
+
+But, as it turns out, if you iterate in this way, you're taking ownership of `v`, which means that once they fall out of scope (here, outside of the scope of the for-loop), `v` can no longer be accessed:
+
+```rust
+let mut v = vec![1, 2, 3, 4, 5];
+for i in v {
+    println!("The element is {i}");
+}
+println!("4th element of v: {:?}", v.get(3));
+```
+
+```rust
+error[E0382]: borrow of moved value: `v`
+   --> src/main.rs:617:40
+    |
+597 |     let mut v = vec![1, 2, 3, 4, 5];
+    |         ----- move occurs because `v` has type `Vec<i32>`, which does not implement the `Copy` trait
+...
+614 |     for i in v {
+    |              - `v` moved due to this implicit call to `.into_iter()`
+...
+617 |     println!("4th element of v: {:?}", v.get(3)); // this doesn't work bec...
+    |                                        ^ value borrowed here after move
+    |
+note: `into_iter` takes ownership of the receiver `self`, which moves `v`
+   --> /rustc/f8297e351a40c1439a467bbbb6879088047f50b3/library/core/src/iter/traits/collect.rs:310:18
+    = note: borrow occurs due to deref coercion to `[i32]`
+help: consider iterating over a slice of the `Vec<i32>`'s content to avoid moving into the `for` loop
+    |
+614 |     for i in &v {
+    |              +
+```
+
+To do this, you have to explicitly borrow the elements in `v` rather than change ownership.
+
+```rust
+let mut v = vec![1, 2, 3, 4, 5];
+for i in &v {
+    println!("The element is {i}");
+}
+println!("4th element of v: {:?}", v.get(3));
+```
+
+Now the behavior works as intended:
+
+```rust
+The element is 1
+The element is 2
+The element is 3
+The element is 4
+The element is 5
+4th element of v: Some(4)
+```
+
+To update the values in a vector, we can use the dereference operator to update the vector in-place:
+
+```rust
+for i in &mut v {
+    *i += 50;
+}
+println!("v: {:?}", v);
+```
+
+```rust
+v: [51, 52, 53, 54, 55]
+```
+
+In Python, this would look something like:
+
+```python
+for i in range(len(lst)):
+    lst[i] += 50
+```
+
+In Rust, `for i in &mut v { *i += 50; }` mutably iterates over elements, modifying them in place. In Python, iterating directly as for i in lst: gives you the value, not a memory reference, so we'd need to use indices to update the values rather than do it in-place. Rust makes me define this sort of thing very explicitly, rather than making it easy to do and having lots of built-in default behaviors as in Python.
+
 ### You have to convert an Option<T> to a T before you can perform T operations with it.
 There's no real Python equivalent for this; you'd have to use a static type checker, and even then it relies on you manually adding the correct type to your objects in the first place. I actually really like this feature, as it saves me having to double-check for null values (this ends up being an annoying feature that I have to consistently include in Python).
 
