@@ -174,7 +174,6 @@ help: consider borrowing here
 316 |     println!("area of rect1 is: {}", area(&rect1));
 ```
 
-
 ### You have to convert an Option<T> to a T before you can perform T operations with it.
 There's no real Python equivalent for this; you'd have to use a static type checker, and even then it relies on you manually adding the correct type to your objects in the first place. I actually really like this feature, as it saves me having to double-check for null values (this ends up being an annoying feature that I have to consistently include in Python).
 
@@ -201,9 +200,11 @@ error[E0277]: cannot add `Option<i8>` to `i8`
               `i8` implements `Add`
 ```
 
+This is resolved if they're both of the same type.
+
 ### `panic!`
 
-- The `panic!` notation for errors is a fun name. I like that it's similar to a Python Exception, except you can't catch it or do exception handling and so the program just crashes altogether. I suppose not having exception handling fits under the theme of "specify everything", since you have to be very explicit with error and failure paths in Rust instead of masking them with exception handling like you do in Python. This combats lazy error handling, since it's easy to just have a bare `try...except` code chunk in Python without much care to the failure modes, whereas here you really have to be explicit. I actually really like this, because even though I can see how it would slow down development and force me to be more intentional, I would be more confident in the robustness of the code that I'm shipping.
+The `panic!` notation for errors is a fun name. I like that it's similar to a Python Exception, except you can't catch it or do exception handling and so the program just crashes altogether. I suppose not having exception handling fits under the theme of "specify everything", since you have to be very explicit with error and failure paths in Rust instead of masking them with exception handling like you do in Python. This combats lazy error handling, since it's easy to just have a bare `try...except` code chunk in Python without much care to the failure modes, whereas here you really have to be explicit. I actually really like this, because even though I can see how it would slow down development and force me to be more intentional, I would be more confident in the robustness of the code that I'm shipping.
 
 For example, for the following:
 
