@@ -269,6 +269,38 @@ for i in range(len(lst)):
 
 In Rust, `for i in &mut v { *i += 50; }` mutably iterates over elements, modifying them in place. In Python, iterating directly as for i in lst: gives you the value, not a memory reference, so we'd need to use indices to update the values rather than do it in-place. Rust makes me define this sort of thing very explicitly, rather than making it easy to do and having lots of built-in default behaviors as in Python.
 
+### enums actually seem useful in Rust
+
+In Python, enums are nice but in my experience more of a nice-to-have to allow for cleaner or more stylistic code. I've not had many cases where I needed to use enums where I couldn't use other things like bare constants or Pydantic models (though enums could've been cleaner in some cases and there are times when enums are obviously a good choice).
+
+In Rust, it seems like enums do have some uses outside of simple stylistic preferences or code cleanliness/documentation. For example, vectors in Rust only have one type, so to have vectors that support multiple types, you need to use enums:
+
+```rust
+enum SpreadsheetCell {
+    Int(i32),
+    Float(f64),
+    Text(String),
+}
+
+let row = vec![
+    SpreadsheetCell::Int(3),
+    SpreadsheetCell::Text(String::from("blue")),
+    SpreadsheetCell::Float(10.12),
+];
+```
+
+In Python, this would've just been:
+
+```python
+row = [3, "blue", 10.12]
+```
+
+In Rust, `Option<T>` is a commonly used enum that enforces a particular data contract; Python's `Optional[<type>]` is only enforced by a static type checker. Creating and enforcing a data contract is a tedious task for the developer in Python, enforced only by static type checkers included in a pre-commit hook or in CI, while in Rust, it's mandated out-of-the-box.
+
+Rust lacks the same exception handling as Python (see below), and requires that you use the `Result<T, E>` enum for error handling. This makes you explicitly know and account for the errors in your program, plus allows any other programmers to be able to see the `Result<T, E>` and have clear expectations of possible errors. The best Python alternative probably is something like a `class PossibleExceptions(Exception)`, a superclass of `Exception` that inherits from some base class and triages the exception type (something similar to `boto3`in the AWS SDK having subclasses of exceptions for each service).
+
+In a language with strong static type checking, I can see how enums would actually be pretty useful, and that seems to be the case in Rust.
+
 ### You have to convert an Option<T> to a T before you can perform T operations with it.
 There's no real Python equivalent for this; you'd have to use a static type checker, and even then it relies on you manually adding the correct type to your objects in the first place. I actually really like this feature, as it saves me having to double-check for null values (this ends up being an annoying feature that I have to consistently include in Python).
 
