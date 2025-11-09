@@ -434,6 +434,80 @@ index out of bounds: the len is 5 but the index is 100
 note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
 ```
 
+### Closures are GREAT and ZERO-COST? Sheesh
+
+In Python, a closure would look something like this:
+
+```python
+def make_accumulator(start=0):
+    total = start          # local binding in enclosing scope
+
+    def add(amount):
+        nonlocal total     # mark total as the captured cell we’ll mutate
+        total += amount    # cell content is updated in place
+        return total
+
+    return add
+
+acc = make_accumulator(5)
+print(acc(2))   # 7
+print(acc(3))   # 10
+
+print(acc.__closure__[0].cell_contents)  # 10
+```
+
+Whenever `add` is called, Python does dynamic typing and reallocates memory in the heap and interpreter dispatch. But, because that happens at runtime rather than being compiled to direct machine calls, each invocation costs more instructions and more branching.
+
+But Rust avoids both because its closures compile down to direct function calls and structs holding captures. Rust closures are zero-cost because the strong typing and compilation of closures to structs means that any overhead is incurred in the compilation and not in the runtime. This seems pretty impressive - you get high-level, expressive paradigms without sacrificing performance. This mostly matters for low-level systems programming stuff, but it's good to know about.
+
+In addition to that, Rust makes it convenient to use closures. They're treated as first class values, the closure's capture behavior is inferred, and their parameter and return types are inferred.
+
+```rust
+// immutable borrow: closure reads, so it implements Fn
+let threshold = 10;
+let is_high = |value: i32| value > threshold;
+assert!(is_high(12)); // threshold borrowed immutably, still usable here
+```
+
+```rust
+// mutable borrow: closure mutates, so it implements FnMut
+let mut counter = 0;
+let mut bump = || {
+    counter += 1;   // mutable borrow of counter
+    counter
+};
+assert_eq!(bump(), 1);
+assert_eq!(bump(), 2);
+```
+
+```rust
+// move capture: closure takes ownership, so it implements FnOnce
+let items = vec![1, 2, 3];
+let consume = move || items.len(); // items moved into closure
+assert_eq!(consume(), 3);
+// consume(); // would be a compile error: FnOnce already called
+```
+
+```rust
+// forcing move to avoid lifetime issues
+let text = String::from("Ferris");
+let print = move || println!("Hello, {text}");
+std::thread::spawn(print).join().unwrap(); // closure owns text
+```
+
+```rust
+// explicit type annotation + generic trait bound
+fn apply_twice<F>(mut f: F) -> (i32, i32)
+where
+    F: FnMut() -> i32,
+{
+    (f(), f())
+}
+let mut n = 0;
+let increment = || { n += 1; n };
+assert_eq!(apply_twice(increment), (1, 2));
+```
+
 ### errata
 
 - I am a HUGE fan of `uv` in Python as a form of package management and that seems to be directly inspired by Rust crates. I find `uv` to be really comprehensive, replicable, and easy to understand, superior to both pip and conda environments.
