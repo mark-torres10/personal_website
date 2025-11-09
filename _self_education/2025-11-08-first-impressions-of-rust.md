@@ -434,7 +434,7 @@ index out of bounds: the len is 5 but the index is 100
 note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
 ```
 
-### Closures are GREAT and ZERO-COST? Sheesh
+### Closures are useful?
 
 In Python, a closure would look something like this:
 
@@ -455,6 +455,8 @@ print(acc(3))   # 10
 
 print(acc.__closure__[0].cell_contents)  # 10
 ```
+
+I've never actually used closures that often in Python (there's often many ways to rewrite things plus if I want a throwaway function I would just use an anonymous lambda function), though I am aware of their existence. Diving into Rust, though, helped me learn more about what closures actually are and how they work in both Python and Rust.
 
 Whenever `add` is called, Python does dynamic typing and reallocates memory in the heap and interpreter dispatch. But, because that happens at runtime rather than being compiled to direct machine calls, each invocation costs more instructions and more branching.
 
