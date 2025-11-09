@@ -24,9 +24,93 @@ Even small things will stop the program from running. For example, `String` and 
 
 Because it's so hard to compile code, I see how it could be a pain. But wow this really does help prevent such a large swath of errors that you have to otherwise use static type checkers, add comprehensive unit tests, have control flow logic, include exception handling, and all the like in order to address them in Python.
 
-### The idea of ownership seems like a really great way to make explicitly clear which references and variables own which bits of memory. 
+### The idea of ownership seems like a really great way to make explicitly clear which references and variables own which bits of memory
 
 I definitely prefer it to C's malloc and free. But it does mean that I can't just randomly create and move around variables like I do in Python, which is probably for the best.
+
+Ownership took me a bit to wrap my head around, and admittedly it's still not 100% clear (though I'm sure it'll improve with practice). But it makes abundantly clear which variables own which parts of the data in the heap, and control of said data depends on who's calling what function, what return calls are made, etc.
+
+```rust
+fn gives_ownership() -> String {
+    // gives_ownership will move its return value into the function that calls it.
+    let some_string = String::from("yours"); // comes into scope.
+    return some_string; // some_string is returned and moves out to the calling function.
+}
+
+fn takes_and_gives_back(a_string: String) -> String {
+    // a_string comes into scope.
+    return a_string; // a_string is returned and moves out to the calling function.
+}
+
+let s1 = gives_ownership();
+let s2 = String::from("hello");
+let s3 = takes_and_gives_back(s2);
+
+// s2 is moved to takes_and_gives_back, so it's not available here.
+// s3 is returned by takes_and_gives_back, so it's available here.
+// if s2 were made available, this would cause a double-free error
+// if you try to free both s2 and s3.
+// println!("s1: {s1}, s2: {s2}, s3: {s3}");
+println!("s1: {s1}, s3: {s3}");
+```
+
+I've learned so far to use a reference if I'm unsure.
+
+```rust
+/* reviewing references and borrowing. 
+
+We can pass a reference to a value instead of passing the variable itself.
+This lets us avoid the double-free error problem we saw before where me moved
+s2 to s3.
+
+Using & lets us pass a reference to the value s1 without taking ownership of it.
+Because the reference does not own it, the value it points to will
+not be dropped when the reference stops being used.
+*/
+println!("--- reviewing references and borrowing. ---");
+fn calculate_length(s: &String) -> usize {
+    s.len()
+}
+let s1 = String::from("hello");
+let len = calculate_length(&s1);
+println!("length of s1 is: {len}");
+```
+
+Ownership is still a tricky idea to me; Python is very lackadaisical about it and you can randomly reassign variables and not care too much about pointers and memory, plus a garbage collector resolves any dangling reference problems.
+
+For example, it's not abundantly obvious at first blush why the following wouldn't work.
+
+```rust
+let mut s = String::from("hello");
+let new_r1 = &s;
+let new_r2 = &s;
+let new_r3 = &mut s;
+
+// can't do this because we have a mutable reference and an immutable reference used in the same scope
+// (here, the scope is the println! statement)
+println!("new_r1: {new_r1}, new_r2: {new_r2}, new_r3: {new_r3}");
+```
+
+But when you think about it from a design perspective, it makes sense. Rust doesn’t allow mutable (`&mut s`) and immutable (`&s`) references to coexist because it prevents data races and undefined behavior: if you could read and write to the same data simultaneously, memory safety is at risk. Ownership ensures at compile-time that you either have many readers (immutable refs) or exactly one writer (mutable ref), but not both.
+
+Related to ownership, the concept of lifetimes was new to me, but I actually quite like it. It's a static annotation that lets the compiler (and by extension, any other programmers) know the intended ownership of an object and to see that any references to a value doesn't outlive its owner. I like that the compiler, if it can't explicitly know when a parameter might go out of scope or might leave a dangling reference, chooses to scream and get upset and therefore require a lifetime annotation.
+
+Something like the following, for example, is not allowed in Rust, because the lifetime of the struct 'i' isn't the same as the lifetime of 'part':
+
+```rust
+    struct ImportantExcerpt<'a> {
+        part: &'a str,
+    }
+    let i;
+    {
+        let novel = String::from("Call me Ishmael...");
+        let first_sentence = novel.split('.').next().unwrap();
+        i = ImportantExcerpt { part: first_sentence };
+    } // novel is dropped here
+    println!("Important excerpt: {}", i.part);
+```
+
+In Python, all variables are references and objects are managed with garbage collection, so you can safely assign and access substrings outside the scope where the original string was created, so there's no equivalent lifetime issue. The code "just works" in Python. Because of that, a Python developer can just set and assign variables without any care for scope, but Rust offers no such convenience.
 
 ### Rust seemingly makes you be very explicit about what you're implementing
 
