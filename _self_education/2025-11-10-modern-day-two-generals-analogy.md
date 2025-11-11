@@ -44,15 +44,19 @@ Imagine two coworkers, Alice and Bob, need to coordinate for an important 9am me
 #### 1. Alice Sends the Initial Message:
 - Alice sends Bob: "I'll bring the slides to the 9am meeting."
 - She isn't sure Slack will deliver it (maybe Bob never sees it if Slack fails or bugs out).
+
 #### 2. Bob Receives the Message (maybe):
 - If Bob gets Alice's message, he now knows Alice intends to bring the slides.
 - But from Alice's perspective: Did the message get through? She's unsure.
+
 #### 3. Bob Sends an Acknowledgment:
 - Bob replies over Slack: "Got your message, see you at 9am!"
 - Now Bob knows he received Alice's plan, and he replied. But…
+
 #### 4. Did Alice Get Bob's Reply?
 - If Slack fails before the acknowledgment reaches Alice, Alice never sees Bob's confirmation.
 - Alice doesn't know whether Bob actually got her message, so she isn't sure he'll show up.
+
 #### 5. Desire for Further Confirmation:
 - To be extra sure, Alice could send, "Did you get my 'got it'?"—and Bob could reply again.
 - But now, it's back to Step 4: what if that message or acknowledgment is lost? The chain never ends; either side could always be waiting for another confirmation.
