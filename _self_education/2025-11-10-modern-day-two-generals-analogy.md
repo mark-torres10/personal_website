@@ -58,7 +58,7 @@ Imagine two coworkers, Alice and Bob, need to coordinate for an important 9am me
 - Alice doesn't know whether Bob actually got her message, so she isn't sure he'll show up.
 
 #### 5. Desire for Further Confirmation:
-- To be extra sure, Alice could send, "Did you get my 'got it'?"—and Bob could reply again.
+- To be extra sure, Alice could send, "Did you get my 'got it'?" and Bob could reply again.
 - But now, it's back to Step 4: what if that message or acknowledgment is lost? The chain never ends; either side could always be waiting for another confirmation.
 
 ### Key Points of the Analogy
@@ -94,7 +94,7 @@ This is not just about one message. It is about guaranteeing that both parties k
 
 Distributed computing protocols (like in databases or networks) face this same challenge with unreliable channels.​
 
-In practice, we accept a little risk and use retries/timeouts—just like at work, we trust Slack will usually get the job done, but sometimes, we check in person—or things go wrong.
+In practice, we accept a little risk and use retries/timeouts - just like at work, we trust Slack will usually get the job done, but sometimes, we check in person - or things go wrong.
 
 ## Generalization to the Byzantine Generals problem
 
