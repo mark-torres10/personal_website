@@ -175,11 +175,11 @@ Transactions don't solve the problems raised by the Two Generals and FLP dilemma
 
 #### Two-phased commits
 
-We describe in detail [here](link) what two-phased commits (2PC) are. We'll focus here on the tradeoffs that the 2PC protocol makes.
+We describe in detail [in this link](https://markptorres.com/self_education/2025-11-10-two-phased-commit) what two-phased commits (2PC) are. We'll focus here on the tradeoffs that the 2PC protocol makes.
 
 ##### Allowing blocking
 
-In the classic 2PC model, the coordinator must write to an external log and all nodes must reference this log as the source of truth. If the coordinator dies, all other nodes are blocked and delayed until the coordinator can come back and complete the write to the log. This is FLP in action, where the 2PC protocol refuses to guess and would rather block a set of actions than make the wrong action.
+In the classic 2PC model, the coordinator must write to an external log and all nodes must reference this log as the source of truth. If the coordinator dies, all other nodes are blocked and delayed until the coordinator can come back and complete the write to the log. This is FLP in action, where the 2PC protocol refuses to guess and would rather block a set of actions than make the wrong action. The coordinator is the single point of progress; things move as fast or as slow as the coordinator can update the commit log, and this is by design.
 
 ##### Sacrificing liveness
 
@@ -189,7 +189,9 @@ Allowing blocking in the 2PC protocol also means that in practice, systems sacri
 
 The use of logs is yet another sign of the protocol erring on the side of safety over liveness. By having durable logs, every vote (prepare/commit/abort) is persisted to disk, and after a crash the log can be replayed, meaning that we always have a ground-truth state.
 
+#### Paxos/Raft
 
+We describe in more detail [in this link](https://markptorres.com/self_education/2025-11-10-modern-day-two-generals-analogy) about what the Paxos and Raft protocols are.
 
 ## ACID semantics (and useful subsets)
 

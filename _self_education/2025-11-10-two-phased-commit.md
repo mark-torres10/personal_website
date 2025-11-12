@@ -16,6 +16,8 @@ permalink: /self_education/2025-11-10-two-phased-commit
 
 ## What problem does it solve?
 
+Importantly, 2PC aims for **atomic commitment** (either everyone commits or everyone aborts). This isn't the only way to go about it; protocols like Paxos/Raft aim for consensus, for example.
+
 ## What does the 2PC look like?
 
 ## Implications and tradeoffs of the 2PC protocol
