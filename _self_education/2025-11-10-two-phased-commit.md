@@ -7,7 +7,7 @@ toc: true
 categories:
 - self_education
 - all_posts
-permalink: /self_education/2025-11-10-transactions-101
+permalink: /self_education/2025-11-10-two-phased-commit
 ---
 
 # Two-phased commits (2PC), explained
