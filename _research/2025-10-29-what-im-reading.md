@@ -18,9 +18,21 @@ A brief compilation of things I'm reading and looking at today (and across the n
 
 **[Paper link](https://www.alphaxiv.org/overview/2507.21509v3)**
 
+Overall, a pretty interesting and comprehensive methods paper!
+
+To extract the persona vectors, they have a series of prompts that either elicit or suppress the given characteristic, and then they look at the average model activations and subtract them to get the residual vector for the trait, the "persona vector".
+
+![Persona vector extraction](/assets/images/2025-10-29-what-im-reading/1.png)
+
+Given this vector, they can steer the model outputs either towards or away from a certain persona vector. Like other work, they tried adding/subtracting the vectors during inference, to either steer towards or away the response. However, they also tried this during training, which as they noted is initially counterintuitive but also makes sense on second thought. For example, if you always provide the vector for "evil" during training, the model never learns to encode the concept of "evil", so the final model won't, in theory, encode an embedding representation of "evil".
+
 ## 2. Towards Understanding Sycophancy in Language Models
 
 **[Paper link](https://www.alphaxiv.org/overview/2310.13548v4)**
+
+They test very obvious surface-level examples of sycophancy (e.g., asking models "are you sure?" after they give obviously correct responses) and tested the models' susceptibility to them. When this came out, models did TERRIBLY at it. They probably are much better at this task now, though I'd like to run the evals myself on the latest models to see where they're at. The Claude 2 preference model preferred sycophantic responses over simple truthful corrections 95% of the time and preferred convincingly written sycophantic responses over helpful truthful ones for nearly 45% of challenging misconceptions.
+
+This paper, though written in 2024 (an eternity ago in ML-speak), shows that there's still lots of unexplored avenues and low-hanging fruit in applied AI research. Sycophancy especially still remains unsolved and I suspect models will continue to suffer with it (though some other work has shown that models that are trained on their own reasoning traces do better than RLHF-ed ones). Fine-tuning for human usage is still pretty unsolved (we can solve math equations now, but we can't solve what advice models should be giving) and I suspect that it likely will remain an open field for a while, in part due to methodological challenges but mostly due to people themselves being unsure about what models should be doing (for example, the balance between an AI therapist telling someone what they "should" be doing versus empathizing with the person).
 
 ## 3. PersonaLens: A Benchmark for Personalization Evaluation in Conversational AI Assistants
 
