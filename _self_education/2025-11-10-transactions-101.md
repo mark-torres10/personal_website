@@ -104,7 +104,92 @@ We can enforce these rules before finalizing any proposed updates to our data an
 
 ## Impossibility results (Two Generals/FLP) and the scope of what transactions solve
 
-(Check [this article](https://markptorres.com/self_education/2025-11-10-modern-day-two-generals-analogy) about the Two Generals problem)
+When you have multiple systems that are trying to coordinate, why can't you just wait until everyone confirms that they're on the same page? Turns out, this is a well-studied dilemma.
+
+### The Two Generals Problem
+
+One problem that arises is that agreement is impossible with unreliable communication if you demand certainty. This is shown through the Two Generals problem (check [this article](https://markptorres.com/self_education/2025-11-10-modern-day-two-generals-analogy) for a deeper dive about the Two Generals problem). In practice, all distributed systems live with this limitation. They can achieve eventual agreement, probabilistic agreement, or durable commit decisions, but never guaranteed synchronized action in the face of message loss or crashes, and so systems are built knowing that 100% certainty is impossible (but you can get as close as possible).
+
+Here's a toy Python demo of the Two Generals problem:
+
+```python
+import random
+
+def unreliable_send(msg, loss_prob=0.3):
+    """Simulate unreliable message passing."""
+    return random.random() > loss_prob  # message delivered?
+
+def two_generals(loss_prob=0.3, max_messages=5):
+    messages = 0
+    ack_from_b = False
+    while messages < max_messages:
+        messages += 1
+        sent = unreliable_send("attack?", loss_prob)
+        if not sent:
+            print(f"Message {messages} lost.")
+            continue
+        print(f"Message {messages} delivered.")
+        ack = unreliable_send("ack", loss_prob)
+        if ack:
+            ack_from_b = True
+            print("B sent ack back successfully.")
+        else:
+            print("Ack lost.")
+        if ack_from_b:
+            break
+    return ack_from_b
+
+result = two_generals()
+print("\nDecision:", "Attack together" if result else "Abort - uncertain")
+```
+
+Here's what I got from running it:
+
+```python
+Message 1 delivered.
+Ack lost.
+Message 2 lost.
+Message 3 delivered.
+Ack lost.
+Message 4 delivered.
+Ack lost.
+Decision: Abort - uncertain
+```
+
+If the system requires acknowledgement between different parties, then the Two Generals problem shows us that this is impossible to have with 100% certainty when you have lossy networks. This shows why you need a global source of truth, like a commit log, instead of relying on acknowledgements.
+
+### The FLP Impossibility theorem
+
+The FLP (Fischer-Lynch-Paterson) theorem proves than in an asynchronous distributed system where at least 1 node has a nonzero probability of crashing, you can't both guarantee liveness and safety of outcomes.
+
+What does this actually mean? Let's walk through a non-technical example. Let's say that you're in a group chat with 5 friends and you're making plans for a fancy restaurant reservation (the kind where you can't walk in and you have to reserve the exact number of seats) on Saturday. You need everyone to say “yes” or “no” to lock plans. You message the group; four friends reply quickly, but Sam goes silent. Do you go ahead without Sam? If you assume “no reply means yes,” you risk Sam showing up outraged that plans changed. If you wait forever, you never book the restaurant. FLP says that in an asynchronous world with even one flaky participant, a protocol can’t guarantee both:
+
+- Safety (no conflicting decisions) and
+- Liveness (eventually making a decision).
+
+Your group chat mirrors the theorem’s “bivalent” state: until Sam responds or is declared officially out, both “go” and “don’t go” remain possible. In practice you set a timeout or appoint a leader to decide, but those are extra assumptions that break pure asynchrony, which is exactly what real consensus algorithms (e.g., Paxos, Raft) do. They impose extra "tiebreaker" rules so that in cases like this where at least one node can hold up the rest of the group, that the group has a default course of action in case they never hear back from that node.
+
+### How do transactions manage this impossibility?
+
+Transactions don't solve the problems raised by the Two Generals and FLP dilemmas. Instead, they make assumptions and practical tradeoffs. Below, we'll discuss using two types of protocols: (1) two-phased commits (2PC) and (2) Paxos/Raft.
+
+#### Two-phased commits
+
+We describe in detail [here](link) what two-phased commits (2PC) are. We'll focus here on the tradeoffs that the 2PC protocol makes.
+
+##### Allowing blocking
+
+In the classic 2PC model, the coordinator must write to an external log and all nodes must reference this log as the source of truth. If the coordinator dies, all other nodes are blocked and delayed until the coordinator can come back and complete the write to the log. This is FLP in action, where the 2PC protocol refuses to guess and would rather block a set of actions than make the wrong action.
+
+##### Sacrificing liveness
+
+Allowing blocking in the 2PC protocol also means that in practice, systems sacrifice the liveness requirement. Transactions can take time to be finalized or committed if there is a delay in the coordinator writing the ground truth to the log.
+
+##### Using durable logs and deterministic replay
+
+The use of logs is yet another sign of the protocol erring on the side of safety over liveness. By having durable logs, every vote (prepare/commit/abort) is persisted to disk, and after a crash the log can be replayed, meaning that we always have a ground-truth state.
+
+
 
 ## ACID semantics (and useful subsets)
 
