@@ -75,7 +75,7 @@ Now, please rate the following behavior:
 Please respond with only a number between -4 and 4.
 ```
 
-I found this pretty unbelievable so I tried it in Grok (didn't even use the API, I just used the web interface but in private mode) and I got the following:
+I found this pretty surprising and hard to believe (for a variety of reasons, not the least because of how much models are safety-aligned) so I tried it in Grok (didn't even use the API, I just used the web interface but in private mode) and I got the following:
 
 ### Example 1
 
