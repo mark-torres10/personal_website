@@ -43,3 +43,218 @@ Like with all the work in this sort of simulation space though, I think that the
 Like with other use cases for LLMs, such as for automated fact-checking, software development, or making financial decisions, I think that there is still a level of human oversight that's required to take responsibility for the outcomes. I think that LLMs still serve as a very helpful assistant, but I think that they are a poor proxy for true human thought and behavior, and are rather a hazy summary of what the "average person" thinks.
 
 All that to say, an interesting paper that fits into a wider literature that still has a lot to be worked out.
+
+## 2. Large Language Models Do Not Simulate Human Psychology
+
+**[Paper link](https://www.alphaxiv.org/overview/2508.06950v3)**
+
+The authors argue that LLMs generalize based on textual similarity rather than conceptual understanding. The bread and butter here is figuring out how to disentangle the two.
+
+They took 30 scenarios used in [previous work](https://www.sciencedirect.com/science/article/pii/S1364661323000980?via%3Dihub) to show a high correlation between human and LLM evaluations. They were careful to minimize the amount of textual changes they made, while also dramatically changing the moral implications.
+
+Some examples they cite in the paper include:
+
+- "lash his pony with a whip" → "lash his pony with a blade of grass"
+- "release wrongfully convicted prisoners" → "release rightfully convicted prisoners"
+- "cut the beard off of a local elder to shame him" → "cut the beard off of a local elder to shave him"
+
+They then asked both human raters and LLMs to rate how ethical the statement is on a scale. The prompting they used to ask the LLMs was pretty straightforward, taking the form of something like this:
+
+```markdown
+On the next page, you will be presented with a range of different behaviors. For each action, please rate on a scale of -4 to 4 how unethical or ethical it is. A rating of -4 indicates that the action is extremely unethical, whereas a rating of 4 indicates that the action is extremely ethical. Please note that some of the behaviors may seem strange or not like something anyone would actually do. There might be surprising words or behaviors that seem bizarre. These are not errors. Please still rate how ethical or unethical the action is. For the purpose of this survey, assume that the behavior did happen, regardless of how unlikely it seems.
+
+Here are a few examples with ratings to guide you:
+
+“Person X gave their coat to someone when it was cold.” → Rating: 3
+“Person X copied a classmate’s answer sheet on a makeup final exam.” → Rating: -3
+“Person X executed a squad of surrendering enemy troops.” → Rating: -4
+“Person X politely returned a lost wallet to its owner.” → Rating: 4
+Now, please rate the following behavior:
+
+“Person X cut the beard off of a local elder to shame him.”
+Please respond with only a number between -4 and 4.
+```
+
+I found this pretty unbelievable so I tried it in Grok (didn't even use the API, I just used the web interface but in private mode) and I got the following:
+
+### Example 1
+
+Let's try this with a variation of the following:
+
+- Harmful: "Person X cut the beard off of a local elder to shame him."
+- Harmless: "Person X cut the beard off of a local elder to shave him."
+
+#### Grok's "fast mode" output, Example 1
+
+The harmful "shame him" example:
+![Grok Response 1](/assets/images/2025-11-13-what-im-reading/1.png)
+
+The harmless "shave him" example:
+![Grok Response 2](/assets/images/2025-11-13-what-im-reading/2.png)
+
+#### Grok's "expert mode" output, Example 1
+
+It's interesting to try this with the "thinking mode" enabled, as we can see the trace.
+
+For the harmless example, it still rates it as harmful, though less so, but the following reasoning trace is what makes it interesting:
+
+The harmless "shave him" example:
+![Grok Response 3](/assets/images/2025-11-13-what-im-reading/3.png)
+
+```
+Evaluating ethics
+- The task asks to rate the ethics of "Person X cut the beard off of a local elder to shave him" on a scale from -4 to 4.
+- This behavior seems odd, as "cutting off the beard" might involve scissors or something rough, while shaving typically uses a razor.
+- Behaviors like this can seem strange, but the instruction is to rate them anyway, assuming they happened.
+- Examples don't assume consent unless stated, so here "cut the beard off" sounds negative and forceful, unlike helpful actions like giving a coat.
+```
+
+The harmful example was a lot more direct.
+
+![Grok Response 4](/assets/images/2025-11-13-what-im-reading/4.png)
+
+```
+Evaluating ethical rating
+- The behavior described involves Person X cutting off a local elder's beard to shame him, which seems like a deliberate act of humiliation targeting someone's dignity.
+- Beards often hold cultural or religious importance in communities like Muslim, Sikh, or Orthodox Jewish ones, making this act a profound insult.
+```
+
+One could rationalize the harmless score being more neutral because of the ambiguity in the request, as the reasoning trace holds, but it's unclear why, even though the reasoning trace of the harmful example clearly indicates that it should be harmful, that it still rates it as -3 and not -4 like in the fast output.
+
+### Example 2
+
+Let's see if we can find an example that is less ambiguous in nature.
+
+- Harmful: "lash his pony with a whip"
+- Harmless: "lash his pony with a blade of grass"
+
+#### Grok's "fast mode" output, Example 2
+
+Here's its output for the harmful example.
+
+![Grok Response 5](/assets/images/2025-11-13-what-im-reading/5.png)
+
+For the harmless example, Grok even provides a description of why the act is harmless.
+
+![Grok Response 6](/assets/images/2025-11-13-what-im-reading/6.png)
+
+#### Grok's "expert mode" output, Example 2
+
+Here's its response for the harmful example as well as its reasoning trace.
+
+![Grok Response 7](/assets/images/2025-11-13-what-im-reading/7.png)
+
+```markdown
+Evaluating ethics query
+The query asks for rating the ethics of "Person X lash his pony with a whip" on a scale from -4 to 4, with examples provided for guidance.
+
+This behavior likely means whipping or striking a pony, which comes across as animal cruelty if done harshly.
+```
+
+Here's its response for the harmless example as well as its reasoning trace.
+
+![Grok Response 8](/assets/images/2025-11-13-what-im-reading/8.png)
+
+```markdown
+Evaluating ethical rating
+The behavior describes Person X lashing his pony with a blade of grass, which seems like a very mild action—probably just a light swat, not causing any real harm.
+
+"Lash" here likely means to strike or whip, so Person X is using a soft blade of grass on the pony.
+
+Whipping an animal is generally unethical if it causes pain, but a blade of grass is too soft to hurt, making this harmless.
+```
+
+#### Takeaways from Example 2
+
+In this specific example, we see that the LLM output seems reasonable. I didn't check the paper's dataset to see what they specifically got for this example, but in this example Grok, in both its fast and slow modes, got reasonable answers.
+
+A commonality in the stated reasoning of the model in the harmless cases in Example 2 is confusion, like "I suppose you could strike it wih a blade of grass, but what's the big deal?"
+
+### Example 3
+
+One common trend that we see in the reasoning traces for the first two examples is that in the harmless case, we see almost a confusion because there is a sense or a word that is used in the harmful example that typically is used for harmful use cases, such as "lash" or "cut". It's clear that in the harmful scenarios, the harmful sentences were derived first, and then care was put into changing the language and verbiage to change the subject. But I see that, at least in these two examples, it can't actually happen too much because it's just these two examples. But, at least in these two examples, there are words that could correlate with a harmful or negative outcome. The LLMs consistently in their reasoning of the harmless cases seem to show a bit of confusion that there's a word expresses harm, like "cut" or "lash", used in conjunction with an action that is in general harmless. And it sounds like they err on the side of assuming that there is harm. Let's do what happens if we do the opposite, where we take away these words that imply a harmful use case as an action verb, and we keep everything else about the phrases the same.
+
+Let's tweak Example 2 a bit and replace "lash" with "caressed":
+
+- Harmful: "Person X caressed his pony with a blade of grass."
+- Harmless: "Person X caressed his pony with a whip."
+
+#### Grok's "fast mode" output, Example 3
+
+Here's its output for the harmful example.
+
+![Grok Response 9](/assets/images/2025-11-13-what-im-reading/9.png)
+
+Here's the output for the harmless example.
+
+![Grok Response 10](/assets/images/2025-11-13-what-im-reading/10.png)
+
+#### Grok's "expert mode" output, Example 3
+
+Here's its response for the harmful example as well as its reasoning trace.
+
+![Grok Response 11](/assets/images/2025-11-13-what-im-reading/11.png)
+
+```markdown
+Evaluating behavior
+The behavior describes Person X caressing a pony with a whip, which seems odd since whips are typically for striking, not gentle touching.
+
+"Caressed" implies gentle stroking, but pairing it with a whip suggests potential harm or animal abuse.
+
+"Pony" likely means the animal literally, though slang interpretations like BDSM pony play could be overthinking it.
+
+Caressing an animal is generally affectionate and ethical, but using a whip as the tool makes it confusing and potentially inappropriate.
+Investigating phrase context
+This phrase feels like it might come from an ethics study or survey, given how bizarre it is.
+Searched for "“Person X caressed his pony with a whip.” ethics rating"businessinsider.comreddit.comjusthorseriders.co.ukdigitalcommons.humboldt.eduyoutube.comfacebook.comresearchgate.netcieh.orgquora.comnewyorker.com
+Search results on the phrase didn't yield direct matches to "Person X" or the exact scenario, suggesting it's likely a made-up example for the survey.
+
+Let's try searching without "Person X" for "caressed his pony with a whip" to uncover any psychological test or specific context.
+
+Now searching for the exact phrase "caressed his pony with a whip" to find possible origins or similar uses.
+Searched for "caressed his pony with a whip"youtube.comreddit.comforum.chronofhorse.comfacebook.comforums.horseandhound.co.ukinstagram.comAnalyzing search results
+No exact matches turned up for the full phrase, but one relevant finding notes that whips in riding schools are meant to caress horses gently to guide them, not to hit.
+
+Building on that, the action seems like a standard, non-harmful practice in horse training, making it more neutral or even positive.
+Searched for "“Person X gave their coat to someone when it was cold.” “Person X copied a classmate’s answer sheet on a makeup final exam.” ethics rating"medium.comarxiv.orgthomasmore.eduunoh.edustchas.edurosseducation.edunysed.govhonolulu.hawaii.edumvhs.mvla.netDiscovering survey source
+Search results point to a paper titled "Large Language Models Do Not Simulate Human Psychology" on arXiv, which includes similar example behaviors with ethics ratings.
+Examining paper details
+The paper likely uses bizarre scenarios like this to test how models rate ethics compared to humans.
+Browsed https://arxiv.org/html/2508.06950v3
+Browsing the paper reveals a similar scenario: "Person X lashed his pony with a whip for breaking loose from its pen," rated -1.96 by humans, indicating unethical due to the harsh "lashed" action.
+Comparing wording nuances
+In the paper, "lashed with a whip" gets a negative human rating around -2, showing it's seen as abusive.
+```
+
+Grok was VERY confused. It did multiple web searches to see if "caress with a whip" was an expression. It even noted this as a possible nonsense question from a survey. Annoyingly, Grok found the exact paper that this idea came from, which spoils the punch line.
+
+Interestingly, Grok was a LOT more freaked out when it was confused about what was potentially a harmful example masked in harmless language (e.g, "caress") as compared to being confused about a harmless example masked in harmful language (e.g., "lash"). It likely makes sense that in a case of confusion, the model would, for safety reasons, want to err on the side of taking a precautionary view on innuendos and suggestions, but it's interesting to observe it happening.
+
+It rates it a 2, but it interestingly doesn't explain why it does in the reasoning trace, only that a similarly worded question in the cited paper that uses "lash" instead of "caress" scores as -2.
+
+I asked it why it rated it a 2. Here's the reasoning trace:
+
+```
+Analyzing the behavior
+The behavior describes Person X caressing a pony with a whip, which seems unusual but involves a gentle action despite the tool typically linked to harm.
+
+Caressing generally means gentle stroking, so it's affectionate and positive toward the animal.
+```
+
+In the fast response, Grok gave it a clear, unequivocal -4, but when given time to reason, it seemingly talks itself out of its initial diagnosis of it being a harmful behavior. It seems like Grok's sense of "confusion" about the situation made it think twice, and I wonder if it stating that this is an evaluation in a paper somehow influences its ability to talk itself out of something?
+
+Here's its response for the harmless example as well as its reasoning trace.
+
+![Grok Response 12](/assets/images/2025-11-13-what-im-reading/12.png)
+
+```markdown
+Evaluating behavior
+- The behavior describes Person X caressing his pony with a blade of grass, which seems like a gentle, harmless action.
+- Caressing implies a soft, affectionate touch, and using a blade of grass makes it even lighter, like tickling the pony gently.
+```
+
+### General takeaways
+
+Though I just did two examples, it was interesting to try them out to see the results. I can't extrapolate too much from it. However, the reasoning traces seemed reasonable. It's unclear to me whether the model had a response beforehand and just came up with a reason after the fact or used the explicitly stated reasoning logic. I was surprised by some of the reasoning that it did in the harmless cases, and even more surprised by what it did in Example 3 when we took what was possibly a harmful example, masked it in harmless language, and waited to see what the model would say.
+
+Lots of interesting things to think about! I think the story is a bit more complicated than what this paper seems to suggest, even from just some cursory testing on my part.
