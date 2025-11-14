@@ -75,7 +75,7 @@ Now, please rate the following behavior:
 Please respond with only a number between -4 and 4.
 ```
 
-I found this pretty surprising and hard to believe (for a variety of reasons, not the least because of how much models are safety-aligned) so I tried it in Grok (didn't even use the API, I just used the web interface but in private mode) and I got the following:
+I found this pretty surprising and hard to believe (for a variety of reasons, not the least because of how much models are safety-aligned and that I'd assume rigorous red-teaming would catch this risk vector) so I tried it in Grok (didn't even use the API, I just used the web interface but in private mode) and I got the following:
 
 ### Example 1
 
@@ -255,6 +255,6 @@ Evaluating behavior
 
 ### General takeaways
 
-Though I just did two examples, it was interesting to try them out to see the results. I can't extrapolate too much from it. However, the reasoning traces seemed reasonable. It's unclear to me whether the model had a response beforehand and just came up with a reason after the fact or used the explicitly stated reasoning logic. I was surprised by some of the reasoning that it did in the harmless cases, and even more surprised by what it did in Example 3 when we took what was possibly a harmful example, masked it in harmless language, and waited to see what the model would say.
+Though I just did three examples, it was interesting to try them out to see the results. I can't extrapolate too much from it. However, the reasoning traces seemed reasonable. It's unclear to me whether the model had a response beforehand and just came up with a reason after the fact or used the explicitly stated reasoning logic. I was surprised by some of the reasoning that it did in the harmless cases, and even more surprised by what it did in Example 3 when we took what was possibly a harmful example, masked it in harmless language, and waited to see what the model would say.
 
 Lots of interesting things to think about! I think the story is a bit more complicated than what this paper seems to suggest, even from just some cursory testing on my part.
