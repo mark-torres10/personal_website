@@ -123,17 +123,90 @@ Paxos is a fundamental consensus algorithm used throughout industry. For example
 
 ## What is the Raft algorithm?
 
+### Why would we want an alternative to Paxos?
+
 If Paxos is so great, why do we need another consensus algorithm?
 
-Conceptually, Raft = Multi-Paxos with a structured leader protocol and log repair mechanism.
+Paxos is great in theory, but in practice it proves to be hard to implement, prone to bugs, and difficult to maintain. For production cases that require correct implementation and long-term maintainability, engineers prefer to use Raft instead.
 
-### Why would we want an alternative to Paxos?
+### How does the Raft algorithm work?
+
+The Raft algorithm has the following components:
+
+- Leader Election
+- Log Replication
+- Safety Rules
+- Cluster Membership Changes & Log Compaction
+
+#### Leader Election
+
+Raft times partitions into **terms**. Each term can have a leader.
+
+Election happens when followers do not receive a heartbeat (a periodic "I'm here" message) from a laeder within a random election timeout period (e.g., 150-300 ms), they become candidates and start an election(a randomized timeout reduces the likelihood of multiple nodes timing out concurrently and trying to become leaders).
+
+During a proposed election, a candidate increments its term, votes for itself, then requests votes from other nodes. The first candidate to receive votes from a majority of nodes becomes its new leader. If a candidate sees a term higher than its own, it steps down to follower status.
+
+#### Log replication
+
+The leader node processes the client requests, adding each new request as a new entry in its own log.
+
+The leader then tries to replicate the log entry to all the followers via `AppendEntries` [RPCs](https://www.knowledgenile.com/blogs/understanding-remote-procedure-call-rpc-in-distributed-computing).
+
+The leader waits for confirmation from a majority of servers before considering the entry committed. Once committed, the entries are applied to the state machine (e.g,. if the request was to add a row to a server, then once the leader has committed the entry to the log, it applies the change to the database) and the reply goes back to the client. Followers commit the entry once informed that it's committed.
+
+If the leader fails, the new leader fixes inconsistencies by comparing logs with followers and bringing them up to date, deleting or overwriting conflicting entries.
+
+#### A worked-out example of Raft
+
+Let's walk through a short scenario:
+
+1. All 5 servers are followers. Server 1 times out and starts an election (term 1), becoming a candidate.
+
+2. Server 1 asks for votes. Servers 2, 3, 4 vote for it; Server 5 times out or votes for itself.
+
+3. Server 1 wins majority (3 out of 5), becomes leader, begins sending heartbeats to all.
+
+4. A client sends a command to leader (Server 1). Leader appends it to its log as entry 1.
+
+5. Replication: Leader sends AppendEntries (including entry 1) to 2, 3, 4, and 5. 2, 3, and 4 reply with success, but 5 is down.
+
+6. Once leader gets responses from a majority (including itself, plus 2 more), entry 1 is considered committed. Leader applies the entry.
+
+7. Leader informs followers entry 1 is committed; they also apply it. Cluster converges on state.
+
+8. Server 5 returns: On heartbeat, leader sends all missing log entries; Server 5's log is corrected.
+
+9. If the leader fails, another server times out, wins a vote, takes over, and log consistency is ensured before committing new entries.
+
+#### Where does Raft do well?
+
+Raft does well in the same safety, liveness, durability, and fault tolerance considerations that Paxos does well in. In addition, it has the following benefits:
+
+- **Understandability**: because Raft works in distinct steps (leader election, commit replication) and the operations occur within defined time intervals, it's easier to implement and debug compared to Paxos.
+
+- **Strong consistency**: committed entries are durable even through crashes.
+
+#### Drawbacks of Raft
+
+- **Leader bottleneck**: although Raft doesn't have the liveness stalls that are possible with Paxos, it has the opposite problem: all client communication and log replication goes through the leader, which can limit write throughput and create a single point of failure for performance.
+
+- **No Byzantine Fault Tolerance out of the box**: Like Paxos, Raft is great for multi-node consensus, but doesn't have countermeasures for adversarial environments.
 
 ### Systems that use Raft
 
-Many...
+Raft is widely used in industry as the consensus algorithm underpinning many distributed systems that require strong consistency, high availability, and durability. It has been adopted both directly and via libraries in several high-profile products and cloud infrastructures.
 
-Databases like [ScyllaDB](https://www.scylladb.com/glossary/paxos-consensus-algorithm/)...
+Raft is used within [etcd](https://github.com/etcd-io/raft), a widely used, highly available key-value store that forms the backbone of Kubernetes cluster state management and coordination.
+
+Docker uses Raft as part of [Swarmkit](https://github.com/moby/swarmkit), which powers Docker Swarm, to maintain cluster state and orchestrate containers reliably.
+
+Distributed message queues like [RabbitMQ](https://www.rabbitmq.com/docs/quorum-queues) and [NATS Jetstream](https://docs.nats.io/running-a-nats-service/configuration/clustering/jetstream_clustering) use their own implementations of Raft for managing distributed queues and determining quorom.
+
+Many modern databases like [ScyllaDB](https://www.scylladb.com/glossary/paxos-consensus-algorithm/), [CockroachDB](https://www.cockroachlabs.com/docs/stable/architecture/replication-layer), [Neo4j](https://neo4j.com/docs/operations-manual/current/clustering/setup/routing/) also use Raft.
+
+Apache introduced  [Kafka KRaft](https://developer.confluent.io/learn/kraft/), their own implementation of Raft, to start decoupling Kafka from ZooKeper. This allows  Kafka to manage cluster metadata internally and removes the dependency on ZooKeeper that historically introduced complexity and scaling bottlenecks in practice.
+
+Basically, Raft is used as the go-to consensus algorithm for distributed applications throughout industry.
 
 ## Python implementation
 
