@@ -1,6 +1,6 @@
 ---
 layout: single
-title: "A Machine-Checkable Orchestrator for Executing Linear Tickets"
+title: "How I use AI agents to automate shipping complex features"
 date: 2025-11-17 11:00:00 +0800
 classes: wide
 toc: true
@@ -10,7 +10,7 @@ categories:
 permalink: /ai_workflows/2025-11-17-linear-ticket-execution-orchestrator
 ---
 
-# A Machine-Checkable Orchestrator for Executing Linear Tickets
+# How I use AI agents to automate shipping complex features
 
 I built a [comprehensive orchestrator prompt](https://github.com/mark-torres10/ai_tools/blob/main/agents/task_instructions/execution/HOW_TO_EXECUTE_A_TICKET.md) to manage how agents execute tickets end‑to‑end, and I use it regularly to deliver and ship features. After shipping a lot of features with AI assistance, I’ve converged on an opinionated workflow that works for both me and the agents that follow the same scaffolding.
 
