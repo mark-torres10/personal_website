@@ -105,3 +105,17 @@ Now I can review and merge this with the team and start implementation.
 ## Step 2: Start implementation
 
 Now that we've done the planning and spec development, we can start implementation.
+
+I have a [comprehensive orchestrator prompt](https://github.com/mark-torres10/ai_tools/blob/main/agents/task_instructions/execution/HOW_TO_EXECUTE_A_TICKET.md) that manages the workflow that I want agents to follow when they execute tickets. I've refined this over my own experience in delivering and shipping features for years, so it's a pretty opinionated workflow, but it's one that I find works well both for myself and also for the AI agents that follow the same scaffolding.
+
+I instructed the Cursor agent to fully execute the first ticket as per the instructions in the orchestrator prompt.
+
+![Telling Cursor to implement Ticket 1](/assets/images/2025-11-17-deploying-a-full-app-with-cursor/13.png)
+
+The agent correctly scanned the entire codebase, the relevant project spec docs, and followed the instructions for the given step. It returned a JSON that has the stage it is on as well as a brief update about what it did. Having this "adherence check" at the end of each phase to steer the agent behavior is a recent and very beneficial addition that I've made to the scaffolding, as it aligns the agents to the structure of their training data and allows them to more consistently adhere to the instructions I've given, in the order I've given them.
+
+![Cursor completing Pt. I](/assets/images/2025-11-17-deploying-a-full-app-with-cursor/14.png)
+
+I then get Cursor to continue implementing and it does so, step by step. First, it creates an implementation plan.
+
+![Cursor creating an implementation plan](/assets/images/2025-11-17-deploying-a-full-app-with-cursor/15.png)
