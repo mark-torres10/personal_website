@@ -119,3 +119,35 @@ The agent correctly scanned the entire codebase, the relevant project spec docs,
 I then get Cursor to continue implementing and it does so, step by step. First, it creates an implementation plan.
 
 ![Cursor creating an implementation plan](/assets/images/2025-11-17-deploying-a-full-app-with-cursor/15.png)
+
+Then it actually executes it, updating me every so often and making updates to the necessary docs. Every so often, I have to nudge it to update the docs, but otherwise it does pretty well!
+
+![Cursor executing the ticket](/assets/images/2025-11-17-deploying-a-full-app-with-cursor/16.png)
+
+Eventually Cursor hits a point where I need to step in and do some stuff, so I ask it to summarize what I need to do.
+
+![Cursor handing off the task to me](/assets/images/2025-11-17-deploying-a-full-app-with-cursor/17.png)
+
+![Cursor telling me exactly what it needs](/assets/images/2025-11-17-deploying-a-full-app-with-cursor/18.png)
+
+After I provide this information to Cursor, it can continue on its way.
+
+While setting this up, I learned that Neon has an MCP server! Amazing. That'll make using it within Cursor even easier.
+
+![Neon has an MCP server!](/assets/images/2025-11-17-deploying-a-full-app-with-cursor/19.png)
+
+I'm hitting some errors with deploying the Neon database locally. The AI agent correctly (1) stops trying to solve it by itself and just tells me what it did, and (2) tracks its own progress in logs.md. This lets me keep track of the progress state without relying on agent memory.
+
+![The agent tracking its work in logs.md](/assets/images/2025-11-17-deploying-a-full-app-with-cursor/20.png)
+
+I prompted the model to propose a few solutions (and to ground those solutions by using the Exa MCP to look up how other people have fixed similar Neon setup bugs), and it was able to figure out how to get unstuck. The model correctly added the resulting updates to its logs.
+
+![The agent updating logs.md accordingly](/assets/images/2025-11-17-deploying-a-full-app-with-cursor/21.png)
+
+Before continuing, I asked the model (in a fresh chat session) to step back and create the branch/PR. This is a place where models sometimes do and sometimes don't adhere to the prompt as I'd like, as it should create the branch sooner rather than later, but it's OK, and I just re-prompt it here as needed.
+
+![Prompting the agent to create the PR](/assets/images/2025-11-17-deploying-a-full-app-with-cursor/22.png)
+
+The agent is also correctly updating its TODO list as it goes along. Having both `todo.md` and `logs.md` has been critical to my workflow, as it allows me to persist state across agents, spin up new agents to follow where the other ones left off, track what agents did and did not try, and steer agentic development behavior to be much more stable and consistent.
+
+![The agent correctly updates its todo.md checklist](/assets/images/2025-11-17-deploying-a-full-app-with-cursor/23.png)
