@@ -22,8 +22,8 @@ Prosus has shipped over 7949 agents. 15% have worked. The rest have been learnin
 
 ### Talk 1 Notes
 
-- engineers don't build agents. People build agents. Adoption is best if it comes from bottoms-up.
-- need to upskill at scale and figure out how to empower people to create agents to do so.
+- Engineers don't build agents. People build agents. Adoption is best if it comes from bottoms-up.
+- To get widescale adoption of AI agents, you need to upskill at scale and figure out how to empower people to create agents to do so.
   - Give people the tools and guardrails to experiment and iterate at scale.
 - A lot of the hard work comes in encoding domain knowledge.
 
@@ -124,6 +124,57 @@ The goal: to leave you with a practical playbook for how agents can make search 
 
 - Scoring retrieval should go beyond LLM-as-a-judge. You can look at other metrics like CTR, latency, users retrying, etc., all as other ways of measuring how good your semantic search retrieval is.
 
+## Talk 5: Architecting Trust: Multi-Agent Systems for the Misinformation Lifecycle
+
+### Talk 5 Abstract
+
+The rapid spread of digital misinformation requires solutions that address the entire lifecycle, moving beyond single-LLM limitations. This talk, based on the author’s ICWSM research paper, offers a practitioner's guide to a novel, five-agent system—Classifier, Indexer, Extractor, Corrector, and Verification—designed for maximum scalability, modularity, and explainability. This paper aims at automating the working of fact-checkers, which is traditionally done through a team of experts, saving millions and increasing efficiency with a human-in-the-loop system. We will get the details for each specialized agent, detailing crucial elements like model sizing and fine-tuning—for example, matching small, fine-tuned encoder models for the Classifier's high-confidence multi-class labeling against the need for a strong reasoning LLM in the Corrector Agent. Topics include building an efficient Indexer Agent and reranking with retrieval through hybrid keyword and vector embeddings, enabling the Corrector Agent to use external search APIs for cross-validation, and the function of the Verification Agent as the final quality check for high precision.. The talk concludes by covering agent coordination protocols, cost, holistic evaluation, offline evaluation and online A/B testing and post-deployment metrics.
+
+### Talk 5 Notes
+
+- How can we automate fact-checking with a series of agents? Sounds like it's very dependent on one's definition and criteria for misinformation, but presumably if you can define misinformation using a rubric that you can give to annotators, you can also develop multi-agent systems to do the same thing.
+- Related paper [link here](https://www.alphaxiv.org/overview/2505.17511v1).
+
+![Why Misinformation is Hard](/assets/images/2025-11-18-mlops-in-production-conference-notes/5.png)
+![Misinformation detection in the pre-LLM era](/assets/images/2025-11-18-mlops-in-production-conference-notes/6.png)
+
+- An obvious first baseline would be to use RAG. So, where does this fall short?
+  - User posts are pretty short.
+  - Retrieval is hard here.
+
+![RAG baseline](/assets/images/2025-11-18-mlops-in-production-conference-notes/7.png)
+
+- For this problem, we can try multi-agent systems:
+  - Pros:
+    - Efficient and scalable
+    - Policies and logic encoded as separate agents
+  - Cons:
+    - High cost and latency
+    - Complex
+    - Coordination is hard
+    - Agent systems can be brittle
+
+![Multi-agent architecture](/assets/images/2025-11-18-mlops-in-production-conference-notes/8.png)
+
+## Talk 6: When AI Agents Argue: Structured Dissent Patterns for Production Reliability
+
+### Talk 6 Abstract
+
+Single-agent LLM systems fail silently in production - they're confidently wrong at scale with no mechanism for self-correction. We've deployed a multi-agent orchestration pattern called ""structured dissent"" where believer, skeptic, and neutral agents debate decisions before consensus. This isn't theoretical - we'll show production deployment patterns, cost/performance tradeoffs, and measurable reliability improvements. You'll learn when multi-agent architectures justify the overhead, how to orchestrate adversarial agents effectively, and operational patterns for monitoring agent reasoning quality in production.
+
+Our first deployment of the debate swarm revolves around MCP servers - we use a security swarm specially built for MCP servers to analyze findings from open source security tools. This provides more nuanced reasoning and gives a confidence score to evaluate the security of unknown MCP tools.
+
+### Talk 6 Notes
+
+They've also written about this topic in a good [blog post](https://medium.com/@pe.stafford/when-ai-needs-to-argue-why-the-future-of-safe-ai-depends-on-structured-disagreement-da6772f3b219) (they've also written other posts about this topic as well).
+
+I like the idea of adversial AI agents that can push back on each other, and I often do this in my own workflows as well, where I have [AI personas](https://github.com/mark-torres10/ai_tools/tree/main/agents/personas) that give me fine-grained specific feedback and commentary, and I often pair them with an [instruction](https://github.com/mark-torres10/ai_tools/blob/main/agents/task_instructions/execution/CRITICAL_ANALYSIS_PROMPT.md) requiring them to give critical and often adversarial feedback.
 
 ## Overall takeaways
 
+- The field is getting mature enough that different fields are starting to diverge. Considerations in voice AI, for example, are different than those working in MCP servers, which are different from those working in AI adoption in the workplace.
+- Give people the training and guardrails to start experimenting with AI agents themselves and you'll be surprised about what they come up with. Before LLMs, any AI applications had to be funneled to a dedicated ML team, taking a long time to shp anything user-facing, but now a nontechnical person can hack on a 1-2 day project and build a sophisticated agent that automates away an important part of their job.
+- Good software engineering principles never go out of date: AIOps piggybacks on top of MLOps, which itself piggybacks on top of Ops. Get your telemetry figured out, define your software development life cycle (SDLC), have measures (both quantitative AND qualitative) for success, and stay close to the customer use case.
+- Traditional unit tests are great, but AI agents break that traditional test-driven-development model. Create your evals suite, define your "golden path" user journeys, and see just how creative people end up interfacing with your AI agents and all the wonderful ways it can break.
+- AI lets you ship quicker, which lets you see that code was never the bottleneck for a software business.
+- Customer expectations are much higher now as AI models continue to improve. For cases like voice AI, this is especially true, as people are expecting lower-latency applications and something closer to real-time interaction. Related: 99.999% accuracy is becoming more table stakes and customers are starting to expect it. People don't care that it's AI, they care that their problems are solved, and this is becoming more true as agentic AI becomes more widely adopted and socially ingrained.
