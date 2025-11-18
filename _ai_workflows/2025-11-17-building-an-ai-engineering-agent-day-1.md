@@ -15,5 +15,61 @@ permalink: /ai_workflows/2025-11-17-building-an-ai-engineering-agent-day-1
 I'm working on building an AI agent that can automate data science and ML engineering tasks. Not only is this an unsolved problem (though lots of people are working on it), it's also a great way to learn how to build good, useful agents.
 
 I'm starting with the Titanic dataset. I chose this dataset because:
+
 - It's pretty simple. It's one of the first datasets you work with when learning data science.
 - The actual solution is pretty well-known: absent of some feature engineering, the task is pretty simple.
+
+I wanted to get a very bare-bones v0 that I can continue to iterate on this week.
+
+## Creating a simple one-shot prompt for doing this
+
+I started with a really basic one-shot prompt to do this:
+
+```python
+system_prompt = """
+You are an expert ML engineer.
+Given the Titanic Kaggle train and test DataFrames already loaded as `train` and `test`,
+generate executable Python code that:
+
+1. Performs simple preprocessing (e.g., fill NA, encode categoricals).
+2. Trains a model to predict 'Survived'.
+3. Produces predictions for the test set.
+4. Returns a DataFrame with columns ['PassengerId', 'Survived'] in a variable named `submission`.
+5. Do not import the CSVs again—they are already loaded. Just operate on `train` and `test`.
+"""
+```
+
+I had a very basic pipeline for doing this:
+
+```python
+import anthropic
+
+client = anthropic.Anthropic(api_key=ANTHROPIC_API_KEY)
+
+# Call the Opus model
+message_opus = client.messages.create(
+    model="claude-opus-4-1-20250805",
+    max_tokens=1500,
+    system=system_prompt,
+    messages=[
+        {"role": "user", "content": user_prompt}
+    ]
+)
+```
+
+I ran into a variety of errors when doing this really naive approach, namely:
+
+- The code wasn't guaranteed to compile. In fact, it often didn't compile. I had a hard time trying to do the parsing correctly to get it to work.
+- I needed to set up a sandbox environment for the code to run
+
+## Adding code helper tooling and a sandbox environment
+
+### Getting the code to compile
+
+### Adding a sandbox environment
+
+## Optimizing the prompt
+
+## Adding a basic Streamlit UI
+
+## Abstracting out the feature engineering from the ML training
