@@ -1,7 +1,7 @@
 ---
 layout: single
 title: "Using AI agents to plan my work week"
-date: 2025-11-17 12:00:00 +0800
+date: 2025-11-18 12:00:00 +0800
 classes: wide
 toc: true
 categories:
