@@ -151,3 +151,15 @@ Before continuing, I asked the model (in a fresh chat session) to step back and 
 The agent is also correctly updating its TODO list as it goes along. Having both `todo.md` and `logs.md` has been critical to my workflow, as it allows me to persist state across agents, spin up new agents to follow where the other ones left off, track what agents did and did not try, and steer agentic development behavior to be much more stable and consistent.
 
 ![The agent correctly updates its todo.md checklist](/assets/images/2025-11-17-deploying-a-full-app-with-cursor/23.png)
+
+I can easily spin up new agents with fresh context windows to continue the work, which has the benefit of (1) being cheaper (running MAX MODE does add up...) and (2) making sure that I do actually track enough context (because if I don't, the model begins to go awry).
+
+![Spinning up a new agent with a fresh context window](/assets/images/2025-11-17-deploying-a-full-app-with-cursor/24.png)
+
+## Step 3: Merge in the PR
+
+Once I completed development, I merged in the PR and shipped this feature and started working on the next ones.
+
+## Step 4: Rinse and repeat
+
+This was the process that I did to deploy the first of 5 tickets for this project. For the next 4 tickets, I did this same process on repeat (though a little bit quicker over time as more of the setup steps were done and the implementation became more mature).
