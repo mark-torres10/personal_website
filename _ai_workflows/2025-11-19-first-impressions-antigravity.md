@@ -321,12 +321,16 @@ YES. THANK YOU.
 
 Cursor has this strange bug where a command can hang and the agent isn't smart enough to inspect it after a certain amount of time. Antigravity appears to check the status of a job against a timeout and then if the job doesn't complete, it kills it rather than let it hang. This is one of my bigger gripes with Cursor, as I have to kill the hanging job myself and tell Cursor to try again, which is very annoying and gets me out of my flow.
 
+### Antigravity hits a snag when trying to create a PR
+
+This is an annoying thing that happens in Cursor as well, where it takes a few tries to create a PR because the `gh` CLI doesn't actually accept the string in the way that the AI agent formats it. It seems like Antigravity, like Cursor, also hits this snag.
+
 ## Verifying the results
 
 After the agent finished, I wanted it to verify its own work. It already ran some unit tests and created its own verification plan, but now I want it to actually spin up the server and test the UI.
 
 ## Overall impressions
 
-I'm a big fan! I can tell that Antigravity was made with a lot of last-mile improvements and with love and care. This is the best user experience I've had with an IDE, it feels like it does a lot of the user interface things well and I was able to stay in a flow mode much more consistently. I like the presentation of the artifacts, the models do a good job of staying consistent, and I'm not overwhelmed by too much information in the agent manager. It also does a few specific things here and there (like automatically creating a .gitignore and killing hanging jobs) that I really appreciate. I'm routinely impressed by the polish and quality of Google's AI products, and this seems to be yet another example of that.
+I'm a big fan! I can tell that Antigravity was made with a lot of last-mile improvements and with love and care. This is the best user experience I've had with an IDE, it feels like it does a lot of the user interface things well and I was able to stay in a flow mode much more consistently. I like the presentation of the artifacts, the models do a good job of staying consistent, and I'm not overwhelmed by too much information in the agent manager. It also does a few specific things here and there (like leaving comments inline and killing hanging jobs) that I really like and help keep me in the flow state. I'm routinely impressed by the polish and quality of Google's AI products, and this seems to be yet another example of that.
 
 I'll definitely be trying this more and if first impressions hold, I might move off Cursor and spend more time in Antigravity.
