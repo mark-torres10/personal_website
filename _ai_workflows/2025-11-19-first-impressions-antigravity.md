@@ -319,18 +319,50 @@ A very small implementation detail, but one that I really appreciate! Whenever I
 
 YES. THANK YOU.
 
+![Antigravity kills a hanging job](/assets/images/2025-11-19-first-impressions-antigravity/18.png)
+
 Cursor has this strange bug where a command can hang and the agent isn't smart enough to inspect it after a certain amount of time. Antigravity appears to check the status of a job against a timeout and then if the job doesn't complete, it kills it rather than let it hang. This is one of my bigger gripes with Cursor, as I have to kill the hanging job myself and tell Cursor to try again, which is very annoying and gets me out of my flow.
 
 ### Antigravity hits a snag when trying to create a PR
 
 This is an annoying thing that happens in Cursor as well, where it takes a few tries to create a PR because the `gh` CLI doesn't actually accept the string in the way that the AI agent formats it. It seems like Antigravity, like Cursor, also hits this snag.
 
+I waited 5 minutes for it to do it and try a few things like reformatting its text and then eventually (which is the solution that Cursor also converges to) creating a markdown file with the PR body. Even when it had this, for some reason the command didn't succeed, so I eventually just ran it myself and it worked instantly.
+
+```bash
+(base) ➜  mind_technology_lab_experiments git:(feature/bluesky-ai-agent-simulation) ✗ gh pr create --title "feat: Bluesky AI Agent Social Science Simulation Platform" --body-file ai_agent_simulation_networks/bluesky_simulation/PR_BODY.md
+Warning: 2 uncommitted changes
+
+Creating pull request for feature/bluesky-ai-agent-simulation into main in METResearchGroup/mind_technology_lab_experiments
+
+https://github.com/METResearchGroup/mind_technology_lab_experiments/pull/1
+
+
+A new release of gh is available: 2.76.1 → 2.83.1
+To upgrade, run: brew upgrade gh
+https://github.com/cli/cli/releases/tag/v2.83.1
+```
+
 ## Verifying the results
 
 After the agent finished, I wanted it to verify its own work. It already ran some unit tests and created its own verification plan, but now I want it to actually spin up the server and test the UI.
 
+![Asking Antigravity to verify its work](/assets/images/2025-11-19-first-impressions-antigravity/19.png)
+
 ## Overall impressions
 
-I'm a big fan! I can tell that Antigravity was made with a lot of last-mile improvements and with love and care. This is the best user experience I've had with an IDE, it feels like it does a lot of the user interface things well and I was able to stay in a flow mode much more consistently. I like the presentation of the artifacts, the models do a good job of staying consistent, and I'm not overwhelmed by too much information in the agent manager. It also does a few specific things here and there (like leaving comments inline and killing hanging jobs) that I really like and help keep me in the flow state. I'm routinely impressed by the polish and quality of Google's AI products, and this seems to be yet another example of that.
+I'm a big fan! I can tell that Antigravity was made with a lot of last-mile improvements and with love and care. This is the best user experience I've had with an IDE, it feels like it does a lot of the user interface things well and I was able to stay in a flow mode much more consistently.
 
-I'll definitely be trying this more and if first impressions hold, I might move off Cursor and spend more time in Antigravity.
+Strengths:
+
+- I like the presentation of the artifacts
+- The models do a good job of staying consistent
+- I'm not overwhelmed by too much information in the agent manager.
+- It also does a few specific things here and there (like leaving comments inline and killing hanging jobs) that I really like and help keep me in the flow state.
+
+Things that could use some improvement:
+
+- I'd like to be able to just ask a question, but it gets overeager with coding (and there's no "ask" mode that I've seen so far).
+- Sometimes terminal commands still randomly hang for some reason (though this'll likely get worked out).
+
+I'm routinely impressed by the polish and quality of Google's AI products, and this seems to be yet another example of that. I'll definitely be trying this more and I've got a good impression of things so far. Excited to see where this goes!
