@@ -56,7 +56,7 @@ After working with and advising many clients, I've found that successful AI adop
 
 **Part 1: Write your own prompts** - This is your basic pan. You're learning what AI can do, what it can't, and what inputs produce what outputs. It's manual, it's slow, but it builds the intuition you need for everything else.
 
-**Part 2: Use off-the-shelf tools** - Now you're using a recipe. Someone else has figured out the basics, and you're adapting their approach to your needs. You're still cooking everything up yourself, but with better tools.
+**Part 2: Use off-the-shelf tools** - Now you're using a recipe. Someone else has figured out the basics, and you're adapting their approach to your needs. You're still cooking everything up yourself, but with better tools. This isn't your regular ChatGPT chat anymore. Instead, it's more specific tooling like powerpoint presentation builders, AI-embedded word docs, image generators, etc. Increasingly, big tech companies like Google and Microsoft are embedding these into their apps by default, so you likely have seen these off-the-shelf tools without even knowing it (e.g., Google's AI summaries in their search tool, Microsoft Copilot, Applie Intelligence).
 
 **Part 3: Build simple automations** (optional) - You've done this task enough times that you want to streamline it. You're seeing repetition in how you're using the tools. You find yourself doing something like:
 
