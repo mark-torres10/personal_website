@@ -36,7 +36,7 @@ There's an art and skill of creating these seamless experiences with AI, and I'm
 {% include figure
    image_path="/assets/images/2025-12-14-where-to-start-with-ai/1.png"
    alt="A visualization of the AI agent workflow"
-   caption="**Same workflow, different packaging:** Whether you're manually using ChatGPT or paying for a vendor's AI platform, you're following the same process. The vendor just automates the steps you'd do yourself and adds their own secret sauce (e.g., including proprietary instructions based on what they've learned across all their clients, splitting up a single prompt into multiple prompts (this is what \"agentic AI\" means))"
+   caption="**Same workflow, different packaging:** Whether you're manually using ChatGPT or paying for a vendor's AI platform, you're following the same process. The vendor just automates the steps you'd do yourself and adds their own secret sauce (e.g., including proprietary instructions based on what they've learned across all their clients, splitting up a single prompt into multiple prompts (this is what \"agentic AI\" means)). Picture credits: ChatGPT (they've really improved their image generation)"
 %}
 
 ## The Framework I use to advise
