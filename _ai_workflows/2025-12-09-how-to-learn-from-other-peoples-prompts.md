@@ -64,6 +64,11 @@ This observation and adaptation process is what builds real prompt engineering s
 
 Learning from other people's prompts is a smart strategy, but it's not a shortcut. You still need to understand why prompts work, adapt them to your context, and iterate based on results. The prompts you find online are starting points, not destinations.
 
-The best approach? Treat shared prompts like recipes. A good recipe gives you the structure and techniques, but you still need to adjust for your ingredients, your taste preferences, and your kitchen setup. Similarly, a good shared prompt shows you a proven approach, but you need to adapt it for your data, your requirements, and your workflow.
+The best way to do it? Treat shared prompts like a simple recipe from a cookbook. You can't just copy and paste a recipe word for word. You need to figure out what works for you, your preferences (salty? sweet?), what you have in your kitchen, how good you are as a cook, and the like. A good prompt that someone else has used is like a recipe, and it works for them in a certain way but it might not work for you the same. You have to adapt the prompt to your data, your constraints, your understanding of what a "good result" looks like, and for your workflow.
 
-Start by finding a few prompts that seem relevant to your work. Evaluate them critically, test them with your actual data, and adapt them systematically. Over time, you'll build your own library of effective prompts—and more importantly, you'll develop the intuition to create new ones that work perfectly for your specific needs.
+Find a few propts that seem relevant to what you're working on. Two very quick ways to start are:
+
+- Ask Google "find me prompts related to [insert concept]".
+- Look up prompts on a platform like [PromptBase](https://promptbase.com/).
+
+Take a few prompts, copy-and-paste them yourself into ChatGPT, take notes on what you like and don't like about how it did, and tweak them to have something that works for you. Over time, this'll give you a library of prompts that others started but you refined for your use case. Importantly, it also develops your own intuition for how to write and edit prompts to match what works for you.
