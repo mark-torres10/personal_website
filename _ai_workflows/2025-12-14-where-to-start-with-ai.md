@@ -29,10 +29,6 @@ At the end of the day, **any AI tool is fundamentally a series of prompts, stitc
 
 There's an art and skill of creating these seamless experiences with AI, and I'm not brushing that off. However, when you're starting out, it's good to remember that at a high level, AI applications are all powered by ChatGPT (or some other similar LLM) under the hood. So, the best way to know whose AI applications are best at doing *your* tasks is to try it yourself.
 
-<!-- ![A visualization of the AI agent workflow](/assets/images/2025-12-14-where-to-start-with-ai/1.png)
-
-**Same workflow, different packaging:** Whether you're manually using ChatGPT or paying for a vendor's AI platform, you're following the same process. The vendor just automates the steps you'd do yourself and adds their own secret sauce (e.g., including proprietary instructions based on what they've learned across all their clients, splitting up a single prompt into multiple prompts (this is what "agentic AI" means)) -->
-
 {% include figure
    image_path="/assets/images/2025-12-14-where-to-start-with-ai/1.png"
    alt="A visualization of the AI agent workflow"
