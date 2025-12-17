@@ -54,9 +54,9 @@ After working with and advising many clients, I've found that successful AI adop
 
 ### What each part looks like
 
-**Part 1: Write your own prompts** - This is your basic pan. You're learning what AI can do, what it can't, and what inputs produce what outputs. It's manual, it's slow, but it builds the intuition you need for everything else.
+**Part 1: Write your own prompts** - You're learning what AI can do, what it can't, and what inputs produce what outputs. It's manual, it's slow, but it builds the intuition you need for everything else.
 
-**Part 2: Use off-the-shelf tools** - Now you're using a recipe. Someone else has figured out the basics, and you're adapting their approach to your needs. You're still cooking everything up yourself, but with better tools. This isn't your regular ChatGPT chat anymore. Instead, it's more specific tooling like powerpoint presentation builders, AI-embedded word docs, image generators, etc. Increasingly, big tech companies like Google and Microsoft are embedding these into their apps by default, so you likely have seen these off-the-shelf tools without even knowing it (e.g., Google's AI summaries in their search tool, Microsoft Copilot, Applie Intelligence).
+**Part 2: Use off-the-shelf tools** - Someone else has figured out the basics, and you're adapting their approach to your needs. You're still cooking everything up yourself, but with better tools. This isn't your regular ChatGPT chat anymore. Instead, it's more specific tooling like powerpoint presentation builders, AI-embedded word docs, image generators, etc. Increasingly, big tech companies like Google and Microsoft are embedding these into their apps by default, so you likely have seen these off-the-shelf tools without even knowing it (e.g., Google's AI summaries in their search tool, Microsoft Copilot, Applie Intelligence).
 
 **Part 3: Build simple automations** (optional) - You've done this task enough times that you want to streamline it. You're seeing repetition in how you're using the tools. You find yourself doing something like:
 
@@ -71,6 +71,9 @@ After working with and advising many clients, I've found that successful AI adop
 
 ### "Can't we just rush through these steps?"
 
+
+
+
 (I get pushback and asked if you can just rush through these steps)
 
 (but I argue that the more you rush through these steps, the worse it'll be)
@@ -79,11 +82,27 @@ After working with and advising many clients, I've found that successful AI adop
 
 (At the end of the day, your intuition for how these AI tools work and can be used is going to be one of your biggest differentiators for using AI. Having all these AI tools doesn't matter if you don't know how and when to use them, which ones are good/bad for certain things, etc.)
 
+
 (You also need to go through each part in order, or else:)
 
 - **Prompts → Tools:** Without prompt intuition, you can't evaluate if a tool's AI is actually good or just marketing.
 - **Tools → Automation:** Without validating a use case works, you'll automate something that doesn't deliver value.
 - **Automation → Vendors:** Without understanding your exact needs, you can't cut through vendor hype or negotiate effectively.
+
+
+### "Can't we just rush through these steps?"
+
+I get this question a lot. Clients want to skip ahead, especially if they're under pressure to show results quickly. "Can't we just spend a day on prompts and move to tools?" or "Why can't we evaluate vendors while we're learning prompts?"
+
+Here's why rushing backfires: The more you skip, the worse your outcomes get. Each stage builds intuition that the next stage requires.
+
+- **Prompts → Tools:** Without prompt intuition, you can't evaluate if a tool's AI is actually good or just marketing.
+- **Tools → Automation:** Without validating a use case works, you'll automate something that doesn't deliver value.
+- **Automation → Vendors:** Without understanding your exact needs, you can't cut through vendor hype or negotiate effectively.
+
+Go through these steps slowly and intentionally, documenting what works and what doesn't, keeping track of your learnings, iterating on your approach—is what builds intuition about AI tools. This isn't busywork; it's the foundation.
+
+At the end of the day, your intuition for how AI tools work and when to use them is going to be one of your biggest competitive advantages. Having access to all the AI tools in the world doesn't matter if you don't know which ones are good for certain tasks, which ones are overhyped, and how to evaluate new tools as they emerge.
 
 **Some things to consider after each part:**
 
@@ -92,10 +111,10 @@ After working with and advising many clients, I've found that successful AI adop
 - **After Part 3:** Do you need enterprise features (security, compliance, support, scale)? If no, your automation might be sufficient. If yes, Part 4.
 
 **The key insight:** Most organizations stop at Part 2 and never need vendors. The ones that do need vendors are much better positioned to evaluate, negotiate, and implement because they understand their requirements from first principles.
-
+<!-- 
 ## Part 1: Write your own prompts
 
-**Key takeaway: 
+**Key takeaway:
 
 Some things to keep in mind:
 - What information do you have to include in the prompt for it to give you the answer you want?
@@ -147,4 +166,4 @@ If using ChatGPT and an off-the-shelf AI app don't do it for your use case, I re
 
 (from my experience with clients, specific vendors are overkill anyways, at least until you've reached a certain point in your AI journey where you know what AI can and can't do in your business)
 
-(caution: many "all-in-one" vendor tools don't work for *your* business and *your* way of doing things. An "AI data analyst" at Morgan Stanley is going to look very different than an "AI data analyst" at Nike).
+(caution: many "all-in-one" vendor tools don't work for *your* business and *your* way of doing things. An "AI data analyst" at Morgan Stanley is going to look very different than an "AI data analyst" at Nike). -->
