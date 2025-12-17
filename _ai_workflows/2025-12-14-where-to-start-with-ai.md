@@ -91,25 +91,17 @@ At the end of the day, your intuition for how AI tools work and when to use them
 
 **Key takeaway**: If you can't write a prompt to do it yourself, neither can anyone else.
 
-Some things to keep in mind:
-- What information do you have to include in the prompt for it to give you the answer you want?
-- What is the *least* amount of information that you can give to an AI for it to tell you the right answer? (AI models, like humans, can get distracted and confused when you give them unnecessary extra information).
-- How many times do you have to prompt the AI for it to give you the answer you want?
-- 
-
-Some benefits you get from this are:
-- You build an "intuition" for what any AI answering your specific questions should do.
-- ...
-
-### Benefits
+### Benefits of writing your own prompts
 
 #### Benefit 1: Creating your own personal prompt library
 
 As you build your own prompts, you create your own personal "prompt library". This has MANY benefits, including:
 
-- **Being a part of your own proprietary AI secret sauce**: as you experiment and create prompts, you create your own internal repository that becomes a part of your edge. These prompts become a part of how you get your results and are prompts that your competitors don't have.
-- **Gives you a set of prompts for different use cases**: some clients I've worked with have folders to organize their prompts, and then when they need to do a specific type of task, such as due diligence or analyzing reports, they go to that folder and they just copy and paste those same prompts into ChatGPT.
-- **Lets you build your own "test" to test against any new LLMs**: new versions of ChatGPT and other LLMs come out all the time, and there's so much hype and press around how these LLMs are now smarter than humans, curing diseases, automating away everyone's jobs, and so on. AI companies all have their [own internal prompts](https://openai.com/index/gdpval/) that they use to test any new LLM, and so should you. Having your own personal prompt library helps you get past the fluff and see when a new LLM actually does better for your specific use case.
+- **Being a part of your own proprietary AI secret sauce**
+- **Gives you a set of prompts for different use cases**
+- **Lets you build your own "test" to test against any new LLMs**
+
+I write in more detail about this topic [in this blog post](https://markptorres.com/ai_workflows/2025-12-05-writing-your-own-prompt-library).
 
 #### Benefit 2: Intuition for how AI works on *your* use case
 
@@ -129,44 +121,67 @@ You'll learn some of the common problems and gotchas that happen with LLM applic
 
 By doing it consistently yourself, you build up confidence to know when AI is the right tool versus when to use traditional methods. You also have more grounding on when to believe statements about AI versus when to discount the hype.
 
-### Common Mistakes to Avoid
+### Some pro tips for doing this well
 
-- **Too vague:**
-  - Avoid: "Help me with marketing"
-  - Do: "Create a social media post for our new product launch"
+#### Do a basic "Prompting 101" course
 
-- **Don't attach every single document into ChatGPT:** Despite all the demos that dump in entire troves of books into ChatGPT and answer questions about it, in reality LLMs do significantly better when you give it *just* the information that it needs to learn.
-  - Avoid: Dumping entire documents when you only need a summary.
-  - Do: Pick just the snippets/pages of documents that you need in order to answer the question.
-Not iterating: Giving up after one bad result instead of refining
+There are plenty of courses and guides for how to do prompting. I would recommend starting with the ones from major AI companies, as these are the most in-depth and are written by the people who build the LLMs.
 
-- **Having super-long chat conversations** An LLM tries to compress everything that you've talked about in a given chat conversation, and it generally does pretty well (for example, it more heavily weighs recent messages over really old ones) but it can forget things that came up in old messages.
-  - Avoid: having one single super-long chat conversation thread with ChatGPT.
-  - Do: start a new conversation
-  - Some pro tips:
-    - Ask ChatGPT to summarize the current conversation with enough details to pass on to another LLM.
-    - Use the ["Branch in new chat" feature](https://x.com/OpenAI/status/1963697012014215181?lang=en) from ChatGPT to continue your current conversation in a new chat.
+For courses, some to look at are:
+- [Google Prompting Essentials Specialization](https://www.coursera.org/specializations/prompting-essentials-google)
+- [Coursera: Prompt Engineering For Everyone with ChatGPT and GPT-4](https://www.coursera.org/learn/packt-prompt-engineering-for-everyone-with-chatgpt-and-gpt-4-0v1km)
+- [Coursera: Prompt Engineering for ChatGPT](https://www.coursera.org/learn/prompt-engineering)
 
-- **Make sure the information that you give to ChatGPT is useful:** ChatGPT can only help you based on (1) information that it's learned from being trained on the Internet, (2) whatever prompt you give it, and (3) what documents, files, etc., you attach. Make sure that whatever information you give to ChatGPT is useful for answering your question. In fact, OpenAI and other big companies invest a lot of effort making sure that ChatGPT is built using only *high-quality* training data and tuned with *high-quality prompts*, because they also understand that if you give an LLM too much slop, it crashes.
-  - Avoid:
-    - Poorly formatted documents (e.g., tables aren't clear, images are blurry, Excel files have terrible formatting or ambiguous column names).
-    - 
-  - Do:
-    - Give, whenever possible, well-formatted documents.
-    - 
+These are really invaluable resources for getting started, and anyone wanting to work with ChatGPT or LLMs in any capacity should really start here. Everything in GenAI comes down to prompts, so you should learn Prompting 101.
 
-Ignoring formatting: Not specifying output format (markdown, bullet points, etc.)
-Skipping documentation: Not keeping track of what works
+#### Learn from other people's prompts
 
-(double-check. Don't believe everything that an LLM says. Ask it to cite specific sources. Check the links yourself.)
+Many people across industries have found and written about ChatGPT prompts that they use for their specific workflows. If you've opened up LinkedIn for any bit of time, you've likely encountered these influencers yourself. Don't believe the overhyped "this ONE prompt will solve ALL your problems" claims, but I also suggest trying some of these prompts yourself. I write more about how to do this well [in this blog post](https://markptorres.com/ai_workflows/2025-12-09-how-to-learn-from-other-peoples-prompts).
 
-(don't assume that the LLM is right. In fact, ask it to figure out how it's wrong (and when it's wrong). Ask it for when it would check itself. Also pass in the prompt to another LLM. TBH this could be a separate blog post on "pro tips to avoid hallucination and sycophancy", and I can just link it here.)
+### Common mistakes to avoid (and what to do instead)
 
-**Key tip:** imagine ChatGPT is like a super-powered human intern. If you're not specific with what question you're asking, the intern might go off and do the task in an unexpected way (since they don't have the context that you have). If you give this super-intern 10 years worth of documents and you ask them to write a document for it, it might do a reasonable job (and probably be pretty impressive that it can go through 10 years worth of PDFs) but it won't know, unless you tell it, which documents are important and how they relate to each other.
+Taking a "Prompting 101" class should give you the basis of what a good prompt looks like. In addition to those, I've written about [many common mistakes I've seen people make when using ChatGPT, and how to avoid them](https://markptorres.com/ai_workflows/2025-12-13-common-mistakes-with-chatgpt).
 
-### Pro tip: find and use prompts by other people
+### Some things to keep in mind as you write your own prompts
 
-Many people across industries have found and written about ChatGPT prompts that they use for their specific workflows. If you've opened up LinkedIn for any bit of time, you've likely encountered these influencers yourself. Don't believe the overhyped "this ONE prompt will solve ALL your problems" claims, but I also suggest trying some of these prompts yourself. This will help you build your own intuition and ...
+- **What information do you have to include in the prompt for it to give you the answer you want?**
+  - Start by identifying the minimum viable context. What does the AI absolutely need to know?
+  - Example: To summarize a report, it needs the report. But does it need your company's entire history? Probably not.
+
+- **What is the *least* amount of information that you can give to an AI for it to tell you the right answer?** (AI models, like humans, can get distracted and confused when you give them unnecessary extra information).
+  - Strip away everything non-essential.
+  - Can you get the same quality result with less context? If yes, use the shorter version.
+
+- **How many times do you have to prompt the AI for it to give you the answer you want?**
+  - Track your iteration count. If you're consistently needing 5+ iterations, your initial prompt might be too vague.
+  - The goal is to get to 1-2 iterations for routine tasks. More iterations are fine for complex, novel problems.
+
+- **What format does the output need to be in?**
+  - Specify format upfront: "Format as a bulleted list" or "Create a markdown table" or "Write in email format".
+  - This prevents rework and ensures the output fits your workflow.
+
+- **What constraints or guardrails are important?**
+  - Word count limits, tone requirements, style guidelines, compliance considerations.
+  - Example: "Write a 200-word summary in a professional tone, avoiding technical jargon".
+
+- **What would make this output wrong or unusable?**
+  - Think about failure modes upfront. What mistakes would be costly? If you trusted the LLM's output and it were wrong, what kind of wrong conclusions could you make from those outputs and how would that affect you?
+  - Example: "Do not include any financial projections, only historical data"
+
+**Key tip:** Imagine ChatGPT is like a super-powered human intern. If you're not specific with what question you're asking, the intern might go off and do the task in an unexpected way (since they don't have the context that you have). If you give this super-intern 10 years worth of documents and you ask them to write a document for it, it might do a reasonable job (and probably be pretty impressive that it can go through 10 years worth of PDFs) but it won't know, unless you tell it, which documents are important and how they relate to each other. No matter how smart the intern is, if the intern doesn't know what *you* know abot how to do this specific problem the way that *you* know it should be done, it's unlikely to do it the way that *you* know it should be done. You're the expert here, not the LLM.
+
+### How to know you're ready for Part 2
+
+You've mastered Part 1 when you can answer "yes" to these questions:
+
+- [] **Reliability:** Can you consistently get useful outputs for your use case? (Not perfect every time, but reliably good enough)
+- [] **Efficiency:** Are you getting results in 1-2 prompt iterations for routine tasks?
+- [] **Evaluation:** Can you spot when an output is wrong, incomplete, or off-target?
+- [] **Library:** Do you have a small collection of prompts (5-10) that work well for your common tasks?
+- [] **Intuition:** Can you explain why certain prompts work better than others?
+- [] **Adaptation:** When you see a new use case, can you quickly draft a prompt that gets you 80% of the way there?
+
+If you're still struggling with these, spend another week or two in Part 1. There's no rush, and building this foundation saves time later.
 
 <!-- 
 
