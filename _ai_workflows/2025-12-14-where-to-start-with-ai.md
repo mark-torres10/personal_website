@@ -86,10 +86,10 @@ At the end of the day, your intuition for how AI tools work and when to use them
 - **After Part 3:** Do you need enterprise features (security, compliance, support, scale)? If no, your automation might be sufficient. If yes, Part 4.
 
 **The key insight:** Most organizations stop at Part 2 and never need vendors. The ones that do need vendors are much better positioned to evaluate, negotiate, and implement because they understand their requirements from first principles.
-<!-- 
+
 ## Part 1: Write your own prompts
 
-**Key takeaway:
+**Key takeaway**: If you can't write a prompt to do it yourself, neither can anyone else.
 
 Some things to keep in mind:
 - What information do you have to include in the prompt for it to give you the answer you want?
@@ -101,9 +101,74 @@ Some benefits you get from this are:
 - You build an "intuition" for what any AI answering your specific questions should do.
 - ...
 
-**Pro tip: find and use prompts by other people**
+### Benefits
+
+#### Benefit 1: Creating your own personal prompt library
+
+As you build your own prompts, you create your own personal "prompt library". This has MANY benefits, including:
+
+- **Being a part of your own proprietary AI secret sauce**: as you experiment and create prompts, you create your own internal repository that becomes a part of your edge. These prompts become a part of how you get your results and are prompts that your competitors don't have.
+- **Gives you a set of prompts for different use cases**: some clients I've worked with have folders to organize their prompts, and then when they need to do a specific type of task, such as due diligence or analyzing reports, they go to that folder and they just copy and paste those same prompts into ChatGPT.
+- **Lets you build your own "test" to test against any new LLMs**: new versions of ChatGPT and other LLMs come out all the time, and there's so much hype and press around how these LLMs are now smarter than humans, curing diseases, automating away everyone's jobs, and so on. AI companies all have their [own internal prompts](https://openai.com/index/gdpval/) that they use to test any new LLM, and so should you. Having your own personal prompt library helps you get past the fluff and see when a new LLM actually does better for your specific use case.
+
+#### Benefit 2: Intuition for how AI works on *your* use case
+
+A lot of press and hype focuses on how AI is, for example, smarter than the [smartest mathematicians](https://deepmind.google/blog/advanced-version-of-gemini-with-deep-think-officially-achieves-gold-medal-standard-at-the-international-mathematical-olympiad/). But unless you're working on building math proofs, writing code, or other specific tasks that these benchmarks care about, those test scores don't matter to you (and even if you do work in those fields, AI doing well on those doesn't mean they've automated you away). Having your own prompt library lets you build intuition for how the different AI models do for the things that you care about.
+
+**It doesn't matter how well AI can solve other people's problems. It matters how well it solves yours**
+
+#### Benefit 3: Separate reality from hype
+
+For all the hype about how great ChatGPT is, I still sometimes find it messing up on really obvious mistakes (e.g., punctuation, not knowing how to interpret a word, etc.) that a human wouldn't make. This doesn't discount how powerful these tools are, but it also shows you where they still have room to grow.
+
+#### Benefit 4: Spotting common issues in AI
+
+You'll learn some of the common problems and gotchas that happen with LLM applications, such as hallucination, context drift, and formatting. You'll see, for example, that when you provide LLMs tables, LLMs like tables formatted in a very [specific way](https://github.com/BoundaryML/baml).
+
+#### Benefit 5: Confidence
+
+By doing it consistently yourself, you build up confidence to know when AI is the right tool versus when to use traditional methods. You also have more grounding on when to believe statements about AI versus when to discount the hype.
+
+### Common Mistakes to Avoid
+
+- **Too vague:**
+  - Avoid: "Help me with marketing"
+  - Do: "Create a social media post for our new product launch"
+
+- **Don't attach every single document into ChatGPT:** Despite all the demos that dump in entire troves of books into ChatGPT and answer questions about it, in reality LLMs do significantly better when you give it *just* the information that it needs to learn.
+  - Avoid: Dumping entire documents when you only need a summary.
+  - Do: Pick just the snippets/pages of documents that you need in order to answer the question.
+Not iterating: Giving up after one bad result instead of refining
+
+- **Having super-long chat conversations** An LLM tries to compress everything that you've talked about in a given chat conversation, and it generally does pretty well (for example, it more heavily weighs recent messages over really old ones) but it can forget things that came up in old messages.
+  - Avoid: having one single super-long chat conversation thread with ChatGPT.
+  - Do: start a new conversation
+  - Some pro tips:
+    - Ask ChatGPT to summarize the current conversation with enough details to pass on to another LLM.
+    - Use the ["Branch in new chat" feature](https://x.com/OpenAI/status/1963697012014215181?lang=en) from ChatGPT to continue your current conversation in a new chat.
+
+- **Make sure the information that you give to ChatGPT is useful:** ChatGPT can only help you based on (1) information that it's learned from being trained on the Internet, (2) whatever prompt you give it, and (3) what documents, files, etc., you attach. Make sure that whatever information you give to ChatGPT is useful for answering your question. In fact, OpenAI and other big companies invest a lot of effort making sure that ChatGPT is built using only *high-quality* training data and tuned with *high-quality prompts*, because they also understand that if you give an LLM too much slop, it crashes.
+  - Avoid:
+    - Poorly formatted documents (e.g., tables aren't clear, images are blurry, Excel files have terrible formatting or ambiguous column names).
+    - 
+  - Do:
+    - Give, whenever possible, well-formatted documents.
+    - 
+
+Ignoring formatting: Not specifying output format (markdown, bullet points, etc.)
+Skipping documentation: Not keeping track of what works
+
+(double-check. Don't believe everything that an LLM says. Ask it to cite specific sources. Check the links yourself.)
+
+(don't assume that the LLM is right. In fact, ask it to figure out how it's wrong (and when it's wrong). Ask it for when it would check itself. Also pass in the prompt to another LLM. TBH this could be a separate blog post on "pro tips to avoid hallucination and sycophancy", and I can just link it here.)
+
+**Key tip:** imagine ChatGPT is like a super-powered human intern. If you're not specific with what question you're asking, the intern might go off and do the task in an unexpected way (since they don't have the context that you have). If you give this super-intern 10 years worth of documents and you ask them to write a document for it, it might do a reasonable job (and probably be pretty impressive that it can go through 10 years worth of PDFs) but it won't know, unless you tell it, which documents are important and how they relate to each other.
+
+### Pro tip: find and use prompts by other people
 
 Many people across industries have found and written about ChatGPT prompts that they use for their specific workflows. If you've opened up LinkedIn for any bit of time, you've likely encountered these influencers yourself. Don't believe the overhyped "this ONE prompt will solve ALL your problems" claims, but I also suggest trying some of these prompts yourself. This will help you build your own intuition and ...
+
+<!-- 
 
 ## Part 2: Start using basic off-the-shelf AI tools
 
@@ -112,6 +177,7 @@ Some of these include:
 - Gamma: for building presentations with prompts.
 - Cursor: for AI-assisted development.
 - AlphaXiv: for reading papers with an AI-enabled interface.
+- ChatGPT apps: 
 
 ## Part 3 (Optional): Build simple automations
 
