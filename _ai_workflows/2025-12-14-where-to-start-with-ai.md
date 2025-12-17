@@ -174,12 +174,12 @@ Taking a "Prompting 101" class should give you the basis of what a good prompt l
 
 You've mastered Part 1 when you can answer "yes" to these questions:
 
-- [] **Reliability:** Can you consistently get useful outputs for your use case? (Not perfect every time, but reliably good enough)
-- [] **Efficiency:** Are you getting results in 1-2 prompt iterations for routine tasks?
-- [] **Evaluation:** Can you spot when an output is wrong, incomplete, or off-target?
-- [] **Library:** Do you have a small collection of prompts (5-10) that work well for your common tasks?
-- [] **Intuition:** Can you explain why certain prompts work better than others?
-- [] **Adaptation:** When you see a new use case, can you quickly draft a prompt that gets you 80% of the way there?
+- **Reliability:** Can you consistently get useful outputs for your use case? (Not perfect every time, but reliably good enough)
+- **Efficiency:** Are you getting results in 1-2 prompt iterations for routine tasks?
+- **Evaluation:** Can you spot when an output is wrong, incomplete, or off-target?
+- **Prompt Library:** Do you have a small collection of prompts (5-10) that work well for your common tasks?
+- **Intuition:** Can you explain why certain prompts work better than others?
+- **Adaptation:** When you see a new use case, can you quickly draft a prompt that gets you 80% of the way there?
 
 If you're still struggling with these, spend another week or two in Part 1. There's no rush, and building this foundation saves time later.
 
