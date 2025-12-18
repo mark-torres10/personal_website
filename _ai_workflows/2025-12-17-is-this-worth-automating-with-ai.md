@@ -54,7 +54,7 @@ Think of it this way: if you could teach a smart intern to do this task by writi
 
 **High standardizability:**
 
-- Converting PDF rent rolls to Excel format (same structure every time)
+- Converting PDFs to Excel format (same structure every time)
 - Extracting data from financial statements (consistent format)
 - Scheduling and formatting social media posts from a content calendar (repetitive pattern)
 
@@ -104,7 +104,7 @@ These are your automation targets. The task has clear rules, and you can easily 
 
 **Finance examples:**
 
-- PDF → Excel formatting (rent rolls, financial statements)
+- PDF → Excel formatting
 - Data extraction and normalization from financial documents
 - Monthly statement formatting into trackers
 
