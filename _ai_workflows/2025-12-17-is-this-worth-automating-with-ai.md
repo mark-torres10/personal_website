@@ -127,7 +127,7 @@ These are your automation targets. The task has clear rules, and you can easily 
 - Set up spot-checking (maybe 10-20% of outputs).
 - Monitor for edge cases, but trust the system for routine cases.
 
-The hardest parts here are defining the task clearly and in defining what is success. Otherwise, for these tasks, AI automation can generally be trusted to do them consistently and correctly.
+The hardest parts here are defining the task clearly and in defining what is success. Otherwise, for these tasks, AI automation can generally be trusted to do them consistently and correctly. These cases can also be often augmented with automated tests (or LLM-as-a-judge AI agents) to help improve the consistency of evaluating correctness over time.
 
 ### High Standardizability + Medium/Low Verifiability: Good with Human-in-the-Loop
 
@@ -277,5 +277,7 @@ Not every task is worth automating, and not every automation should be fully aut
 Tasks that are highly standardizable and highly verifiable are your best bets for full automation. Tasks that are standardizable but harder to verify need human oversight. Tasks that require judgment but are easy to verify work well as AI augmentation. And tasks that require judgment and are hard to verify should avoid full automation.
 
 The framework is simple, but applying it consistently helps you avoid the common mistake of trying to automate everything or being too cautious about automation. It also helps you build the right level of human oversight, not too much (wasting the benefits of automation) and not too little (risking costly errors).
+
+Consider also that defining tasks in this way is a moving target. What might be considered a task low on the standardization matrix might very well be easily standardized as AI intelligence improves (e.g., writing personalized copy). What might be considered an error-prone task now (e.g., content creation, automated debugging) might also improve with AI intelligence gains. It's often worth having [your own prompt library](https://markptorres.com/ai_workflows/2025-12-05-writing-your-own-prompt-library) so you can continuously evaluate new AI models.
 
 Start by evaluating your current tasks on these two dimensions. You might find that some tasks you thought needed full automation actually work better with human-in-the-loop, or that some tasks you were doing manually are perfect candidates for automation. The goal isn't to automate everything. Instead, it's to automate the right things, in the right way, with the right level of human oversight.
