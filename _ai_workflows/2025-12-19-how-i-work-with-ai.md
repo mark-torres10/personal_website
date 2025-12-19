@@ -27,6 +27,10 @@ I've been embracing a different collaboration model with AI now. This workflow i
 - **AI tools amplify your expertise** (for better or for worse)
   - The leverage you get from AI coding agents is in proportion to the quality of your own software engineering fundamentals. If you have strong software engineering fundamentals and discipline (e.g., TDD, clean code, good architecture design), then coding agents allow you to focus on all of those rather than the minutae of implementation. The kind of skills that make you a good senior engineer will help you leverage coding agents even more.
   - In contrast, having a poor foundation will give you a false sense of confidence when LLMs ship plausible-looking code.
+- The best way to work with AI agents is, paradoxically, to work slower, not faster.
+  - By working slower, you can more intentionally ship higher-quality code the first time, which means a more maintainable codebase that your future self can work with. In contrast, trying to ship faster and faster, in my experience, generally leads to more trouble later on with debugging, deleting old code, redesigning poorly-architected interfaces, and other such problems that could've been prevented with an extra hour or two of more intentional code development.
+- The best way to improve your ROI from coding agents is to (1) improve your own software engineering fundamentals and (2) to improve your processes (e.g., by adopting tools to help you ship higher-quality code).
+  - I'm putting more emphasis this coming year on sharpening my software engineering fundamentals, as I've seen that the more I do so, the better I can design and ship higher-quality code and the better that I can steer coding agents. I'm currently reading [Clean Code](https://www.goodreads.com/book/show/3735293-clean-code) and I plan to read a few more canonical software engineering books in 2026.
 
 ## On working with coding agents
 
