@@ -1,3 +1,15 @@
+---
+layout: single
+title: "What I learned from spending 2 years building the app for a large-scale field study"
+date: 2026-05-20 02:00:00 +0800
+classes: wide
+toc: true
+categories:
+- research
+- all_posts
+permalink: /research/2026-05-20-learnings-from-bluesky-project
+---
+
 # What I learned from spending 2 years building the app for a large-scale field study
 
 (TODO: workshop name)
@@ -14,6 +26,12 @@ What am I learning now:
 - scalable design
 - tradeoffs
 - translating to AI agent flows.
+
+Key learnings (things that I can keep in mind):
+
+- From self-doubt to earned confidence: "I started this project unsure whether I could truly build anything end to end, and over two years the project became the proof that I could."
+- From doing tasks to developing judgment and product sense: "The biggest thing the project taught me was not a specific stack or tool, but engineering judgment: how to make tradeoffs, simplify problems, and build systems that actually work in the real world."
+- From isolated skills to an integrated worldview: "Before this project, I had many fragmented skills, but I lacked a unified way of seeing how research, engineering, infrastructure, and product fit together. Bluesky taught me how those pieces connect."
 
 ## Part 0: Before the project
 
@@ -57,12 +75,16 @@ I did not appreciate it then, but my choice to both explicitly state and then le
 
 ## Part 1: Planning the project
 
+(reconnecting with Billy)
+
+(planning the project)
+
 (each of these bullet points may be sections of their own).
 
 - I read a few books to prepare for this. I also read a bunch of papers.
 - I felt nervous, excited, etc., to take on such a large project.
 
-When I found out about the project, I was simultaneously nervous and excited. I remember telling my partner "this project is really ambitious, but imagine what would happens
+When I found out about the project, I was simultaneously nervous and excited. I remember telling my partner "this project is really ambitious, but imagine what would happens if I could do it?"
 
 ## Part 2: Building the app
 
