@@ -24,7 +24,7 @@ Don't believe the overhyped "this ONE prompt will solve ALL your problems" claim
 
 ## Where to find prompts
 
-**LinkedIn/Twitter:** Industry professionals sharing their workflows (be skeptical of "one prompt solves everything" claims). 
+**LinkedIn/Twitter:** Industry professionals sharing their workflows (be skeptical of "one prompt solves everything" claims).
 
 **GitHub repos:** Search for "prompt engineering" or "chatgpt prompts" - many developers share their collections
 

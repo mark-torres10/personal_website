@@ -12,7 +12,7 @@ permalink: /ai_workflows/2025-12-13-common-mistakes-with-chatgpt
 
 # Common Mistakes with ChatGPT (And What to Do Instead)
 
-I've worked with many clients in my AI consulting practice, and I've noticed a pattern: people are either not using ChatGPT at all, or they're using it but not getting nearly as much value as they could.
+I've talked to many people trying to get started with AI and I've noticed a pattern: people are either not using ChatGPT at all, or they're using it but not getting nearly as much value as they could.
 
 Some people try ChatGPT once or twice, get mediocre results, and assume it "doesn't work for them." Others think ChatGPT isn't as good as they are at their job, so why bother? Many more use ChatGPT regularly but don't maximize how much they get out of it—they're getting 30% of the value when they could be getting 90%. And then there are those who see colleagues or peers getting amazing results with ChatGPT but have no idea how or why.
 
