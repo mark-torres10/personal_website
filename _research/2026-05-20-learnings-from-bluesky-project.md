@@ -186,6 +186,30 @@ We can interpret best practices in software engineering through this lens:
 
 ## Part 3: Running the study
 
+### Making the app ready for showtime
+
+- Connecting our API to Bluesky
+- Running pilots
+- Doing testing, testing, and more testing
+- What I'd do differently: have playbooks, use AI to run mock load on the endpoints, invest in thorough telemetry
+
+### What having real users looked like
+
+- Scale, crashes, support pressure
+- Being on-call
+- Investing in DevOps as a first class citizen principle
+
+### The impact of running this during an election
+
+- Election-related spikes
+- Bluesky itself occassionally going down
+- No "redo" here: this had to be done right the first time or else.
+- Tradeoffs made because of lack of time (one decision I made that I liked, one that I'd probably redo)
+
+### Making "good enough" tradeoffs
+
+### Lessons learned
+
 ## Part 4: Writing up what we did
 
 ## Part 5: Aftermath
