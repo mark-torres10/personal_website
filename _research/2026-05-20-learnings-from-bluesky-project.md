@@ -129,14 +129,30 @@ I also had [another series of failed experiments](https://markptorres.com/resear
 
 Slowly but surely, I was building the individual pieces of the final pipeline and as a result developing an end-to-end app.
 
-(I was figuring out things like intermediate results, precomputation, how different pieces worked together, etc)
+I hit practical questions along the way that forced me to learn the unglamorous yet necessary parts of stitching together different units of work into a single cohesive workflow, such as:
+
+- Storing intermediate results
+- Which units of work to combine into a single service, and which to split.
+- What services should be dependent on other ones
+- Where to look at in the pipeline if something breaks.
+- How to guarantee that the output of one part of the pipeline is correctly passed as input to the next part of the pipeline.
+- How to package up services so that they run the same way in a different environment as they do on my computer.
+
+As I was building each piece incrementally, I could see the gaps that had to be filled in order to connect them. For example, as I was building the data ingestion and preprocessing components in parallel, I needed to think about concerns like data contracts (to make sure that the output of the data ingestion could be consumed by the preprocessing step), orchestration (would preprocessing be run right after data ingestion? Or separately?), and scale (did my transformations work if I had 1M posts? If not, could I either optimize the transformations or make the units of work smaller?).
+
+This resulted in me being able to finally learn the hard parts of building a real end-to-end app from scratch. Unlike in my previous role, where I largely implemented individual tickets and saw only "parts of the elephant", I could build something for myself end-to-end, thereby "seeing the full body of the elephant" and being able to build a full application from scratch on my own.
 
 ### Improving technical fundamentals
 
-Along the way, I was hitting practical limitations that forced me to deepen my fundamental technical skills.
+With additional reps, I deepened my technical fundamentals. Without others to cover my weak points, I learned topics such as data engineering, DevOps, and MLOps. My process for doing this looked something like:
 
-(using Github, being better at coding etc)
-...
+- I faced tangible problems (e.g., "how do I make sure that I know how I trained my model")
+- I internalized the deeper fundamental concepts (e.g., "what I really need is to track my metadata, data I used for the model, hyperparameters, etc.")
+- I developed a "good enough" solution for my immediate problem (e.g., "at each point, just track the necessary data")
+- As building a "good enough" solution became insufficient, I looked up solutions and online tutorials (e.g., "this is what MLFlow is for").
+- As needed, I started incorporating other tools and pieces of software, but not without first deeply understanding the problem that these solved.
+
+Rather than being typecast into a single role like "data scientist" or "ML engineer", I developed a larger breadth of general technical skills. I became more like a ["T-shaped engineer"](https://alexkondov.com/the-t-shaped-engineer/), learning a little of everything, enough to build full software applications on my own, but having a specialty (in my case, AI/ML) that I was especially proficient in.
 
 ### Finding creative solutions around constraints
 
@@ -175,14 +191,12 @@ We can interpret best practices in software engineering through this lens:
 - **Data contracts and validation**: It's hard to trust downstream analysis or write reliable code if you don't know what fields a given piece of data will or won't have. You'll have to add various lines of exception handling for all the cases where data may or may not have certain fields or values. It also is more difficult for new engineers to onboard to the codebase as they will have a difficult time reasoning through the data transformation logic through the pipeline (e.g., "does the 'user' object here have a list of their posts, or no?").
 - **Modularity and decoupling**: If one line of your code goes down, ideally the impact of that would be as isolated as possible. We wouldn't want, for example, a user inputting an age value of 999 into a form to somehow lead to buttons breaking for other users. In addition to isolating the blast radius of mistakes, decoupled code, services, and logic are also easier to refactor and swap and build on top of. For example, if your ML services have a shared set of functions for training, deploying, and integrating into your pipelines, that's shared scaffolding that can be used so that the next ML model can be defined in 10-50 lines of code rather than 1,000 lines of code.
 
-## Part 3: Seeing the app go live
+## Part 3: Running the study
 
-## Part 4: Running the study
+## Part 4: Writing up what we did
 
-## Part 5: Writing up what we did
+## Part 5: Aftermath
 
-## Part 6: Aftermath
+## Part 6: What I'm working on now
 
-## Part 7: What I'm working on now
-
-## Part 8: Where I'd like to go next
+## Part 7: Where I'd like to go next
