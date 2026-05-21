@@ -124,18 +124,50 @@ However, for all of these successful experiments, I also had a plethora of faile
 
 I also had [another series of failed experiments](https://markptorres.com/research/llm-experiments-pt-iv) related to trying to get conservative posts and accounts from Bluesky. This shortcoming was due in large part to platform-specific population distributions, and we eventually accepted that as a limitation, but I spent too long trying to find clever workarounds for this problem, such as upsampling certain accounts or trying (in vain) to scour through the firehose of daily posts to find the conservative needle in the liberal haystack.
 
-What did I learn from this stage of the process?
+### Technical learnings at this stage
 
-- (learnings)
+#### Seeing how different pieces fit together towards one result
 
-### Converging on the "ship what matters" mindset
+Slowly but surely, I was building the individual pieces of the final pipeline and ...
 
-(slowly learning skills and ways of growing as an engineer, see, e.g.,
+#### Improving technical fundamentals
 
-- https://markptorres.com/personal/2024-06-24-knowing-how-to-code-isnt-enough
-- https://markptorres.com/personal/2024-06-12-best
+Along the way, I was hitting practical limitations that forced me to deepen my fundamental technical skills.
 
-)
+#### Finding solutions around resource constraints
+
+For the project, I hit practical limitations that forced me to be creative in my implementation. For example, using AWS for large parts of the pipeline turned out to be cost-prohibitive, especially given that Northwestern already manages their own on-prem cluster. Because of this, I developed my own versions of AWS services, tailored to exactly what I needed and constrained to the cluster's limitations (namely, lack of always-persistent runtimes and strict network access protocols).
+
+These limitations removed access to AWS compute services as well as limited me from running long-lived servers (e.g., Kafka, Prometheus) on-prem. Therefore, I had to adapt my pipeline to be batch-native, running on cron jobs and persisting intermediate results. This was all stitched together by me logging into the cluster every day and making sure that the jobs running in the cluster were running as expected. The only thing that had to be "long-lived" was the persistent connection to the Bluesky firehose to get new records, which I ran on 7-day jobs on the cluster and I would set alerts and alarms for myself to make sure that I could restart the firehose job before it timed out. I also developed [my own lightweight SQLite-based queue](https://markptorres.com/research/2025-01-31-effectiveness-of-sqlite) which worked well enough to store intermediate results across each step of the pipeline.
+
+I also learned to [work in an HPC environment](https://markptorres.com/personal/2025-01-15-setting-up-zsh-hpc), which quickly taught me that I would be doing as little development work in HPC as possible (it's clunky to set up and the VSCode connection to it is laggy) and to treat the HPC environment as my "prod" server. (forced me to set up a quasi-CI/CD pipeline, where I had my playbooks for how to "deploy to prod").
+
+**All of these constraints ended up being a pedagogical blessing in disguise**. Because I couldn't use many popular tools out-of-the-box, I had to build my own simplified implementations of each. As a result, I ended up having a much deeper understanding of concepts like queues, caching, event-driven architectures, and ML training pipelines. I couldn't abstract those concepts away with a config-driven call to an AWS services. I had to instead write scripts to do these tasks, create my own abstractions, and run as jobs on an on-prem server.
+
+### Career learnings at this stage
+
+#### Fix problems
+
+Your value as an engineer is tied to your ability to [fix problems](https://markptorres.com/personal/2024-06-12-best) and drive results. I learned quickly that nobody in academia knew tech terms like "AWS", "orchestration" and "telemetry", but they did care that we could, for example, create custom feeds that showcased the specific interventions.
+
+#### Make sure your work is valuable
+
+Your value as an engineer extends beyond code. [Knowing how to code isn't enough](https://markptorres.com/personal/2024-06-24-knowing-how-to-code-isnt-enough). Though I wrote this blog post with more of an eye towards taking ownership of one's career, a throughline here that holds true is making sure to closely align your work to whatever is deemed most valuable in your workplace. Code is just one part of that. You have to communicate what you're doing and keep a pulse on what everyone else thinks is important. You have to practice progressive disclosure: figuring out the right time to make certain pieces of information known. You need to underpromise and overdeliver.
+
+#### Communicate what you think is important in language matching what stakeholders think is important
+
+For example, my academic peers may not understand the particulars of GPU compute requirements, but if I frame it as "this is the investment we need to train the models required for our ranking algorithms, which is the core innovation of our study", then they're much more on-board.
+
+#### Implementation quality matters insofar as it affects product quality today and in the future
+
+The purpose of coding, in my eyes, is twofold: (1) creating a quality end product today, and (2) being able to continue to do so in the future. That result could be an app, a piece of analysis, an ML model, whatever it may be. However, code has value insofar as it supports this enterprise.
+
+We can interpret best practices in software engineering through this lens:
+
+- **Code quality**: it's hard to build features or grow apps if you have abstruse logic, spaghetti code, or duplicate functions. Imagine the headache that comes if you have three backend functions that manage user authentication. Cleaner code (well-designed abstractions, design patterns, etc.) results in easier-to-understand transformation logic (e.g., "this part of the code handles all text preprocessing, nowhere else") and a smaller blast radius for making changes (e.g., "if I want to change the color of this button, I know I need to only touch this 1 line of code").
+- **DevOps practices (telemetry, testing, CI/CD)**: it's hard to confidently ship an app and expose it to live users if you don't know if and when it'll break, under what conditions it might break, and how you'd recreate any bugs that users experience. It's also hard to add new features if you're not sure if changing the color of a button will suddenly shut off functionality for 10,000 of your users.
+- **Data contracts and validation**: It's hard to trust downstream analysis or write reliable code if you don't know what fields a given piece of data will or won't have. You'll have to add various lines of exception handling for all the cases where data may or may not have certain fields or values. It also is more difficult for new engineers to onboard to the codebase as they will have a difficult time reasoning through the data transformation logic through the pipeline (e.g., "does the 'user' object here have a list of their posts, or no?").
+- **Modularity and decoupling**: If one line of your code goes down, ideally the impact of that would be as isolated as possible. We wouldn't want, for example, a user inputting an age value of 999 into a form to somehow lead to buttons breaking for other users. In addition to isolating the blast radius of mistakes, decoupled code, services, and logic are also easier to refactor and swap and build on top of. For example, if your ML services have a shared set of functions for training, deploying, and integrating into your pipelines, that's shared scaffolding that can be used so that the next ML model can be defined in 10-50 lines of code rather than 1,000 lines of code.
 
 ## Part 3: Seeing the app go live
 
