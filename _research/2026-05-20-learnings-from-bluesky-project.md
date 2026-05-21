@@ -85,18 +85,7 @@ As we talked more about the project, I began to understand the ambitious scope o
 
 ### Planning the project
 
-As I had never built something like this before, I pored into previous literature, books, and GitHub repos to see if I could find some motivating examples. I found examples
-
-(how much did it help me? It's hard to say).
-
-- I read a few books to prepare for this. I also read a bunch of papers.
-- I felt nervous, excited, etc., to take on such a large project.
-
-(I also tried my hand at system design for the first time)
-
-(paste some pictures)
-
-(I overcomplicated it because I saw that's how other people did it, without internalizing why they did it that way. I had never built anything from the ground up, so I was left wondering how to do so).
+As I had never built something like this before, I pored into previous literature, books, and GitHub repos to see if I could learn the prerequisite knowledge required for the project.
 
 I took a very helpful Coursera course on recommendation algorithms. It gave me a mental framework for understanding recommendation algorithm variations (eg content-based vs. collaborative filtering) and ways to measure performance (eg recall@k). However, many of the examples were related to topics like shopping or movie recommendations, which weren’t directly relatable to building a social media app (though in large part because I didn’t realize that creating and training a recommender system was probably the easiest, least complicated part of developing a fully functioning social media pipeline).
 
@@ -118,29 +107,46 @@ In hindsight, I would have changed my approach. I would start with the simplest 
 
 ### Initial experiments, or "running around in circles"
 
-I started with one-off scripts for individual components of the project, starting with getting the posts themselves. This approach characterized a directionally valid yet unprincipled approach towards developing the platform, where I worked on individual units of work (eg getting the posts, preprocessing them, training the models) without much thought as to how they’d fit together or a top-down vision of the end product. I mostly approached it as “I know I’ll need to get posts” or “I know I’ll need to train a model”, and built individual scripts as needed. It was only later that I’d work towards stitching them together. I describe this as directionally valid because I did end up building the basis for components I’d eventually need, but I also spun my wheels on dead-end projects. I experimented with [what is now known as prompt engineering](https://markptorres.com/research/llm-experiments-pt-i) before it became a popular term. I experimented with the effects of different input formats (eg YAML vs JSON) before formats like BAML became popularized. I also developed the foundations for my data pipeline by building record-specific integration transformations and experimenting with [different forms of language classification](https://markptorres.com/research/llm-experiments-pt-v).
+#### Experiments that worked out
 
-However, for all of these successful experiments, I also had a plethora of failed ones. I discovered early on that LLMs lacked context on current events, which is a problem when our sociopolitical classifier required knowledge of current events. To ameliorate this, I developed a RAG-based classifier that update a database with daily news syncs and then develops a routing-based system to figure out [which queries needed relevant current context](https://markptorres.com/research/llm-experiments-pt-iii). In hindsight, this approach was directionally right and I think a RAG-based classifier works well here here, but we decided to scrap this because (1) I had more pertinent things to build (luckily I was beginning to learn the art of prioritization), (2) the problem wasn’t common enough to merit maintaining the classifier. If I were to implement this today, I think this plan is directionally right as a basis, but I would complement it with an entity classifier and a sentiment classifier. Rather than counting on direct RAG queries to determine sentiment about a topic, which is inefficient at the scales we care about, I could repurpose the news updates pipeline to populate a database with key entities (eg politician names, bill names, etc) and the sentiment linked to each political party (eg democrats support X bill, republicans are against it). Although vastly oversimplified and incomplete (eg a person identifying as a Democrat can be against a post that the Democratic establishment), this simplified approach generally works well (which is more an indictment of the average social media user having very uncomplicated political takes that can be reduced to "Trump is good" or "Trump is bad").
+I started with one-off scripts for individual components of the project, starting with getting the posts themselves. This approach characterized a directionally valid yet unprincipled approach towards developing the platform, where I worked on individual units of work (eg getting the posts, preprocessing them, training the models) without much thought as to how they’d fit together or a top-down vision of the end product. I mostly approached it as “I know I’ll need to get posts” or “I know I’ll need to train a model”, and built individual scripts as needed. It was only later that I’d work towards stitching them together. I describe this as directionally valid because I did end up building the basis for components I’d eventually need, but I also spun my wheels on dead-end projects.
+
+- I experimented with [what is now known as prompt engineering](https://markptorres.com/research/llm-experiments-pt-i) before it became a popular term. I experimented with the effects of different input formats (eg YAML vs JSON) before formats like BAML became popularized.
+
+- I also developed the foundations for my data pipeline by building record-specific integration transformations and experimenting with [different forms of language classification](https://markptorres.com/research/llm-experiments-pt-v).
+
+- I also did some [experiments with early versions of LangChain and LlamaIndex](https://markptorres.com/self_education/llamaindex), when RAG was first picking up steam, which was my first official foray into building what are now known as "AI agents". It was a good pedagogical experience but it helped ground my impression of the agentic AI hype as the development process of such apps wasn't more difficult than other things I had previously built (this is a sentiment I hold still to this day regarding AI agents).
+
+#### Failed experiments
+
+However, for all of these successful experiments, I also had a plethora of failed ones.
+
+I discovered early on that LLMs lacked context on current events, which is a problem when our sociopolitical classifier required knowledge of current events. To ameliorate this, I developed a RAG-based classifier that update a database with daily news syncs and then develops a routing-based system to figure out [which queries needed relevant current context](https://markptorres.com/research/llm-experiments-pt-iii). In hindsight, this approach was directionally right and I think a RAG-based classifier works well here here, but we decided to scrap this because (1) I had more pertinent things to build (luckily I was beginning to learn the art of prioritization), (2) the problem wasn’t common enough to merit maintaining the classifier. If I were to implement this today, I think this plan is directionally right as a basis, but I would complement it with an entity classifier and a sentiment classifier. Rather than counting on direct RAG queries to determine sentiment about a topic, which is inefficient at the scales we care about, I could repurpose the news updates pipeline to populate a database with key entities (eg politician names, bill names, etc) and the sentiment linked to each political party (eg democrats support X bill, republicans are against it). Although vastly oversimplified and incomplete (eg a person identifying as a Democrat can be against a post that the Democratic establishment), this simplified approach generally works well (which is more an indictment of the average social media user having very uncomplicated political takes that can be reduced to "Trump is good" or "Trump is bad").
 
 I also had [another series of failed experiments](https://markptorres.com/research/llm-experiments-pt-iv) related to trying to get conservative posts and accounts from Bluesky. This shortcoming was due in large part to platform-specific population distributions, and we eventually accepted that as a limitation, but I spent too long trying to find clever workarounds for this problem, such as upsampling certain accounts or trying (in vain) to scour through the firehose of daily posts to find the conservative needle in the liberal haystack.
 
-### Technical learnings at this stage
+### Seeing how different pieces fit together towards one result
 
-#### Seeing how different pieces fit together towards one result
+Slowly but surely, I was building the individual pieces of the final pipeline and as a result developing an end-to-end app.
 
-Slowly but surely, I was building the individual pieces of the final pipeline and ...
+(I was figuring out things like intermediate results, precomputation, how different pieces worked together, etc)
 
-#### Improving technical fundamentals
+### Improving technical fundamentals
 
 Along the way, I was hitting practical limitations that forced me to deepen my fundamental technical skills.
 
-#### Finding solutions around resource constraints
+(using Github, being better at coding etc)
+...
+
+### Finding creative solutions around constraints
 
 For the project, I hit practical limitations that forced me to be creative in my implementation. For example, using AWS for large parts of the pipeline turned out to be cost-prohibitive, especially given that Northwestern already manages their own on-prem cluster. Because of this, I developed my own versions of AWS services, tailored to exactly what I needed and constrained to the cluster's limitations (namely, lack of always-persistent runtimes and strict network access protocols).
 
 These limitations removed access to AWS compute services as well as limited me from running long-lived servers (e.g., Kafka, Prometheus) on-prem. Therefore, I had to adapt my pipeline to be batch-native, running on cron jobs and persisting intermediate results. This was all stitched together by me logging into the cluster every day and making sure that the jobs running in the cluster were running as expected. The only thing that had to be "long-lived" was the persistent connection to the Bluesky firehose to get new records, which I ran on 7-day jobs on the cluster and I would set alerts and alarms for myself to make sure that I could restart the firehose job before it timed out. I also developed [my own lightweight SQLite-based queue](https://markptorres.com/research/2025-01-31-effectiveness-of-sqlite) which worked well enough to store intermediate results across each step of the pipeline.
 
 I also learned to [work in an HPC environment](https://markptorres.com/personal/2025-01-15-setting-up-zsh-hpc), which quickly taught me that I would be doing as little development work in HPC as possible (it's clunky to set up and the VSCode connection to it is laggy) and to treat the HPC environment as my "prod" server. (forced me to set up a quasi-CI/CD pipeline, where I had my playbooks for how to "deploy to prod").
+
+I also learned to think critically about mainstream technical advice. For example, I write about [why we assume serverless is necessarily better](https://markptorres.com/personal/2025-01-22-serverless-vs-server), which is a piece of advice that I had naively accepted early in my career. It's not to say that it doesn't have its place, but rather than accepting it blindly as ground truth, I learned when it works well and when it doesn't. This tenet can be applied to all pieces of software advice (and, frankly, any advice) and as I was building more and more, I become more comfortable reviewing advice, matching it against my experience, and forming my own opinions about it.
 
 **All of these constraints ended up being a pedagogical blessing in disguise**. Because I couldn't use many popular tools out-of-the-box, I had to build my own simplified implementations of each. As a result, I ended up having a much deeper understanding of concepts like queues, caching, event-driven architectures, and ML training pipelines. I couldn't abstract those concepts away with a config-driven call to an AWS services. I had to instead write scripts to do these tasks, create my own abstractions, and run as jobs on an on-prem server.
 
