@@ -12,26 +12,19 @@ permalink: /research/2026-05-20-learnings-from-bluesky-project
 
 # What I learned from spending 2 years building the app for a large-scale field study
 
-(TODO: workshop name)
+For roughly 2 years, I led the full technical build for a large-scale field-study on Bluesky. We built custom recommendation algorithms and ran them on live feeds during the 2024 US election cycle. Academically, that mattered because it let our team test algorithmic interventions in the wild—on real posts, real users, and real political moments, rather than only in settings where Big Tech controls the algorithmic layer. Personally, it mattered because it was my first chance to prove I could build a full app by myself.
 
-- Make things reusable
-- *BUT* do NOT spend too much time making things reusable. Know the difference.
-- Good code is code that helps you ship product effectively (quickly, accurately, and will continue to do so over time).
-- Implementing things from scratch gives you much deeper understanding of how they work (e.g., my "implement queues from scratch" method).
-- Education + engineering is better than either on its own.
+Along the way, I built every line of code and implemented every piece of logic. I owned the data and ML pipelines and trained custom recommendation algorithms. I developed the APIs used by Bluesky to connect users to our feeds. I glued together all the pieces of software that made such an ambitious study possible. I trained every ML model, retraining them when they became outdated, and watched the training logs from the WandB console. I woke up at 1am to the app crashing and thousands of unhappy users not being able to log in. All 50,000 lines of code in [our codebase](https://github.com/METResearchGroup/bluesky-research) were painstakingly written, rewritten, deleted, refactored, and updated by me over the course of 2 years, a testament to how much improvement is about putting in the reps, fixing mistakes, and persevering through the doldrums rather than aphorisms, YouTube tutorials, and motivational speeches.
 
-What am I learning now:
+This is the story of what that project, over the course of two years, taught me about building software and about becoming someone who could build. When I started, I could write small pieces of code and resolve tickets. By the end of it, I not only shipped a technically impressive end-to-end piece of software, but I also became the the kind of engineer who can look at an ambitious, ambiguous project like this one and believe, based on past experience, not bluster, that I can break it into pieces and make it real.
 
-- management
-- scalable design
-- tradeoffs
-- translating to AI agent flows.
+Through the journey, I grew in three ways:
 
-Key learnings (things that I can keep in mind):
+- **From self-doubt to earned confidence**: I started this project unsure whether I could truly build anything end to end, and over two years the project became the proof that I could.
+- **From doing tasks to developing judgment and product sense**: I learned that specific stacks and tools don't matter, but engineering judgment. The true skill comes in knowing how to make tradeoffs, simplify problems, and build systems that actually work in the real world.
+- **From isolated skills to an integrated worldview**: Before this project, I had many fragmented skills, but I lacked a unified way of seeing how research, engineering, infrastructure, and product fit together. After building this, I figured out how each of these separate components come together to make an app come to life.
 
-- From self-doubt to earned confidence: "I started this project unsure whether I could truly build anything end to end, and over two years the project became the proof that I could."
-- From doing tasks to developing judgment and product sense: "The biggest thing the project taught me was not a specific stack or tool, but engineering judgment: how to make tradeoffs, simplify problems, and build systems that actually work in the real world."
-- From isolated skills to an integrated worldview: "Before this project, I had many fragmented skills, but I lacked a unified way of seeing how research, engineering, infrastructure, and product fit together. Bluesky taught me how those pieces connect."
+To understand why that growth mattered so much to me, I have to start before the project began.
 
 ## Part 0: Before the project
 
