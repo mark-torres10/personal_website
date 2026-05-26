@@ -188,16 +188,70 @@ We can interpret best practices in software engineering through this lens:
 
 ### Making the app ready for showtime
 
-- Connecting our API to Bluesky
-- Running pilots
-- Doing testing, testing, and more testing
-- What I'd do differently: have playbooks, use AI to run mock load on the endpoints, invest in thorough telemetry
+#### Adding orchestration
 
-### What having real users looked like
+I learned that I couldn't rely on manually triggering jobs one after the other. This was OK for experimental purposes but definitely not something I could reliably do for a live app over the course of 3 months. Turns out this problem has a well-known solution, called orchestration.
 
-- Scale, crashes, support pressure
-- Being on-call
-- Investing in DevOps as a first class citizen principle
+I introduced a proper orchestration platform, [Prefect](https://www.prefect.io/). I found it easier to set up than Airflow and it didn't require running another server (which was infeasible on HPC). Instead, I could run it as a simple long-lived Python script.
+
+This saved me hours of constantly checking to see if jobs were done and then manually triggering subsequent jobs. In addition, it also allowed me to organize jobs into cohesive "units of work" (e.g., my data pipeline) which made it easier for me to conceptualize each service as components of a larger system.
+
+#### Connecting the different pieces together
+
+Since the app had to go live, I began investing in the work related to forming the connective tissue for the app. I developed my own [SQLite-based queue system](https://markptorres.com/research/2025-01-31-effectiveness-of-sqlite) to help decouple services from each other and to separate out the job execution and data persistence work.
+
+I also invested in a more reliable data persistence layer, consolidating various one-off implementations into a reliable .parquet + DuckDB interface that downstream callers could query using SQL. This solved a constant problem where I was replicating data access tooling across various services, rather than consolidating implementation into one place.
+
+#### Anticipating growth
+
+I also invested in [various aggressive optimizations](https://markptorres.com/research/2025-01-31-effectiveness-of-sqlite) to try to squeeze as much throughput as possible in my setup. I assumed a spike in system demand as the election season became underway and as Elon Musk's Twitter shenanigans would push more people onto Bluesky, so I preemptively invested in supporting more throughput.
+
+This turned out to be the correct investment! The Bluesky app crashed multiple times due to unanticipated load spikes, but my (admittedly small-scale app) had enough slack in the system to support the exponential spike in throughput.
+
+#### Connecting the API to Bluesky
+
+We had to expose our feeds to the Bluesky app so that users could receive our custom feeds. This was my first time shipping a production backend API on my end! I learned the basics of FastAPI, OAuth, and how requests work. I labored through trial and error (alas, ChatGPT was *not* quite good enough to one-shot it), but I was elated when I clicked "Refresh" on the Bluesky feed website and saw the posts available. All the months of iteration and experimentation resulted in an end product that *just works*.
+
+#### Fingers crossed!
+
+Now that the different pieces of the app were connected, I was hopeful that the study would be able to proceed without too many catastrophic failures. I was both relieved that I shipped a working app and also anxious that I had overlooked some grave error.
+
+### Pressures of having real users
+
+After months of prototyping and iterating, I finally had to expose the app to live strangers on the Internet. Equal parts exciting and stressful! On one hand, I hoped that users generally enjoyed the feeds. On the other hand, my anxious mind conjured up all the ways that it would be a terrible experience (of which only a few turned out to be correct!).
+
+#### Always assume that things will break
+
+Because it was my first time building a live app, it was trial under fire and making really obvious mistakes. I spent a lot of time worryingly inspecting application logs and just hoping and praying that there wasn't a mysterious or unknown error that popped up. But alas, said mysterious or unknown error did come up (and always happened to be right past the section in the logs that I'd manually check!).
+
+Over time, I (slowly) learned the value of all sorts of testing: unit tests, integration tests, smoke tests, load tests, all the tests! I unfortunately learned these tests through plenty of real-time production errors, hurriedly checking to see if there were catastrophic error, putting up a patch fix (even if the fix were just "I'll hardcode a value rather than figure out what actually happened"), and then asking myself "how can I make sure that this doesn't happen next time?"
+
+#### Not all problems are bugs
+
+I also learned that not all problems that pop up are "bugs" in the traditional sense. They were product requirements that really only appeared once people started to heavily use our application:
+
+- Users complained that the content in the feed was stale and didn't update frequently enough. I manually made feed generation happen more often and provided longer feeds.
+- Users complained that posts were too generic and not really personalized to their interests. Therefore, I made more of an effort to add posts more aligned to their interests. I did this by, among other things, upranking posts from accounts they followed or had previously engaged with, as well as invested in upranking posts similar to those that they engaged with (using embedding similarity).
+- Users complained that their feeds returned the "same kind of posts" upon refresh. I addressed this by adding filters to cap the number of times an account's posts could appear in a feed and by imputing a slight jitter on where posts appeared in feeds.
+
+(As you can see, a common pattern is that users complained!)
+
+#### Case study: lots of NSFW content
+
+Before Bluesky became mainstream, it was a popular spot for nontraditional niche communities. Turns out, among these communities were sex workers and furries and other NSFW communities (alongside more mundane niche communities like outdoors photography) were making their home on Bluesky. Because the platform wasn't mainstream yet, the most engaging content was driven by whichever communities were most active on Bluesky at the time.
+
+Turns out, for the median user in our study, having NSFW content appear on your phone as you're scrolling Bluesky is *not* a good user experience!
+
+This was a source of stress as I would constantly get paged with user complaints about the sheer quantity of NSFW content appearing on feeds. Our filters did not catch them because we didn't look at images in our posts; because we used naive text-based filtering, the text captions were normally benign but were coupled with suggestive images.
+
+The most effective solution I came up with was manually updating an excludelist consisting of the authors of said posts as well as a large chunk of their social networks (again, these communities were very closely clustered). Bluesky is a safe space for such communities (and rightfully so!) but it created a poor product experience that was outside of my control but luckily was resolved pretty quickly and with a simple solution.
+
+#### What I'd do differently
+
+1. **Integrate DevOps at the start**: comprehensive logging, Grafana logs, rigorous testing discipline, and consistent CI/CD practices. All of these would've made me more confident in the quality of the app from the get-go, as well as saved me some much-needed stress when things inevitably broke.
+2. **Invest in alerting**: I would've rather been paged on errors than having to log into the app every 1-2 hours hoping that there were no catastrophic errors. My stresses were compounded by the anxiety from wondering if there were unforeseen errors: I did not sleep very peacefully until the study was completed.
+3. **Have playbooks for everything**: Rather than having to remember the specific commands to run to do certain steps, I would invest in writing extensive playbooks. These playbooks would cover the full range of expected behaviors (e.g., "how do I check how many users logged into the app?") as well as how to debug errors (e.g., "the app crashed, where do I look first?"). This is even more true in the age of AI agents, which can proactively run the steps in your runbook on triggers.
+4. **Dogfood your app as much as humanly possible**: I had created a few accounts and consistently QAed the app for the weeks before and during the study. However, it was only under pressure from thousands of users that I began to see all the edge cases that popped up. I could have done a better job diversifying the conditions under which I tried the app, as well as reached out to more people proactively to run extensive piloting.
 
 ### The impact of running this during an election
 
@@ -207,6 +261,16 @@ We can interpret best practices in software engineering through this lens:
 - Tradeoffs made because of lack of time (one decision I made that I liked, one that I'd probably redo)
 
 ### Making "good enough" tradeoffs
+
+I did not have the time, budget, or bandwidth to make solutions more complicated than they needed to be to solve today's problems. This taught me a critical lesson: built a solution that solves today's problem, while keeping it extensible for problems you anticipate you'll have in the future.
+
+I first ...
+
+However, with a little more experience, I began designing solutions that solved the current problem while also foreseeing problems that my future self would have.
+
+...
+
+(this also meant no complicated tools or frameworks. Lots of things built from scratch. Especially so since I couldn't really run servers on HPC and since I had already been locked into this hybrid HPC + AWS architecture)
 
 ### Lessons learned
 
