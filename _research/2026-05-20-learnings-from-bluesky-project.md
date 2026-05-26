@@ -291,6 +291,10 @@ With enough time, I was able to compress the experiences across two years of act
 
 I did not have the time, budget, or bandwidth to make solutions more complicated than they needed to be to solve today's problems. This taught me a critical lesson: built a solution that solves today's problem, while keeping it extensible for problems you anticipate you'll have in the future.
 
+At the beginning, I overcomplicated my designs. I wanted to have an excuse to use all the name-brand tools that I was seeing online, without realizing that (1) I'm not Google-scale and (2) I wasn't fundamentally understanding what problem those tools were solving.
+
+Next, I veered perhaps too far in the opposite direction, choosing to write all my code into large super-scripts that did everything. Though this was OK when I was rapidly 
+
 I first ...
 
 However, with a little more experience, I began designing solutions that solved the current problem while also foreseeing problems that my future self would have.

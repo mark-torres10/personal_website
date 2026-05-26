@@ -9,23 +9,9 @@ author_profile: true
 
 # Consulting & AI Engineering Support
 
-I help teams move fast with applied machine learning and AI systems.
+I've worked as an AI engineer at places like Northwestern, Yale, and Silicon Valley, having both published AI research in prestigious publications like Nature and also deployed AI within live production systems serving tens of thousands of users.
 
-Whether you’re a startup building your first AI product, a research lab developing ML infrastructure, or a business looking to automate workflows with LLMs—I bring the engineering experience and systems thinking to make it happen.
-
-## What I Offer
-
-- **LLM Applications & AI Agents**  
-  I build custom GPT-style agents, retrieval pipelines, and task automation tools tailored to your workflows.
-
-- **AI Strategy & Prototyping**  
-  I work with teams to scope high-leverage use cases, rapidly prototype new features, or audit existing AI systems.
-
-- **Recommendation & Ranking Systems**  
-  I help teams develop models to personalize feeds, rank leads, and prioritize actions using behavior or business data.
-
-- **ML Infrastructure & Pipelines**  
-  From ingestion to inference, I design, optimize, and productionize end-to-end ML systems.
+I build AI systems people can actually use: agent workflows in your stack, demos your team can click through, and ML pipelines when you have real data volume.
 
 ## Who I've Helped
 
@@ -43,13 +29,13 @@ Whether you’re a startup building your first AI product, a research lab develo
 
 ## How I Work
 
-Most projects start with a **1-week scoped sprint** focused on a clearly defined goal.  
+Most projects start with a **2-week scoped sprint** focused on a clearly defined goal.  
 At the end of the sprint, you'll walk away with a working prototype, demo, or system component you can evaluate and build on. From there, we can continue into a longer-term engagement or handoff—whatever fits your needs.
 
 ## Ready to build?
 
 If you're exploring how to apply AI or LLMs in your product, research, or workflow, I'd love to hear what you're working on.
 
-Most projects start with a short 1-week sprint focused on prototyping or evaluating a clear goal. You'll walk away with a working demo, a real system component, or a strategic recommendation to move forward.
+Most projects start with a short 2-week sprint focused on prototyping or evaluating a clear goal. You'll walk away with a working demo, a real system component, or a strategic recommendation to move forward.
 
 📬 Reach out at [markptorres1@gmail.com](mailto:markptorres1@gmail.com) or schedule a meeting via my [Calendly link](https://calendly.com/markptorres1/30min).
