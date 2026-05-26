@@ -277,11 +277,13 @@ Before the election, the most engaging and upranked content would be some mix of
 
 ## Part 4: Aftermath
 
-Once the final days of the study were done, I finally got a full 8 hours of sleep.
+Once the final days of the study were done, I finally got a full 8 hours of sleep. For a full month after the study, I could not bring myself to look at any of the code related to the study. Luckily, this time off corresponded with December holiday, which was a much-needed reprieve.
 
-...
+Over the course of the next year, I worked on analyzing our data. This work was less demanding yet took up a great deal of time, requiring some paper-writing, revising, running follow-up analyses, and translating our results into a comprehensive narrative.
 
 ## Part 5: What I learned
+
+With enough time, I was able to compress the experiences across two years of actively designing, developing, and implementing this project into a series of concrete lessons.
 
 ### Making "good enough" tradeoffs
 
