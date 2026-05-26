@@ -1,13 +1,11 @@
 ---
 layout: single
 title: "Consulting Services"
-collection: hire-me
-permalink: /hire-me/
+collection: consulting
+permalink: /consulting/
 classes: wide
 author_profile: true
 ---
-
-# Consulting & AI Engineering Support
 
 I've worked as an AI engineer at places like Northwestern, Yale, and Silicon Valley, having both published AI research in prestigious publications like Nature and also deployed AI within live production systems serving tens of thousands of users.
 

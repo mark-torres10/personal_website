@@ -6,12 +6,12 @@ main:
     url: /research/
   - title: "AI Workflows"
     url: /ai_workflows/
+  - title: "Consulting"
+    url: /hire-me/
   - title: "Self Education"
     url: /self_education/
   - title: "Personal"
     url: /personal/
-  - title: "Consulting Services"
-    url: /hire-me/
   # - title: "Sample Posts"
   #   url: /year-archive/
   # - title: "Sample Collections"

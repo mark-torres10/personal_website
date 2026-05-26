@@ -295,7 +295,9 @@ At the beginning, I overcomplicated my designs. I wanted to have an excuse to us
 
 Next, I veered perhaps too far in the opposite direction, choosing to write all my code into large super-scripts that did everything. Though this was OK when I was rapidly iterating, it led to a lot of copying-and-pasting, slight logic drift in shared functionality (e.g., "data should be saved this way, *except* in these two specific files"), and made stitching the disparate services more painful than needed.
 
-Lastly, I 
+With a bit more experience at both extremes, I ended up at somewhat of an equilibrium point. I realized that most problems I encountered were likely not unique, and that there were plenty of software products, packages, books, and tutorials for people with these exact issues. As I developed an intuition for how to define 
+
+However, perhaps as a matter of how I 
 
 I first ...
 
