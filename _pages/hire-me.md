@@ -7,7 +7,7 @@ classes: wide
 author_profile: true
 ---
 
-I've worked as an AI engineer at places like Northwestern, Yale, and Silicon Valley, having both published AI research in prestigious publications like Nature and also deployed AI within live production systems serving tens of thousands of users.
+I've worked as an AI engineer at places like Northwestern University, Yale University, and Silicon Valley, having both published AI research in prestigious publications like Nature and also deployed AI within live production systems serving tens of thousands of users.
 
 I build AI systems people can actually use: agent workflows in your stack, demos your team can click through, and ML pipelines when you have real data volume.
 
