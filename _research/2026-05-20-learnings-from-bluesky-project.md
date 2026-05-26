@@ -293,7 +293,9 @@ I did not have the time, budget, or bandwidth to make solutions more complicated
 
 At the beginning, I overcomplicated my designs. I wanted to have an excuse to use all the name-brand tools that I was seeing online, without realizing that (1) I'm not Google-scale and (2) I wasn't fundamentally understanding what problem those tools were solving.
 
-Next, I veered perhaps too far in the opposite direction, choosing to write all my code into large super-scripts that did everything. Though this was OK when I was rapidly 
+Next, I veered perhaps too far in the opposite direction, choosing to write all my code into large super-scripts that did everything. Though this was OK when I was rapidly iterating, it led to a lot of copying-and-pasting, slight logic drift in shared functionality (e.g., "data should be saved this way, *except* in these two specific files"), and made stitching the disparate services more painful than needed.
+
+Lastly, I 
 
 I first ...
 

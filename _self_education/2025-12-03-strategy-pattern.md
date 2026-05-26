@@ -7,7 +7,7 @@ toc: true
 categories:
 - self_education
 - all_posts
-permalink: /ai_workflows/2025-12-03-strategy-pattern
+permalink: /self_education/2025-12-03-strategy-pattern
 ---
 
 # What's the strategy pattern in programming and why do we use it?
