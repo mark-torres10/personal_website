@@ -281,6 +281,8 @@ Once the final days of the study were done, I finally got a full 8 hours of slee
 
 Over the course of the next year, I worked on analyzing our data. This work was less demanding yet took up a great deal of time, requiring some paper-writing, revising, running follow-up analyses, and translating our results into a comprehensive narrative.
 
+As time passed, I felt a sense of completion. At long last, the hardest parts of the work were done, nothing had broken catastrophically, and that I had finally built something by myself end-to-end.
+
 ## Part 5: What I learned
 
 With enough time, I was able to compress the experiences across two years of actively designing, developing, and implementing this project into a series of concrete lessons.
@@ -296,6 +298,12 @@ However, with a little more experience, I began designing solutions that solved 
 ...
 
 (this also meant no complicated tools or frameworks. Lots of things built from scratch. Especially so since I couldn't really run servers on HPC and since I had already been locked into this hybrid HPC + AWS architecture)
+
+### Your job is to fix problems
+
+(more detail)
+
+### ...
 
 ## Part 6: What I'm working on now and where I'd like to go next
 

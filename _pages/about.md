@@ -15,19 +15,31 @@ Outside academia, I also consult with teams across industries, helping startups,
 
 Building applied AI systems for social media research and computational social science.
 
-- Leading development of an **AI agent simulation platform** to study information flow, opinion dynamics, and influence on digital platforms, akin to a “custom Facebook social network simulator, but with AI users interacting instead of people”.
-- Creating **open-source tools** that provide scalable, reproducible access to millions of social media records for research teams studying behavior, ideology, and discourse online.  
-- Designing and prototyping **large-scale, AI-driven feed ranking algorithms** for experimental studies in political and social influence.  
+Some highlights of my current work include:
+
+- Fine-tuning LLMs for custom content moderation research.
+- Building LLM-based simulations of social behavior.
+- Building platforms for reproducible AI + social science research.
+- Developing AI agents to enhance research methods and foster human+AI collaboration.
+- Exploring how generative AI can extend the methodological frontier of social science research.
+
+Some past/ongoing work includes:
+
+- Designing and prototyping large-scale, AI-driven recommendation algorithms for experimental studies in political and social influence.  
 - Built and maintained production data infrastructure ingesting and processing millions of social media records for academic research, including real-time data pipelines, ML inference services, and feed ranking algorithms that power multiple lab studies.
-- Bridging ML engineering with academic research by owning data pipelines, modeling infrastructure, and real-time recommendation engines used across lab projects.
+- Led design and development of the ML and data pipelines for a large-scale, 2,000 user field study. Managed 10M daily records and hundreds of GBs of records. Developed and deployed recommendation and classification models. Managed orchestration using Prefect. Deployed on hybrid on-prem + AWS infra.
 
 ## Current: AI consulting (2024-present)
 
-- Built and shipped an AI Sports Broadcaster browser extension that adds a live, talking AI commentator on top of real games, reacting in real time to what fans are watching.​ Powered by OpenAI and WebRTC. Designed as a next-generation fan engagement and sports media product, combining personalized AI play-by-play, debate-style “hot takes,” and prediction modes that turn any stream on ESPN, MLB, and more into an interactive, on-demand broadcast experience. [Prototype link here](https://www.loom.com/share/d16d3c2422ef4fad8a4098f6aceaf3b2).
-- Built an AI agent workflow that automatically monitors marketing campaign performance and sends natural-language alerts when performance drops are detected. Demonstrates workflow automation, integrating n8n, OpenAI GPT-4, and email/Slack for real-time business intelligence. Opened-sourced a simplified [demo here](https://github.com/mark-torres10/campaign-agent-analyzer-n8n)
-- Developed an AI agent workflow that automates the entire lead-to-meeting pipeline: real-time lead qualification (90%+ routing accuracy), automated CRM updates (<30s latency), and intelligent meeting scheduling. The system reduced response time from hours to under 10 minutes and converted 42% of routed leads to scheduled calls. Open-sourced a simplified [demo here](https://github.com/mark-torres10/lead-generation-agent)
-- Built an AI copywriting agent that generates customized marketing copy by analyzing a customer's existing branding and messaging. The system maintains brand voice consistency while producing tailored content for campaigns, reducing content creation time while ensuring alignment with brand guidelines. Open-sourced a simplified [demo here](https://github.com/mark-torres10/copywriting-ai-agent)
-- Collaborated with AI researchers and engineers at frontier labs to review model outputs, curate training data, and iterate on improvements to model evaluation related to agents and agentic coding products. Received beta access to unreleased AI models to help shape fine-tuning artifacts.
+Worked with multiple startups and small businesses across a variety of domains, helping teams go from "we want AI to do X" to a deployed agent workflow or live demo, whether X is RevOps, brand voice, or an entirely new product experience.
+
+Sample projects:
+
+- AI-powered Sports Broadcaster browser extension that adds a live, talking AI commentator on top of real games, reacting in real time to what fans are watching. [(Demo link)](https://www.loom.com/share/d16d3c2422ef4fad8a4098f6aceaf3b2).
+- AI agent workflow that automatically monitors marketing campaign performance and sends natural-language alerts when performance drops are detected. Demonstrates workflow automation, integrating n8n, OpenAI GPT-4, and email/Slack for real-time business intelligence.[(Demo link)](https://github.com/mark-torres10/campaign-agent-analyzer-n8n)
+- AI agent workflow that automates the entire lead-to-meeting pipeline: real-time lead qualification (90%+ routing accuracy), automated CRM updates (<30s latency), and intelligent meeting scheduling. The system reduced response time from hours to under 10 minutes and converted 42% of routed leads to scheduled calls. [(Demo link)](https://github.com/mark-torres10/lead-generation-agent)
+- AI copywriting agent that generates customized marketing copy by analyzing a customer's existing branding and messaging. The system maintains brand voice consistency while producing tailored content for campaigns, reducing content creation time while ensuring alignment with brand guidelines. [(Demo link)](https://github.com/mark-torres10/copywriting-ai-agent)
+- AI meditation coach agent that generates guided wellness exercises grounded in expert-defined best practices in relationship-building. [(Demo link)](https://github.com/mark-torres10/reflection_agent)
 
 ## Previous: Data Scientist @SetSail (Series A startup) (2021-2023)
 
