@@ -35,11 +35,11 @@ Worked with multiple startups and small businesses across a variety of domains, 
 
 Sample projects:
 
-- AI-powered Sports Broadcaster browser extension that adds a live, talking AI commentator on top of real games, reacting in real time to what fans are watching. [(Demo link)](https://www.loom.com/share/d16d3c2422ef4fad8a4098f6aceaf3b2).
-- AI agent workflow that automatically monitors marketing campaign performance and sends natural-language alerts when performance drops are detected. Demonstrates workflow automation, integrating n8n, OpenAI GPT-4, and email/Slack for real-time business intelligence.[(Demo link)](https://github.com/mark-torres10/campaign-agent-analyzer-n8n)
-- AI agent workflow that automates the entire lead-to-meeting pipeline: real-time lead qualification (90%+ routing accuracy), automated CRM updates (<30s latency), and intelligent meeting scheduling. The system reduced response time from hours to under 10 minutes and converted 42% of routed leads to scheduled calls. [(Demo link)](https://github.com/mark-torres10/lead-generation-agent)
+- AI agent workflow that automates the entire lead-to-meeting pipeline: real-time lead qualification (90%+ routing accuracy), automated CRM updates, and intelligent meeting scheduling. The system reduced response time from hours to under 10 minutes and converted 42% of routed leads to scheduled calls. [(Demo link)](https://github.com/mark-torres10/lead-generation-agent)
 - AI copywriting agent that generates customized marketing copy by analyzing a customer's existing branding and messaging. The system maintains brand voice consistency while producing tailored content for campaigns, reducing content creation time while ensuring alignment with brand guidelines. [(Demo link)](https://github.com/mark-torres10/copywriting-ai-agent)
 - AI meditation coach agent that generates guided wellness exercises grounded in expert-defined best practices in relationship-building. [(Demo link)](https://github.com/mark-torres10/reflection_agent)
+- AI-powered Sports Broadcaster browser extension that adds a live, talking AI commentator on top of real games, reacting in real time to what fans are watching. [(Demo link)](https://www.loom.com/share/d16d3c2422ef4fad8a4098f6aceaf3b2).
+- AI agent workflow that automatically monitors marketing campaign performance and sends natural-language alerts when performance drops are detected. Demonstrates workflow automation, integrating n8n, OpenAI GPT-4, and email/Slack for real-time business intelligence.[(Demo link)](https://github.com/mark-torres10/campaign-agent-analyzer-n8n)
 
 ## Previous: Data Scientist @SetSail (Series A startup) (2021-2023)
 
