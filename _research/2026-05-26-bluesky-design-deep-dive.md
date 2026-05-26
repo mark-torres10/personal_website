@@ -1,6 +1,6 @@
 ---
 layout: single
-title: "How I built the research infra for a large-scale social media field experiment during the 2024 US election"
+title: "How I built the infrastructure for a large-scale social media field experiment during the 2024 US election"
 date: 2026-05-26 02:00:00 +0800
 classes: wide
 toc: true
@@ -17,6 +17,22 @@ permalink: /research/2026-05-26-bluesky-design-deep-dive
 ## How did Bluesky make this possible?
 
 ## Architecture at a glance
+
+```mermaid
+flowchart LR
+  B[Bluesky firehose and APIs] --> S[Sync pipelines]
+  S --> P[Preprocessing]
+  P --> C[Fan-out to integrations]
+  C --> M[ML classifiers]
+  C --> SP[Superposter calculation]
+  C --> V[Offline FAISS embeddings]
+  M --> U[Unify integrations]
+  SP --> U
+  V --> U
+  U --> R[Generate feed ranking algorithms]
+  R --> A[Feed API]
+  A --> U2[Bluesky users]
+```
 
 ## Deeper dive into the architecture
 
