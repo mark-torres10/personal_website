@@ -255,10 +255,33 @@ The most effective solution I came up with was manually updating an excludelist 
 
 ### The impact of running this during an election
 
-- Election-related spikes
-- Bluesky itself occassionally going down
-- No "redo" here: this had to be done right the first time or else.
-- Tradeoffs made because of lack of time (one decision I made that I liked, one that I'd probably redo)
+Part of the significance of our work came from us running it during the period of the 2024 US national election. Collecting social media usage during that time meant working with a rich substrate for empirically interesting research. However, with it came some interesting observations.
+
+#### Exogenous shock
+
+I learned what the term **exogenous shock** meant during this study: something that happens outside of the environment (here, outside of Bluesky) that leads to big changes in your environment. Elon's Twitter acquisition and related algorithm changes led to widespread adoption of Bluesky.
+
+![Chart showing Bluesky registered users over time](https://upload.wikimedia.org/wikipedia/commons/8/8c/Bluesky_Registered_Users.png)
+
+Our study happened to align with 3x growth in the user base. There were times where the Bluesky app went down from the increase in usage (which then caused our app to go down as well). Exciting time to be on the app! The early adopters were welcoming the new ex-Twitter transplants with instructions on how to use Bluesky, which accounts to follow (conveniently bundled into "packs") and how Bluesky works compared to Twitter.
+
+#### Changes in user base
+
+Before the 2024 national election, Bluesky was still a niche offshoot of Twitter. A few famous politicians and authors had joined, but the app largely consisted of niche communities, art groups, and a really outsized Brazilian contingency (pushed to the app by events in Brazilian politics).
+
+However, once Bluesky received mainstream coverage and multiplied in size, more "average" social media users joined. This noticeably changed the nature of the platform. The content that was being more engaged with better reflected traditional social media trends - instead of cute dog pictures being promoted, now it was the latest political talking point. The established content creators were being supplanted by large mainstream Twitter accounts that had started their Bluesky presence as well. The general "good vibes" norms of Bluesky (many users prided themselves in being "less toxic than Twitter") eventually devolved to the same drivel and toxicity that characterized other social media platforms.
+
+#### Basically every engaging post is political
+
+Before the election, the most engaging and upranked content would be some mix of organic upranked content (e.g., popular dog photos) and the typical news thinkpieces. However, likely due to both the timing of the election as well as the influx of more "average" social media users, most of the engaging posts on the platform became heavily political. The strong left-leaning bias of the platform was skewed even more by the promotion of left-leaning content on the platform (which was itself amplified by the exodus from Twitter).
+
+## Part 4: Aftermath
+
+Once the final days of the study were done, I finally got a full 8 hours of sleep.
+
+...
+
+## Part 5: What I learned
 
 ### Making "good enough" tradeoffs
 
@@ -272,12 +295,8 @@ However, with a little more experience, I began designing solutions that solved 
 
 (this also meant no complicated tools or frameworks. Lots of things built from scratch. Especially so since I couldn't really run servers on HPC and since I had already been locked into this hybrid HPC + AWS architecture)
 
-### Lessons learned
+## Part 6: What I'm working on now and where I'd like to go next
 
-## Part 4: Writing up what we did
+These days, I'm working on ...
 
-## Part 5: Aftermath
-
-## Part 6: What I'm working on now
-
-## Part 7: Where I'd like to go next
+The experience of building an end-to-end app like this gave me the breadth to ...
