@@ -10,8 +10,6 @@ categories:
 permalink: /research/2026-05-20-learnings-from-bluesky-project
 ---
 
-# What I learned from spending 2 years building the app for a large-scale field study
-
 For roughly 2 years, I led the full technical build for a large-scale field-study on Bluesky. We built custom recommendation algorithms and ran them on live feeds during the 2024 US election cycle. Academically, that mattered because it let our team test algorithmic interventions in the wild—on real posts, real users, and real political moments, rather than only in settings where Big Tech controls the algorithmic layer. Personally, it mattered because it was my first chance to prove I could build a full app by myself.
 
 Along the way, I built every line of code and implemented every piece of logic. I owned the data and ML pipelines and trained custom recommendation algorithms. I developed the APIs used by Bluesky to connect users to our feeds. I glued together all the pieces of software that made such an ambitious study possible. I trained every ML model, retraining them when they became outdated, and watched the training logs from the WandB console. I woke up at 1am to the app crashing and thousands of unhappy users not being able to log in. All 50,000 lines of code in [our codebase](https://github.com/METResearchGroup/bluesky-research) were painstakingly written, rewritten, deleted, refactored, and updated by me over the course of 2 years, a testament to how much improvement is about putting in the reps, fixing mistakes, and persevering through the doldrums rather than aphorisms, YouTube tutorials, and motivational speeches.
@@ -159,31 +157,6 @@ I also learned to think critically about mainstream technical advice. For exampl
 
 **All of these constraints ended up being a pedagogical blessing in disguise**. Because I couldn't use many popular tools out-of-the-box, I had to build my own simplified implementations of each. As a result, I ended up having a much deeper understanding of concepts like queues, caching, event-driven architectures, and ML training pipelines. I couldn't abstract those concepts away with a config-driven call to an AWS services. I had to instead write scripts to do these tasks, create my own abstractions, and run as jobs on an on-prem server.
 
-### Career learnings at this stage
-
-#### Fix problems
-
-Your value as an engineer is tied to your ability to [fix problems](https://markptorres.com/personal/2024-06-12-best) and drive results. I learned quickly that nobody in academia knew tech terms like "AWS", "orchestration" and "telemetry", but they did care that we could, for example, create custom feeds that showcased the specific interventions.
-
-#### Make sure your work is valuable
-
-Your value as an engineer extends beyond code. [Knowing how to code isn't enough](https://markptorres.com/personal/2024-06-24-knowing-how-to-code-isnt-enough). Though I wrote this blog post with more of an eye towards taking ownership of one's career, a throughline here that holds true is making sure to closely align your work to whatever is deemed most valuable in your workplace. Code is just one part of that. You have to communicate what you're doing and keep a pulse on what everyone else thinks is important. You have to practice progressive disclosure: figuring out the right time to make certain pieces of information known. You need to underpromise and overdeliver.
-
-#### Communicate what you think is important in language matching what stakeholders think is important
-
-For example, my academic peers may not understand the particulars of GPU compute requirements, but if I frame it as "this is the investment we need to train the models required for our ranking algorithms, which is the core innovation of our study", then they're much more on-board.
-
-#### Implementation quality matters insofar as it affects product quality today and in the future
-
-The purpose of coding, in my eyes, is twofold: (1) creating a quality end product today, and (2) being able to continue to do so in the future. That result could be an app, a piece of analysis, an ML model, whatever it may be. However, code has value insofar as it supports this enterprise.
-
-We can interpret best practices in software engineering through this lens:
-
-- **Code quality**: it's hard to build features or grow apps if you have abstruse logic, spaghetti code, or duplicate functions. Imagine the headache that comes if you have three backend functions that manage user authentication. Cleaner code (well-designed abstractions, design patterns, etc.) results in easier-to-understand transformation logic (e.g., "this part of the code handles all text preprocessing, nowhere else") and a smaller blast radius for making changes (e.g., "if I want to change the color of this button, I know I need to only touch this 1 line of code").
-- **DevOps practices (telemetry, testing, CI/CD)**: it's hard to confidently ship an app and expose it to live users if you don't know if and when it'll break, under what conditions it might break, and how you'd recreate any bugs that users experience. It's also hard to add new features if you're not sure if changing the color of a button will suddenly shut off functionality for 10,000 of your users.
-- **Data contracts and validation**: It's hard to trust downstream analysis or write reliable code if you don't know what fields a given piece of data will or won't have. You'll have to add various lines of exception handling for all the cases where data may or may not have certain fields or values. It also is more difficult for new engineers to onboard to the codebase as they will have a difficult time reasoning through the data transformation logic through the pipeline (e.g., "does the 'user' object here have a list of their posts, or no?").
-- **Modularity and decoupling**: If one line of your code goes down, ideally the impact of that would be as isolated as possible. We wouldn't want, for example, a user inputting an age value of 999 into a form to somehow lead to buttons breaking for other users. In addition to isolating the blast radius of mistakes, decoupled code, services, and logic are also easier to refactor and swap and build on top of. For example, if your ML services have a shared set of functions for training, deploying, and integrating into your pipelines, that's shared scaffolding that can be used so that the next ML model can be defined in 10-50 lines of code rather than 1,000 lines of code.
-
 ## Part 3: Running the study
 
 ### Making the app ready for showtime
@@ -291,30 +264,61 @@ With enough time, I was able to compress the experiences across two years of act
 
 I did not have the time, budget, or bandwidth to make solutions more complicated than they needed to be to solve today's problems. This taught me a critical lesson: built a solution that solves today's problem, while keeping it extensible for problems you anticipate you'll have in the future.
 
-At the beginning, I overcomplicated my designs. I wanted to have an excuse to use all the name-brand tools that I was seeing online, without realizing that (1) I'm not Google-scale and (2) I wasn't fundamentally understanding what problem those tools were solving.
+This meant not overarchitecting, as I didn't have time to manage 20+ microservices or really overly complicated dependency patterns. But it also meant that I had to clearly define what functional and nonfunctional requirements existed, so that I could build a solution that was able to deliver.
+
+A practical example was how I managed data storage for the project. Online tutorials assume using Postgres by default. I tried to constrain and define the problem to use the "best practices" I was seeing online. But I found that (1) trying to run Postgres on HPC was infeasible due to security requirements (though I did ask a few times for IT to make an exception) and (2) my problem was frankly not an OLTP problem nor a write-heavy task (both of which Postgres excels at). Though Postgres is still a good default, I developed a simple, local-first setup where I would ingest real-time data streams from Bluesky, write in micro-batches to .parquet, and then build a DuckDB layer on top. This was a "good enough" solution for the throughput we were seeing (3-4M records/day), fit our OLAP-style usage patterns, prioritized reads over writes, and could be run on a local HPC server. I combined this with a cron job to write the .parquet files to S3 to add additional resiliency. I burned many weeks trying to constrain my problem and requirements around using Postgres, rather than understanding the core requirement ("store data somewhere") and developing a "good enough" solution to solve it (while also knowing under what parameters the "good enough" solution will stop working).
+
+### Building yourself versus using existing tools
+
+At the beginning, I overcomplicated my designs. I wanted to have an excuse to use all the name-brand tools that I was seeing online, without realizing that (1) I'm not Google-scale and (2) I wasn't fundamentally understanding what problem those tools were solving. Turns out, my small app did *not* need Kafka and BigQuery after all!
 
 Next, I veered perhaps too far in the opposite direction, choosing to write all my code into large super-scripts that did everything. Though this was OK when I was rapidly iterating, it led to a lot of copying-and-pasting, slight logic drift in shared functionality (e.g., "data should be saved this way, *except* in these two specific files"), and made stitching the disparate services more painful than needed.
 
-With a bit more experience at both extremes, I ended up at somewhat of an equilibrium point. I realized that most problems I encountered were likely not unique, and that there were plenty of software products, packages, books, and tutorials for people with these exact issues. As I developed an intuition for how to define 
-
-However, perhaps as a matter of how I 
-
-I first ...
-
-However, with a little more experience, I began designing solutions that solved the current problem while also foreseeing problems that my future self would have.
-
-...
-
-(this also meant no complicated tools or frameworks. Lots of things built from scratch. Especially so since I couldn't really run servers on HPC and since I had already been locked into this hybrid HPC + AWS architecture)
+Having been burned at both extremes, I ended up at somewhat of an equilibrium point. I realized that most problems I encountered were likely not unique, and that there were plenty of software products, packages, books, and tutorials designed by people who had solved those exact same problems. I now have a better sense of figuring out when I need to build something myself versus using existing tooling. Sometimes you need a simple enough solution that you could just build it yourself (and in fact this is more possible now because of AI agents). But sometimes, it's faster to just use something off-the-shelf so you can focus your bandwidth on the work that matters most.
 
 ### Your job is to fix problems
 
-(more detail)
+Nobody checked my code. Nobody cared about the frameworks I was using or the latest XYZ tools I incorporated. At the end of the day, users cared that they could see an enjoyable social media feed on Bluesky.
 
-### ...
+Fundamentally, this evolved my engineering mentality towards one of aggressive ownership. Rather than seeing my work from a coding purity lens, I learned to tie every single piece of "best practice" advice towards the end goal of "does this give the end user have a delightful experience, both today and for the foreseeable future?" (which I discussed more previously in the "Implementation quality matters insofar as it affects product quality today and in the future" section).
 
-## Part 6: What I'm working on now and where I'd like to go next
+I began to identify less by job title (e.g., "full-stack engineer", "ML engineer") and more closely to an identity as a builder, someone who can take a vague problem and figure out a technical solution around it. I have specific strengths and I may have a biased set of experiences around solving those problems, but fundamentally it's up to me to make a judgment on how to best solve the problems at hand using technology.
 
-These days, I'm working on ...
+As technology is becoming increasingly commodified and the bifurcation across specializations is collapsing, I think there's going to be an increasing demand for this sort of "do-everything engineer" profile, one unconstrained by specific tools and stacks and instead focused on how to deliver value.
 
-The experience of building an end-to-end app like this gave me the breadth to ...
+#### Implementation quality matters insofar as it affects product quality today and in the future
+
+The purpose of coding, in my eyes, is twofold: (1) creating a quality end product today, and (2) being able to continue to do so in the future. That result could be an app, a piece of analysis, an ML model, whatever it may be. However, code has value insofar as it supports this enterprise.
+
+We can interpret best practices in software engineering through this lens:
+
+- **Code quality**: it's hard to build features or grow apps if you have abstruse logic, spaghetti code, or duplicate functions. Imagine the headache that comes if you have three backend functions that manage user authentication. Cleaner code (well-designed abstractions, design patterns, etc.) results in easier-to-understand transformation logic (e.g., "this part of the code handles all text preprocessing, nowhere else") and a smaller blast radius for making changes (e.g., "if I want to change the color of this button, I know I need to only touch this 1 line of code").
+- **DevOps practices (telemetry, testing, CI/CD)**: it's hard to confidently ship an app and expose it to live users if you don't know if and when it'll break, under what conditions it might break, and how you'd recreate any bugs that users experience. It's also hard to add new features if you're not sure if changing the color of a button will suddenly shut off functionality for 10,000 of your users.
+- **Data contracts and validation**: It's hard to trust downstream analysis or write reliable code if you don't know what fields a given piece of data will or won't have. You'll have to add various lines of exception handling for all the cases where data may or may not have certain fields or values. It also is more difficult for new engineers to onboard to the codebase as they will have a difficult time reasoning through the data transformation logic through the pipeline (e.g., "does the 'user' object here have a list of their posts, or no?").
+- **Modularity and decoupling**: If one line of your code goes down, ideally the impact of that would be as isolated as possible. We wouldn't want, for example, a user inputting an age value of 999 into a form to somehow lead to buttons breaking for other users. In addition to isolating the blast radius of mistakes, decoupled code, services, and logic are also easier to refactor and swap and build on top of. For example, if your ML services have a shared set of functions for training, deploying, and integrating into your pipelines, that's shared scaffolding that can be used so that the next ML model can be defined in 10-50 lines of code rather than 1,000 lines of code.
+
+#### Make sure your work is valuable
+
+Your value as an engineer extends beyond code. [Knowing how to code isn't enough](https://markptorres.com/personal/2024-06-24-knowing-how-to-code-isnt-enough). Though I wrote this blog post with more of an eye towards taking ownership of one's career, a throughline here that holds true is making sure to closely align your work to whatever is deemed most valuable in your workplace. Code is just one part of that. You have to communicate what you're doing and keep a pulse on what everyone else thinks is important. You have to practice progressive disclosure: figuring out the right time to make certain pieces of information known. You need to underpromise and overdeliver.
+
+#### Communicate what you think is important in language matching what stakeholders think is important
+
+For example, my academic peers may not understand the particulars of GPU compute requirements, but if I frame it as "this is the investment we need to train the models required for our ranking algorithms, which is the core innovation of our study", then they're much more on-board.
+
+### Know when to kill your pet projects
+
+I had plenty of pet projects that I built along the way, such as a RAG classifier and scraping conservative posts. Part of engineering is experimentation: figuring out various ways of doing things while also knowing when to stop. I learned to better manage the tradeoff between trying a new approach that could be fruitful versus knowing when a project has run its course.
+
+### Having live users is where requirements become real
+
+I had been proactive about asking for all the possible product requirements and had built assuming a specific set of criteria. Turns out you can't predict all the ways that your users will use (and break!) your app.
+
+## Conclusion
+
+When I started this project, I was coming off a layoff and a long stretch of self-doubt. I could write code, but I didn't believe I could *build*. I could see pieces of the elephant, but not the whole animal. The Bluesky field study was my bet that I could change that, if I was willing to sit with ambiguity and discomfort long enough to figure it out.
+
+A few years later, I have a different answer. I led the engineering for a live social-media experiment during a national election. I wrote and rewrote tens of thousands of lines of code. I shipped APIs, pipelines, models, and the operational glue that kept real users on custom feeds. I lost sleep when things broke and learned, painfully, what production actually demands. The study ran. The data exists. The hardest parts are behind us.
+
+None of that means I have it all figured out. I still overbuild sometimes. I still learn lessons in production I should have learned in a test. Careers are long and I'm just at the start of mine!
+
+Along the way, I learned that you don't become a builder by collecting tutorials or job titles. You become one by choosing a problem big enough to force you to grow, then putting in the reps until the system works and you trust yourself to fix it when it doesn't. This project didn't just produce software. It produced the kind of engineer who could build something like that in the first place.
