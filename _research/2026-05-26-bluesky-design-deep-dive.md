@@ -13,7 +13,7 @@ permalink: /research/2026-05-26-bluesky-design-deep-dive
 
 ## What we built
 
-During the 2024 US election, we ran one of the first large-scale field experiments where academic researchers, not a platform company, controlled the ranking algorithm on a live social network.
+During the 2024 US election, we ran one of the first large-scale field experiments where academic researchers, not a platform company, controlled the ranking algorithm on a live social network. For eight weeks around the 2024 US presidential election, we built and tested different ways of organizing people’s social media feeds on Bluesky and studied how that changed what they saw and how they felt about politics. It turns out, a lot of how you see the world is narrowly defined by what social media companies choose (and don't choose) to put in your feeds! This work was published in [Nature](https://www.nature.com/articles/s41586-026-10536-1), one of the most prestigious publications in science.
 
 What we built was the machinery to make that true in practice:
 
