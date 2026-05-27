@@ -1,6 +1,6 @@
 ---
 layout: single
-title: "How I built the infrastructure for a large-scale social media field experiment during the 2024 US election"
+title: "How we built the infrastructure for a large-scale social media field experiment during the 2024 US election"
 date: 2026-05-26 02:00:00 +0800
 classes: wide
 toc: true
@@ -13,9 +13,43 @@ permalink: /research/2026-05-26-bluesky-design-deep-dive
 
 ## What we built
 
+During the 2024 US election, we ran one of the first large-scale field experiments where academic researchers, not a platform company, controlled the ranking algorithm on a live social network.
+
+What we built was the machinery to make that true in practice:
+
+- Pipelines that turned Bluesky's public event stream into a queryable post corpus.
+- Classifiers that labeled content for toxicity, politics, and constructiveness.
+- Recommendation algorithms that translated those labels into ranking policies.
+- A serving layer that exposed those policies as feeds inside Bluesky itself.
+
+Users experienced custom feeds in the normal Bluesky app. Researchers experienced something rarer: logged exposure to algorithmically curated political content during a national election, with experimental control over every detail of what was shown to users.
+
 ## Why did we need to build this in the first place?
 
+Social media algorithms shape what people see, which shapes what they believe about others and about politics. Our team had run experiments showing those effects, but mostly in labs or on platforms where we could not touch the ranking layer itself.
+
+Facebook and Twitter controlled their algorithms. They had little incentive to let academics randomly assign users to different ranking policies during a national election. So if we wanted to test causal effects of algorithm design, we needed a platform where we could actually implement and serve those policies to real users.
+
+That requirement cascades quickly. Once you commit to live intervention, you cannot stop at "train a model." You need:
+
+- A continuous view of platform activity
+- A way to label and store posts at scale
+- A ranking engine that can encode experimental conditions
+- A serving layer users can actually access
+
+This sort of "end-to-end pipeline for academic field experiments" exists, and such a setup is generally reserved for large tech companies. Therefore, we had to build it from scratch.
+
 ## How did Bluesky make this possible?
+
+Bluesky was the rare platform where three things were true at once:
+
+- Allowing outsiders to host custom feeds.
+- Provide live platform-scale data.
+- Expose feeds to real users in the native app.
+
+That combination is what made a field experiment possible outside Facebook and Twitter. Twitter open-sourced its ranking algorithm in 2023, but it did not open its data stream or let you serve alternative feeds to its users. Bluesky did both. This meant we could populate feeds with live posts from the actual platform and serve them to real users.
+
+The election timing also amplified everything. Elon's Twitter changes pushed a wave of users onto Bluesky just as political content was becoming the dominant form of engagement on the platform. That made the study substantively interesting in a way a quieter period would not have: we were not testing ranking algorithms on a static corpus, but on a live network during a national election, as the user base and content mix were both shifting rapidly. Doing that credibly still required building the full data and ML stack (ingestion, preprocessing, classification, feed generation, serving), but Bluesky gave us something closed platforms never would: the ability to run those algorithms on real users, in the native app, during the political moment we actually cared about.
 
 ## Architecture at a glance
 
@@ -209,3 +243,7 @@ I was able to use AWS for a few components in the study:
 - DynamoDB: Some user data was stored in DynamoDB (since it had to be available to consumers both on-prem and in the API hosted on EC2). I also stored some job metadata there as well out of preference.
 
 ## Conclusion
+
+We built the infrastructure for a field experiment testing how recommendation algorithms shape political exposure during the 2024 US election. The app existed to answer a question closed platforms make nearly impossible to ask causally: if you change what the ranking algorithm optimizes for, what happens to what people actually see? Bluesky let us implement and serve those ranking policies inside the native client, on live platform content, to real users — something Facebook and Twitter have never offered to outside researchers at this scale.
+
+We built the infrastructure to support such an ambitious research direction, and in hindsight that infrastructure was the core part of the project: without ingestion at scale, enrichment pipelines, feed generation, and a serving layer users could actually reach, the experiment would have stayed theoretical. What emerged was not a miniature Twitter, but a research-grade system shaped by HPC constraints, election-season load, and the need to keep real users on working feeds for months. It was messy in places and good enough everywhere that mattered, which, for a live field experiment during a national election, is exactly the bar that counts.
