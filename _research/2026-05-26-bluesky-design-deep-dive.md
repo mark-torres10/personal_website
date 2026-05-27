@@ -177,13 +177,23 @@ Instead, I went with an in-memory cache, keyed on user ID. Requests would pull f
 
 Observability and DevOps were admittedly late additions to development.
 
-...
+I had a naive logging solution where I would append logs to a text file and then `grep` or `tail` that file for inspection. It worked OK enough, though it was by no means proactive or intuitive (plus it led to me anxiously logging into the HPC to see if anything broke). At minimum I could've codified this in a formalized runbook as well, but I was just doing it solo so I was going off memory.
 
-(I added Prometheus and Grafana for smaller one-off pipelines, but these never made it to production. A big blocker was that my production pipelines were hosted on-prem, but I couldn't host a server on-prem).
+I did invest in extensive unit testing along the way, which was greatly helped by AI agents. But even 100% unit test coverage doesn't actually mean you have no bugs - it just tells you that you've caught errors that you know are there. I could've invested more deeply in load testing, integration testing, and smoke testing. I adopted these along the way for very specific tasks (e.g., doing extensive [load testing](https://github.com/METResearchGroup/bluesky-research/blob/main/feed_api/run_locust.sh)) of the live backend API.
 
-With hindsight, I would've liked to have adopted more observability and DevOps principles. (even if we can't run Grafana or other tools locally, we could've stored the logs, pushed to S3, and then just built a layer on top, especially if we didn't need real time - can Grafana or Prometheus be configured for this?)
+I had somewhat of a split between dev (my local computer) and prod (the on-prem cluster). It would've been great to have a continuous deployment setup where I could've deployed to prod directly. I know that HPCs support [Singularity](https://docs.sylabs.io/guides/3.5/user-guide/introduction.html), their equivalent of Docker, but I wasn't able to figure out how to set that up nor could I figure out a continuous deployment setup. I also didn't have access to a persistent server anyways. "Shipping to prod" meant updating the main branch, as I would always keep the HPC version of the code set to main.
 
-(testing? should I discuss that?)
+#### What I would've done differently
+
+I would've made observability a more upfront concern. This would've given me more insight into not only bugs, but also load, throughput, and other metrics measuring the liveliness of the system. I would've introduced OpenTelemetry and pushed those logs to S3. Hosting Grafana or Prometheus would've likely been overkill, but I could've done a much simpler version. I didn't need real-time results; a batch cadence would've been OK enough, and it would've been a low-footprint, cheap solution.
+
+I imagine each record could look something like this:
+
+```json
+{"ts": "...", "dag": "ingestion", "run_id": "...", "stage": "parquet_write", "records": 1200000, "duration_s": 340, "status": "ok", "host": "..."}
+```
+
+Whenever a job completes, I'd sync those logs to an S3 bucket. Then I could use Glue to register partitions, query with Athena, and then connect Grafana to Athena to query the data and build dashboards.
 
 ### Infra and deployment
 
@@ -198,6 +208,4 @@ I was able to use AWS for a few components in the study:
 - Analysis: Running large-scale queries was much more effective in Athena as compared to running Python scripts.
 - DynamoDB: Some user data was stored in DynamoDB (since it had to be available to consumers both on-prem and in the API hosted on EC2). I also stored some job metadata there as well out of preference.
 
-## Where I'd likely change it up now
-
-### DevOps from the start
+## Conclusion
