@@ -15,12 +15,12 @@ permalink: /research/2026-05-26-bluesky-design-deep-dive
 
 During the 2024 US election, we ran one of the first large-scale field experiments where academic researchers, not a platform company, controlled the ranking algorithm on a live social network. For eight weeks around the 2024 US presidential election, we built and tested different ways of organizing people’s social media feeds on Bluesky and studied how that changed what they saw and how they felt about politics. It turns out, a lot of how you see the world is narrowly defined by what social media companies choose (and don't choose) to put in your feeds! This work was published in [Nature](https://www.nature.com/articles/s41586-026-10536-1), one of the most prestigious publications in science.
 
-What we built was the machinery to make that true in practice:
+What we built was the machinery to make all this research possible:
 
 - Pipelines that turned Bluesky's public event stream into a queryable post corpus.
 - Classifiers that labeled content for toxicity, politics, and constructiveness.
-- Recommendation algorithms that translated those labels into ranking policies.
-- A serving layer that exposed those policies as feeds inside Bluesky itself.
+- Recommendation algorithms that created curated feeds based on different interventions for how to improve the social media experience.
+- An API layer that exposed those feeds to any user on Bluesky.
 
 Users experienced custom feeds in the normal Bluesky app. Researchers experienced something rarer: logged exposure to algorithmically curated political content during a national election, with experimental control over every detail of what was shown to users.
 
