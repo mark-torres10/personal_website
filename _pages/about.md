@@ -7,7 +7,7 @@ classes: wide
 author_profile: true
 ---
 
-My name is Mark, an AI engineer, researcher, and systems builder. As a research engineer, I combine social sciences with AI tools, AI agents, and large-scale algorithms to study social media platforms and computationally redesign them to promote healthier discourse. I work at the intersection of AI research and methodology, developing and evaluating large language models as tools for computational social science.
+My name is Mark, an AI engineer, researcher, and systems builder. As a research engineer, I combine social sciences with AI tools, AI agents, and large-scale algorithms to study social media platforms and computationally redesign them to promote healthier discourse. I work at the intersection of AI research and methodology, developing and evaluating large language models as tools for computational social science. My work has been published in venues like [Nature](https://www.nature.com/articles/s41586-026-10536-1).
 
 Outside academia, I also consult with teams across industries, helping startups, researchers, and organizations turn AI ideas into working systems.
 
