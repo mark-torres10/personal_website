@@ -8,10 +8,12 @@ main:
     url: /ai_workflows/
   - title: "Consulting"
     url: /consulting/
+  - title: "Speaking"
+    url: /speaking/
   - title: "Self Education"
     url: /self_education/
-  - title: "Personal"
-    url: /personal/
+  # - title: "Personal"
+  #   url: /personal/
   # - title: "Sample Posts"
   #   url: /year-archive/
   # - title: "Sample Collections"
