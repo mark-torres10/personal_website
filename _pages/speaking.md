@@ -10,7 +10,9 @@ I regularly speak about AI agents, building and scaling AI/ML projects, and how 
 
 ## Highlights
 
-### [Talk] ...
+### [Talk] Beyond the AI hype: Building AI systems that actually work
+
+A discussion with [Chicago Data & AI](https://www.chicagodataandai.com/) on the strengths and limitations of modern AI agents, why successful AI adoption requires more than just plugging in an LLM, and the workflows, guardrails, infrastructure, and human oversight needed to make AI useful in practice.
 
 ### [Talk] Silicon Societies: What happens when millions of AI agents use the Internet alongside us?
 
