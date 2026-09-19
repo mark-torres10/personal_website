@@ -10,6 +10,10 @@ I regularly speak about AI agents, building and scaling AI/ML projects, and how 
 
 ## Highlights
 
+### [Talk] Beyond the AI hype: Building AI systems that actually work
+
+A discussion with [Chicago Data & AI](https://www.chicagodataandai.com/) on the strengths and limitations of modern AI agents, why successful AI adoption requires more than just plugging in an LLM, and the workflows, guardrails, infrastructure, and human oversight needed to make AI useful in practice.
+
 ### [Talk] Silicon Societies: What happens when millions of AI agents use the Internet alongside us?
 
 A talk given to the PyData Chicago community, on multi-agent systems, how well AI agents simulate human behaviors and beliefs, and where things might be headed as we increasingly rely on AI agents to work, shop, call, and interact with others on our behalf.
@@ -30,3 +34,23 @@ A talk given to the Kellogg community, discussing practical tools, tips, and tec
 A discussion with the Fair Point podcast, on AI's effect on the future of civil discourse and polarization. [Spotify link](https://open.spotify.com/episode/3oEH0bEZBzHIqnZTYVEiGU)
 
 **Interested in having me speak?** Reach out at `markptorres1 [at] gmail.com` or schedule a meeting via my [Calendly link](https://calendly.com/markptorres1/30min).
+
+## Teaching
+
+In addition to this, I also enjoy teaching. I spend a lot of my free time TAing, tutoring, and volunteering around teaching. I enjoy helping someone approach something that's as intimidating as math or AI and coming away feeling like they've got a mental model for how to apply it in their own life.
+
+A snapshot of some of my teaching includes:
+
+- **Fall 2026**: Reinforcement Learning (University of Texas, Austin, Master's in CS program)
+- **Spring 2026**: Deep Learning (University of Texas, Austin, Master's in CS program)
+- **Fall 2025**: Deep Learning (University of Texas, Austin, Master's in CS program)
+- **Spring 2025**: Deep Learning (University of Texas, Austin, Master's in CS program)
+- **Fall 2024**: Natural Language Processing (University of Texas, Austin, Master's in CS program)
+- **Spring 2020**: Advanced Multivariate Statistics (Yale University, Master's of Statistics program)
+- **Fall 2019**: Medical Statistics (Yale University, Master's of Public Health program)
+
+In addition to this, I've had affiliations with the following groups and programs:
+
+- **Inspirit AI**: [Inspirit AI](https://www.inspiritai.com/) Inspirit AI Scholars is an artificial intelligence program for high school students, developed and taught by Stanford and MIT alumni and graduate students. I was part of the initial 2020 cohort, and had a profile written [about me](https://www.inspiritai.com/blogs/ai-blog/mark-torres-uses-natural-language-processing-to-study-how-ideas-and-information-spread).
+- Wyzant
+- Varsity Tutors
