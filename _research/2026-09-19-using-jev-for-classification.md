@@ -12,7 +12,7 @@ permalink: /research/2026-09-19-using-jev-for-classification
 
 # Is Jev useful? Testing it against other models and LLMs for social science research
 
-> TL;DR: Jev is GREAT and I've got a laundry list of use cases in research that this unlocks. This is much easier than having to fine-tune and serve my own SLMs or BERT models for similar classification and routing tasks. It works just as well as frontier models, at >= 1/10 the cost and latency.
+> TL;DR: Jev is GREAT and I've got a laundry list of use cases in research that this unlocks. This is much easier than having to fine-tune and serve my own SLMs or BERT models for similar classification and routing tasks. It works just as well as frontier models, at <= 1/10 the cost and latency.
 
 ## Background
 
