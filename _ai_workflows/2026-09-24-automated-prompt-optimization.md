@@ -1,3 +1,15 @@
+---
+layout: single
+title: "How to automatically optimize your prompts"
+date: 2026-09-24 21:00:00 +0800
+classes: wide
+toc: true
+categories:
+- ai_workflows
+- all_posts
+permalink: /ai_workflows/2026-09-24-automated-prompt-optimization
+---
+
 # How to automatically optimize your prompts
 
 In the AI world, the quality of your prompts determines the quality of your AI experience. How do you know that you've written the best prompt that you could've? There are automated ways to perfect your prompts, and here I'll go over both basic and advanced methods for doing so.
