@@ -7,7 +7,11 @@ classes: wide
 author_profile: true
 ---
 
-Mark Torres is a research engineer at Northwestern University and the lead developer at the The Litowitz Center for Enlightened Disagreement. His work combines social science theories with AI models, agents, and large-scale algorithms to (1) study social media platforms and to computationally redesign them to promote healthier discourse and (2) evaluate patterns of human-AI collaboration and interaction on online platforms. His research has been published in venues such as Nature and cited in news outlets such as BBC and the Washington Post.
+Mark Torres is a research engineer at Northwestern University and the lead developer at the The Litowitz Center for Enlightened Disagreement. His work combines social science theories with AI models, agents, and large-scale algorithms. His research has been published in venues such as Nature and cited in news outlets such as BBC and the Washington Post. Some of his interests include:
+
+1. Post-training LLMs and designing evaluations and harnesses related to social science applications and research.
+2. Computationally redesigning social media algorithms to promote healthier discourse.
+3. Evaluating patterns of human-AI collaboration and interaction on online platforms.
 
 He received his education at Yale University (BS, Statistics & Data Science) and the University of Texas at Austin (MS, Computer Science). Prior to Northwestern, he worked for a series of startups as an ML engineer. Outside academia, he provides consulting, architecture, and technical leadership for startups and product teams to design, build, and scale intelligent software & agentic AI systems.
 
