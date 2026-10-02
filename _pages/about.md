@@ -62,7 +62,8 @@ Sample projects:
 
 My [Google Scholar Profile](https://scholar.google.com/citations?user=d7CzCRMAAAAJ&hl=en).
 
-- Brady, W.J., Doyle, M, Elnakouri, A., Finkel, E., Jackson, J.C., Kteily, N., Parker, V., Puryear, C., Spelman, T. , Teeny, J., & **Torres, M.** (In Principle Acceptance; registered report). Redesigning algorithms to intervene on social norm misperceptions during a national election. Nature.
+- Brady, W.J., **Torres, M.P.**, et al. (Manuscript in preparation). Governing political disagreement without requiring consensus.
+- Brady, W.J., Doyle, M, Elnakouri, A., Finkel, E., Jackson, J.C., Kteily, N., Parker, V., Puryear, C., Spelman, T. , Teeny, J., & **Torres, M.** Redesigning algorithms to intervene on social norm misperceptions during a national election. Nature. https://www.nature.com/articles/s41586-026-10536-1
 - Brady, W.J., McLoughlin, K.L., **Torres, M.P.** et al. Overperception of moral outrage in online social networks inflates beliefs about intergroup hostility. Nat Hum Behav 7, 917–927 (2023). https://doi.org/10.1038/s41562-023-01582-0
 - Iwamoto, S.K., Alexander, M., **Torres, M.** et al. Mindfulness Meditation Activates Altruism. Sci Rep 10, 6511 (2020). https://doi.org/10.1038/s41598-020-62652-1
 
