@@ -67,6 +67,12 @@ My [Google Scholar Profile](https://scholar.google.com/citations?user=d7CzCRMAAA
 - Brady, W.J., McLoughlin, K.L., **Torres, M.P.** et al. Overperception of moral outrage in online social networks inflates beliefs about intergroup hostility. Nat Hum Behav 7, 917–927 (2023). https://doi.org/10.1038/s41562-023-01582-0
 - Iwamoto, S.K., Alexander, M., **Torres, M.** et al. Mindfulness Meditation Activates Altruism. Sci Rep 10, 6511 (2020). https://doi.org/10.1038/s41598-020-62652-1
 
+## Additional writing
+
+I'm also affiliated with multiple AI groups in Chicago, including [Chicago Data and AI](https://www.chicagodataandai.com/). Here are some additional writings that I've done:
+
+- [Common Mistakes People Make When Prompting LLMs (And What to Do Instead)](https://www.chicagodataandai.com/post/common-mistakes-people-make-when-prompting-llms-and-what-to-do-instead)
+
 ## Education
 
 - MS, Computer Science, @UT Austin
