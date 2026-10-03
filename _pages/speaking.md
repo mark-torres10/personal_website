@@ -41,6 +41,7 @@ In addition to this, I also enjoy teaching. I spend a lot of my free time TAing,
 
 A snapshot of some of my teaching includes:
 
+- **Fall 2026**: Probability in AI (Stanford)
 - **Fall 2026**: Reinforcement Learning (University of Texas, Austin, Master's in CS program)
 - **Spring 2026**: Deep Learning (University of Texas, Austin, Master's in CS program)
 - **Fall 2025**: Deep Learning (University of Texas, Austin, Master's in CS program)

@@ -13,7 +13,7 @@ Mark Torres is a research engineer at Northwestern University and the lead devel
 2. Computationally redesigning social media algorithms to promote healthier discourse.
 3. Evaluating patterns of human-AI collaboration and interaction on online platforms.
 
-He received his education at Yale University (BS, Statistics & Data Science) and the University of Texas at Austin (MS, Computer Science). Prior to Northwestern, he worked for a series of startups as an ML engineer. Outside academia, he provides consulting, architecture, and technical leadership for startups and product teams to design, build, and scale intelligent software & agentic AI systems.
+He received his education at Yale University (BS, Statistics & Data Science) and the University of Texas at Austin (MS, Computer Science). Prior to Northwestern, he worked for a series of startups as an ML engineer. Outside academia, he provides consulting, architecture, and technical leadership for startups and product teams to design, build, and scale intelligent software & agentic AI systems. He also has taught undergraduate and graduate-level AI, machine learning, and statistics courses at Yale, Stanford, and UT Austin.
 
 ## Current: Lead AI Engineer @Northwestern (2023-present)
 
