@@ -14,6 +14,8 @@ I regularly speak about AI agents, building and scaling AI/ML projects, and how 
 
 A discussion with [Chicago Data & AI](https://www.chicagodataandai.com/) on best practices for writing well-performing AI prompts. We go over prompting best-practices, inspired by my own work as an AI researcher as well as insights gathered from working with clients early in their AI adoption journey.
 
+See the [blog post here](https://www.chicagodataandai.com/post/common-mistakes-people-make-when-prompting-llms-and-what-to-do-instead).
+
 ### [Talk] Beyond the AI hype: Building AI systems that actually work
 
 A discussion with [Chicago Data & AI](https://www.chicagodataandai.com/) on the strengths and limitations of modern AI agents, why successful AI adoption requires more than just plugging in an LLM, and the workflows, guardrails, infrastructure, and human oversight needed to make AI useful in practice.
