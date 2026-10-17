@@ -67,6 +67,27 @@ My [Google Scholar Profile](https://scholar.google.com/citations?user=d7CzCRMAAA
 - Brady, W.J., McLoughlin, K.L., **Torres, M.P.** et al. Overperception of moral outrage in online social networks inflates beliefs about intergroup hostility. Nat Hum Behav 7, 917–927 (2023). https://doi.org/10.1038/s41562-023-01582-0
 - Iwamoto, S.K., Alexander, M., **Torres, M.** et al. Mindfulness Meditation Activates Altruism. Sci Rep 10, 6511 (2020). https://doi.org/10.1038/s41598-020-62652-1
 
+## Teaching
+
+In addition to this, I also enjoy teaching. I spend a lot of my free time TAing, tutoring, and volunteering around teaching. I enjoy helping someone approach something that's as intimidating as math or AI and coming away feeling like they've got a mental model for how to apply it in their own life.
+
+A snapshot of some of my teaching includes:
+
+- **Fall 2026**: Probability in AI (Stanford)
+- **Fall 2026**: Reinforcement Learning (University of Texas, Austin, Master's in CS program)
+- **Spring 2026**: Deep Learning (University of Texas, Austin, Master's in CS program)
+- **Fall 2025**: Deep Learning (University of Texas, Austin, Master's in CS program)
+- **Spring 2025**: Deep Learning (University of Texas, Austin, Master's in CS program)
+- **Fall 2024**: Natural Language Processing (University of Texas, Austin, Master's in CS program)
+- **Spring 2020**: Advanced Multivariate Statistics (Yale University, Master's of Statistics program)
+- **Fall 2019**: Medical Statistics (Yale University, Master's of Public Health program)
+
+In addition to this, I've had affiliations with the following groups and programs:
+
+- **Inspirit AI**: [Inspirit AI](https://www.inspiritai.com/) Inspirit AI Scholars is an artificial intelligence program for high school students, developed and taught by Stanford and MIT alumni and graduate students. I was part of the initial 2020 cohort, and had a profile written [about me](https://www.inspiritai.com/blogs/ai-blog/mark-torres-uses-natural-language-processing-to-study-how-ideas-and-information-spread).
+- Wyzant
+- Varsity Tutors
+
 ## Additional writing
 
 I'm also affiliated with multiple AI groups in Chicago, including [Chicago Data and AI](https://www.chicagodataandai.com/). Here are some additional writings that I've done:
