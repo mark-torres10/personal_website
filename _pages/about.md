@@ -7,31 +7,33 @@ classes: wide
 author_profile: true
 ---
 
-Mark Torres is a research engineer at Northwestern University and the lead developer at the The Litowitz Center for Enlightened Disagreement. He's published AI research at both Yale University and Northwestern University, combining social science theories with AI models, agents, and large-scale algorithms. His research has been published in venues such as Nature and cited in news outlets such as BBC and the Washington Post. Some of his interests include:
+Mark Torres is a research engineer at Northwestern University and the lead developer at the The Litowitz Center for Enlightened Disagreement. He's published AI research at both Yale University and Northwestern University. He combines psychology and social science theories with AI algorithms to understand how AI cultivates the human experience.
 
-1. Post-training LLMs and designing evaluations and harnesses related to social science applications and research.
-2. Computationally redesigning social media algorithms to promote healthier discourse.
-3. Evaluating patterns of human-AI collaboration and interaction on online platforms.
+His research has been published in venues such as Nature and cited in news outlets such as BBC and the Washington Post. Some of his interests include:
+
+1. Developing LLMs, AI agents, and designing evaluations and harnesses related to social science applications and research.
+2. Evaluating how people already use AI in their day-to-day lives.
+3. Computationally redesigning algorithms to promote more constructive conversations on online platforms like Twitter and Facebook.
 
 He received his education at Yale University (BS, Statistics & Data Science) and the University of Texas at Austin (MS, Computer Science). Prior to Northwestern, he worked for a series of startups as an ML engineer. Outside academia, he provides consulting, architecture, and technical leadership for startups and product teams to design, build, and scale intelligent software & agentic AI systems. He also has taught undergraduate and graduate-level AI, machine learning, and statistics courses at Yale, Stanford, and UT Austin.
 
-## Current: Lead AI Engineer @Northwestern (2023-present)
+## Current: Lead Research Engineer @Northwestern (2023-present)
 
-Building applied AI systems for social media research and computational social science.
+Building applied AI systems for computational social science and psychology research.
 
 Some highlights of my current work include:
 
-- Fine-tuning LLMs for custom content moderation research.
-- Building LLM-based simulations of social behavior.
-- Building platforms for reproducible AI + social science research.
-- Developing AI agents to enhance research methods and foster human+AI collaboration.
-- Exploring how generative AI can extend the methodological frontier of social science research.
+- Training LLMs for tasks such as content moderation and simulating human behavior.
+- Building large-scale LLM-based simulations to study how groups of AI agents act, think, and believe.
+- Developing large-scale data and ML platforms to power the study of online conversations on platforms such as Bluesky, Reddit, and Twitter. Built an agentic search engine on top of TBs of social media data.
+- Constructing AI agents to enhance research methods and foster human + AI collaboration, by augmenting researcher innovation and automating parts of the research process.
+- Exploring how generative AI can extend the methodological frontier of social science research in a sustainable manner.
 
 Some past/ongoing work includes:
 
 - Designing and prototyping large-scale, AI-driven recommendation algorithms for experimental studies in political and social influence.  
-- Built and maintained production data infrastructure ingesting and processing millions of social media records for academic research, including real-time data pipelines, ML inference services, and feed ranking algorithms that power multiple lab studies.
-- Led design and development of the ML and data pipelines for a large-scale, 2,000 user field study. Managed 10M daily records and hundreds of GBs of records. Developed and deployed recommendation and classification models. Managed orchestration using Prefect. Deployed on hybrid on-prem + AWS infra.
+- Built and maintained production data infrastructure ingesting and processing millions of social media records for academic research, including real-time data pipelines, ML inference services, and recommendation algorithms.
+- Led design and development of the ML and data pipelines for a large-scale, 2,000 user field study. Managed hundreds of GBs of records. Developed and deployed recommendation and classification models. Managed orchestration using Prefect. Deployed on hybrid on-prem + AWS infra.
 
 ## Current: AI consulting (2024-present)
 
@@ -39,6 +41,7 @@ Worked with multiple startups and small businesses across a variety of domains, 
 
 Sample projects:
 
+- Founding AI engineer for a startup that is innovating in the AI and mental health space. Built privacy-preserving AI agents, developed and deployed the agentic infrastructure on AWS, and constructed rigorously evaluated safety and privacy infrastructure to manage sensitive client conversations and data. Worked closely with stakeholders and practitioners for a best-in-class AI experience, with results and methods available in a forthcoming preprint.
 - AI agent workflow that automates the entire lead-to-meeting pipeline: real-time lead qualification (90%+ routing accuracy), automated CRM updates, and intelligent meeting scheduling. The system reduced response time from hours to under 10 minutes and converted 42% of routed leads to scheduled calls. [(Demo link)](https://github.com/mark-torres10/lead-generation-agent)
 - AI copywriting agent that generates customized marketing copy by analyzing a customer's existing branding and messaging. The system maintains brand voice consistency while producing tailored content for campaigns, reducing content creation time while ensuring alignment with brand guidelines. [(Demo link)](https://github.com/mark-torres10/copywriting-ai-agent)
 - AI meditation coach agent that generates guided wellness exercises grounded in expert-defined best practices in relationship-building. [(Demo link)](https://github.com/mark-torres10/reflection_agent)
